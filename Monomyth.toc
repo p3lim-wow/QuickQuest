@@ -1,0 +1,7 @@
+## Interface: 40000
+## Author: p3lim
+## Version: Alpha
+## Title: Monomyth
+## Notes: Questing enhancements
+
+Automate.lua
