@@ -5,3 +5,4 @@
 ## Notes: Questing enhancements
 
 Automate.lua
+Rewards.lua
