@@ -49,6 +49,16 @@ addon:Register('QUEST_COMPLETE', function(...)
 	end
 end)
 
+addon:Register('QUEST_AUTOCOMPLETE', function()
+	for index = 1, GetNumAutoQuestPopUps() do
+		local quest, type = GetAutoQuestPopUp(index)
+
+		if(type == 'COMPLETE') then
+			ShowQuestComplete(GetQuestLogIndexByID(quest))
+		end
+	end
+end)
+
 addon:Register('UNIT_INVENTORY_CHANGED', function(unit)
 	if(unit ~= 'player') then return end
 
