@@ -59,15 +59,16 @@ addon:Register('QUEST_AUTOCOMPLETE', function()
 	end
 end)
 
-addon:Register('UNIT_INVENTORY_CHANGED', function(unit)
-	if(unit ~= 'player') then return end
+addon:Register('ITEM_PUSH', function(bag)
+	-- This is some weird shit
+	if(bag > 0) then
+		bag = bag - CharacterBag0Slot:GetID() + 1
+	end
 
-	for bag = 1, 5 do
-		for slot = 1, GetContainerNumSlots(bag) do
-			local _, id, active = GetContainerItemQuestInfo(bag, slot)
-			if(id and not active) then
-				UseContainerItem(bag, slot)
-			end
+	for slot = 1, GetContainerNumSlots(bag) do
+		local _, id, active = GetContainerItemQuestInfo(bag, slot)
+		if(id and not active) then
+			UseContainerItem(bag, slot)
 		end
 	end
 end)
