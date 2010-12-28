@@ -4,5 +4,4 @@
 ## Title: Monomyth
 ## Notes: Questing enhancements
 
-Automate.lua
-Rewards.lua
+Monomyth.lua
