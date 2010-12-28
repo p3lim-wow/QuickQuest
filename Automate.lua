@@ -43,7 +43,7 @@ addon:Register('QUEST_PROGRESS', function()
 	end
 end)
 
-addon:Register('QUEST_COMPLETE', function(...)
+addon:Register('QUEST_COMPLETE', function()
 	if(GetNumQuestChoices() <= 1) then
 		GetQuestReward(QuestFrameRewardPanel.itemChoice)
 	elseif(GetNumQuestChoices() > 1) then
