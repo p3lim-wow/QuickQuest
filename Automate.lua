@@ -46,6 +46,18 @@ end)
 addon:Register('QUEST_COMPLETE', function(...)
 	if(GetNumQuestChoices() <= 1) then
 		GetQuestReward(QuestFrameRewardPanel.itemChoice)
+	elseif(GetNumQuestChoices() > 1) then
+		local bestValue, bestIndex = 0
+
+		for index = 1, GetNumQuestChoices() do
+			local item, _, _, _, _, _, _, _, _, _, value = GetItemInfo(GetQuestItemLink('choice', index))
+			
+			if(value > bestValue) then
+				bestValue, bestIndex = value, index
+			end
+		end
+
+		QuestInfoItem_OnClick(_G['QuestInfoItem' .. bestIndex])
 	end
 end)
 
