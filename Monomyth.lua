@@ -27,10 +27,12 @@ addon:Register('GOSSIP_SHOW', function()
 	end
 end)
 
+QuestFrame:UnregisterEvent('QUEST_DETAIL')
 addon:Register('QUEST_DETAIL', function()
 	if(QuestGetAutoAccept()) then
-		HideUIPanel(QuestFrame)
+		CloseQuest()
 	else
+		QuestFrame_OnEvent(nil, 'QUEST_DETAIL')
 		AcceptQuest()
 	end
 end)
