@@ -1,7 +1,6 @@
 local addon = CreateFrame('Frame')
 addon:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
-local AVAILABLE = [=[Interface\GossipFrame\AvailableQuestIcon]=]
 local COMPLETE = [=[Interface\GossipFrame\ActiveQuestIcon]=]
 
 function addon:Register(event, func)
