@@ -56,7 +56,7 @@ addon:Register('QUEST_COMPLETE', function()
 			end
 		end
 
-		QuestInfoItem_OnClick(_G['QuestInfoItem' .. bestIndex])
+		_G['QuestInfoItem' .. bestIndex]:Click()
 	end
 end)
 
