@@ -6,7 +6,11 @@ local COMPLETE = [=[Interface\GossipFrame\ActiveQuestIcon]=]
 function addon:Register(event, func)
 	self:RegisterEvent(event)
 	self[event] = function(...)
-		if(not IsShiftKeyDown()) then
+		if(IsShiftKeyDown()) then
+			if(event == 'QUEST_DETAIL') then
+				QuestFrame_OnEvent(nil, event)
+			end
+		else
 			func(...)
 		end
 	end
