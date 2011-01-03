@@ -40,6 +40,8 @@ addon:Register('QUEST_DETAIL', function()
 	end
 end)
 
+addon:Register('QUEST_ACCEPT_CONFIRM', AcceptQuest)
+
 addon:Register('QUEST_PROGRESS', function()
 	if(IsQuestCompletable()) then
 		CompleteQuest()
