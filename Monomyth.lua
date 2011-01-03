@@ -70,11 +70,8 @@ addon:Register('QUEST_AUTOCOMPLETE', function()
 	end
 end)
 
-addon:Register('ITEM_PUSH', function(bag)
-	-- This is some weird shit
-	if(bag > 0) then
-		bag = bag - CharacterBag0Slot:GetID() + 1
-	end
+addon:Register('BAG_UPDATE', function(bag)
+	if(bag < 0) then return end
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
