@@ -35,9 +35,9 @@ addon:Register('GOSSIP_SHOW', function()
 		local button = _G['GossipTitleButton' .. index]
 
 		if(button and button:IsVisible()) then
-			if(button.type == 'Available') then
+			if(button.type == 'Active' and _G['GossipTitleButton' .. index .. 'GossipIcon']:GetTexture() == COMPLETE) then
 				return button:Click()
-			elseif(button.type == 'Active' and _G['GossipTitleButton' .. index .. 'GossipIcon']:GetTexture() == COMPLETE) then
+			elseif(button.type == 'Available') then
 				return button:Click()
 			end
 		end
