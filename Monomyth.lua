@@ -55,16 +55,18 @@ addon:Register('QUEST_COMPLETE', function()
 		local bestValue, bestIndex = 0
 
 		for index = 1, GetNumQuestChoices() do
-			local _, _, _, _, _, _, _, _, _, _, value = GetItemInfo(GetQuestItemLink('choice', index))
-			
+			local link = GetQuestItemLink('choice', index)
+			if(not link) then
+				return
+			end
+
+			local _, _, _, _, _, _, _, _, _, _, value = GetItemInfo(link)
 			if(value > bestValue) then
 				bestValue, bestIndex = value, index
 			end
 		end
 
-		if(bestIndex) then -- XXX: Debug this one
-			_G['QuestInfoItem' .. bestIndex]:Click()
-		end
+		_G['QuestInfoItem' .. bestIndex]:Click()
 	end
 end)
 
