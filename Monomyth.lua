@@ -71,6 +71,9 @@ addon:Register('QUEST_COMPLETE', function()
 		for index = 1, GetNumQuestChoices() do
 			local link = GetQuestItemLink('choice', index)
 			if(not link) then
+				-- QUEST_COMPLETE can be a bit early, and so the items
+				-- are not added to the frame yet (cache missing perhaps).
+				-- either cache items or queue then try again
 				return
 			end
 
@@ -89,6 +92,9 @@ addon:Register('QUEST_AUTOCOMPLETE', function()
 		local quest, type = GetAutoQuestPopUp(index)
 
 		if(type == 'COMPLETE') then
+			-- can sometimes fail to complete
+			-- the quest is not considered complete by the quest system
+			-- perhaps queue and try again later
 			ShowQuestComplete(GetQuestLogIndexByID(quest))
 		end
 	end
@@ -100,6 +106,8 @@ addon:Register('BAG_UPDATE', function(bag)
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
 		if(id and not active) then
+			-- can sometimes cause a disconnect
+			-- most likely because the item is not cached yet
 			UseContainerItem(bag, slot)
 		end
 	end
