@@ -16,6 +16,20 @@ function addon:Register(event, func)
 	end
 end
 
+addon:Register('QUEST_GREETING', function()
+	for index = 1, MAX_NUM_QUESTS do
+		local button = _G['QuestTitleButton' .. index]
+
+		if(button and button:IsVisible()) then
+			if(button.isActive == 1 and _G['QuestTitleButton' .. index .. 'QuestIcon']:GetTexture() == COMPLETE) then
+				return button:Click()
+			elseif(button.isActive == 0) then
+				return button:Click()
+			end
+		end
+	end
+end)
+
 addon:Register('GOSSIP_SHOW', function()
 	for index = 1, NUMGOSSIPBUTTONS do
 		local button = _G['GossipTitleButton' .. index]
