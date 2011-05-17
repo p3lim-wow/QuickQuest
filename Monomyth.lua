@@ -1,6 +1,7 @@
 local addon = CreateFrame('Frame')
 addon:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
+local CURRENT
 local COMPLETE = [=[Interface\GossipFrame\ActiveQuestIcon]=]
 
 function addon:Register(event, func)
@@ -51,6 +52,10 @@ addon:Register('QUEST_DETAIL', function()
 	else
 		QuestFrame_OnEvent(nil, 'QUEST_DETAIL')
 		AcceptQuest()
+
+		if(GetQuestID() == CURRENT) then
+			addon:RegisterEvent('BAG_UPDATE')
+		end
 	end
 end)
 
@@ -104,9 +109,9 @@ addon:Register('BAG_UPDATE', function(bag)
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
 		if(id and not active) then
-			-- We should check if the item is cached yet
-			-- The negative result of this is a disconnect
+			CURRENT = id
 			UseContainerItem(bag, slot)
+			addon:UnregisterEvent('BAG_UPDATE')
 		end
 	end
 end)
