@@ -87,7 +87,9 @@ addon:Register('QUEST_COMPLETE', function()
 			end
 		end
 
-		_G['QuestInfoItem' .. bestIndex]:Click()
+		if(bestIndex) then
+			_G['QuestInfoItem' .. bestIndex]:Click()
+		end
 	end
 end)
 
