@@ -52,6 +52,13 @@ addon:Register('GOSSIP_SHOW', function()
 			SelectGossipAvailableQuest(index)
 		end
 	end
+
+	if(available == 0 and active == 0 and GetNumGossipOptions() == 1) then
+		local _, type = GetGossipOptions()
+		if(type == 'gossip') then
+			return SelectGossipOption(1)
+		end
+	end
 end)
 
 QuestFrame:UnregisterEvent('QUEST_DETAIL')
