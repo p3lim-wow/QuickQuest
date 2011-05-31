@@ -37,15 +37,19 @@ addon:Register('QUEST_GREETING', function()
 end)
 
 addon:Register('GOSSIP_SHOW', function()
-	for index = 1, NUMGOSSIPBUTTONS do
-		local button = _G['GossipTitleButton' .. index]
-
-		if(button and button:IsVisible()) then
-			if(button.type == 'Active' and _G['GossipTitleButton' .. index .. 'GossipIcon']:GetTexture() == COMPLETE) then
-				return button:Click()
-			elseif(button.type == 'Available') then
-				return button:Click()
+	local active = GetNumGossipActiveQuests()
+	if(active > 0) then
+		for index = 1, select('#', GetGossipActiveQuests()), 4 do
+			if(select(index + 3, GetGossipActiveQuests())) then
+				SelectGossipActiveQuest(index)
 			end
+		end
+	end
+
+	local available = GetNumGossipAvailableQuests()
+	if(available > 0) then
+		for index = 1, available do
+			SelectGossipAvailableQuest(index)
 		end
 	end
 end)
