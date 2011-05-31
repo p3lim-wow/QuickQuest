@@ -18,15 +18,20 @@ function addon:Register(event, func)
 end
 
 addon:Register('QUEST_GREETING', function()
-	for index = 1, MAX_NUM_QUESTS do
-		local button = _G['QuestTitleButton' .. index]
-
-		if(button and button:IsVisible()) then
-			if(button.isActive == 1 and _G['QuestTitleButton' .. index .. 'QuestIcon']:GetTexture() == COMPLETE) then
-				return button:Click()
-			elseif(button.isActive == 0) then
-				return button:Click()
+	local active = GetNumActiveQuests()
+	if(active > 0) then
+		for index = 1, active do
+			local _, complete = GetActiveTitle(index)
+			if(complete) then
+				SelectActiveQuest(index)
 			end
+		end
+	end
+
+	local available = GetNumAvailableQuests()
+	if(available > 0) then
+		for index = 1, available do
+			SelectAvailableQuest(index)
 		end
 	end
 end)
