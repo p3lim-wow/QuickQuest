@@ -1,9 +1,9 @@
-local addon = CreateFrame('Frame')
-addon:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
+local Monomyth = CreateFrame('Frame')
+Monomyth:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
 local COMPLETE = [=[Interface\GossipFrame\ActiveQuestIcon]=]
 
-function addon:Register(event, func)
+function Monomyth:Register(event, func)
 	self:RegisterEvent(event)
 	self[event] = function(...)
 		if(IsShiftKeyDown()) then
@@ -16,7 +16,7 @@ function addon:Register(event, func)
 	end
 end
 
-addon:Register('QUEST_GREETING', function()
+Monomyth:Register('QUEST_GREETING', function()
 	local active = GetNumActiveQuests()
 	if(active > 0) then
 		for index = 1, active do
@@ -35,7 +35,7 @@ addon:Register('QUEST_GREETING', function()
 	end
 end)
 
-addon:Register('GOSSIP_SHOW', function()
+Monomyth:Register('GOSSIP_SHOW', function()
 	local active = GetNumGossipActiveQuests()
 	if(active > 0) then
 		for index = 1, select('#', GetGossipActiveQuests()), 4 do
@@ -61,7 +61,7 @@ addon:Register('GOSSIP_SHOW', function()
 end)
 
 QuestFrame:UnregisterEvent('QUEST_DETAIL')
-addon:Register('QUEST_DETAIL', function()
+Monomyth:Register('QUEST_DETAIL', function()
 	if(QuestGetAutoAccept()) then
 		CloseQuest()
 	else
@@ -70,15 +70,15 @@ addon:Register('QUEST_DETAIL', function()
 	end
 end)
 
-addon:Register('QUEST_ACCEPT_CONFIRM', AcceptQuest)
+Monomyth:Register('QUEST_ACCEPT_CONFIRM', AcceptQuest)
 
-addon:Register('QUEST_PROGRESS', function()
+Monomyth:Register('QUEST_PROGRESS', function()
 	if(IsQuestCompletable()) then
 		CompleteQuest()
 	end
 end)
 
-addon:Register('QUEST_COMPLETE', function()
+Monomyth:Register('QUEST_COMPLETE', function()
 	if(GetNumQuestChoices() <= 1) then
 		GetQuestReward(QuestFrameRewardPanel.itemChoice)
 	elseif(GetNumQuestChoices() > 1) then
@@ -104,7 +104,7 @@ addon:Register('QUEST_COMPLETE', function()
 	end
 end)
 
-addon:Register('QUEST_AUTOCOMPLETE', function()
+Monomyth:Register('QUEST_AUTOCOMPLETE', function()
 	for index = 1, GetNumAutoQuestPopUps() do
 		local quest, type = GetAutoQuestPopUp(index)
 
@@ -116,7 +116,7 @@ addon:Register('QUEST_AUTOCOMPLETE', function()
 	end
 end)
 
-addon:Register('BAG_UPDATE', function(bag)
+Monomyth:Register('BAG_UPDATE', function(bag)
 	if(bag < 0) then return end
 
 	for slot = 1, GetContainerNumSlots(bag) do
