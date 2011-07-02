@@ -1,8 +1,6 @@
 local Monomyth = CreateFrame('Frame')
 Monomyth:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
-local COMPLETE = [=[Interface\GossipFrame\ActiveQuestIcon]=]
-
 function Monomyth:Register(event, func)
 	self:RegisterEvent(event)
 	self[event] = function(...)
@@ -55,7 +53,7 @@ Monomyth:Register('GOSSIP_SHOW', function()
 	if(available == 0 and active == 0 and GetNumGossipOptions() == 1) then
 		local _, type = GetGossipOptions()
 		if(type == 'gossip') then
-			return SelectGossipOption(1)
+			SelectGossipOption(1)
 		end
 	end
 end)
