@@ -93,12 +93,13 @@ Monomyth:Register('QUEST_ITEM_UPDATE', function(...)
 end)
 
 Monomyth:Register('QUEST_COMPLETE', function()
-	if(GetNumQuestChoices() <= 1) then
+	local choices = GetNumQuestChoices()
+	if(choices <= 1) then
 		GetQuestReward(QuestFrameRewardPanel.itemChoice)
-	elseif(GetNumQuestChoices() > 1) then
+	elseif(choices > 1) then
 		local bestValue, bestIndex = 0
 
-		for index = 1, GetNumQuestChoices() do
+		for index = 1, choices do
 			local link = GetQuestItemLink('choice', index)
 			if(link) then
 				local _, _, _, _, _, _, _, _, _, _, value = GetItemInfo(link)
