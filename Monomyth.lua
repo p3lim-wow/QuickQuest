@@ -133,8 +133,18 @@ Monomyth:Register('QUEST_AUTOCOMPLETE', function(id)
 	end
 end)
 
+local atBank
+Monomyth:Register('BANKFRAME_OPENED', function()
+	atBank = true
+end)
+
+Monomyth:Register('BANKFRAME_CLOSED', function()
+	atBank = false
+end)
+
 Monomyth:Register('BAG_UPDATE', function(bag)
 	if(bag < 0) then return end
+	if(atBank) then return end
 
 	QuestCompletedDB = QuestCompletedDB or {}
 
