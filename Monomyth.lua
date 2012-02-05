@@ -85,6 +85,13 @@ Monomyth:Register('QUEST_PROGRESS', function()
 	end
 end)
 
+local choiceQueue, choiceFinished
+Monomyth:Register('QUEST_ITEM_UPDATE', function(...)
+	if(choiceQueue) then
+		Monomyth.QUEST_COMPLETE()
+	end
+end)
+
 Monomyth:Register('QUEST_COMPLETE', function()
 	if(GetNumQuestChoices() <= 1) then
 		GetQuestReward(QuestFrameRewardPanel.itemChoice)
@@ -93,21 +100,27 @@ Monomyth:Register('QUEST_COMPLETE', function()
 
 		for index = 1, GetNumQuestChoices() do
 			local link = GetQuestItemLink('choice', index)
-			if(not link) then
-				-- Item is not located in the cache yet, let it request it
-				-- from the server and run this again after its received
-				return
-			end
-
-			local _, _, _, _, _, _, _, _, _, _, value = GetItemInfo(link)
-			if(value > bestValue) then
-				bestValue, bestIndex = value, index
+			if(link) then
+				local _, _, _, _, _, _, _, _, _, _, value = GetItemInfo(link)
+				if(value > bestValue) then
+					bestValue, bestIndex = value, index
+				end
+			else
+				choiceQueue = true
+				return GetQuestItemInfo('choice', index)
 			end
 		end
 
 		if(bestIndex) then
+			choiceFinished = true
 			_G['QuestInfoItem' .. bestIndex]:Click()
 		end
+	end
+end)
+
+Monomyth:Register('QUEST_FINISHED', function()
+	if(choiceFinished) then
+		choiceQueue = false
 	end
 end)
 
