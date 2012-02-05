@@ -107,15 +107,11 @@ Monomyth:Register('QUEST_COMPLETE', function()
 	end
 end)
 
-Monomyth:Register('QUEST_AUTOCOMPLETE', function()
-	for index = 1, GetNumAutoQuestPopUps() do
-		local quest, type = GetAutoQuestPopUp(index)
-
-		if(type == 'COMPLETE') then
-			-- The quest may not be considered complete by the server
-			-- We should check then queue and try again when it is
-			ShowQuestComplete(GetQuestLogIndexByID(quest))
-		end
+Monomyth:Register('QUEST_AUTOCOMPLETE', function(id)
+	local index = GetQuestLogIndexByID(id)
+	if(GetQuestLogIsAutoComplete(index)) then
+		-- The quest might not be considered complete, investigate later
+		ShowQuestComplete(index)
 	end
 end)
 
