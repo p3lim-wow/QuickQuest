@@ -3,6 +3,5 @@
 ## Version: Alpha
 ## Title: Monomyth
 ## Notes: Questing enhancements
-## SavedVariablesPerCharacter: QuestCompletedDB
 
 Monomyth.lua

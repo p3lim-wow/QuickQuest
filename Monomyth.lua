@@ -142,19 +142,27 @@ Monomyth:Register('BANKFRAME_CLOSED', function()
 	atBank = false
 end)
 
+local completedQuests = {}
+Monomyth:Register('QUEST_QUERY_COMPLETE', function()
+	GetQuestsCompleted(completedQuests)
+
+	for index = 0, 4 do
+		Monomyth.BAG_UPDATE(index)
+	end
+end)
+
 Monomyth:Register('BAG_UPDATE', function(bag)
 	if(bag < 0) then return end
 	if(atBank) then return end
 
-	QuestCompletedDB = QuestCompletedDB or {}
-
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
-		if(id and not active and not QuestCompletedDB[id]) then
-			UseContainerItem(bag, slot)
-
-			-- This is a temporary solution to the spam and bugs with some items
-			QuestCompletedDB[id] = true
+		if(id and not active) then
+			if(not next(completedQuests)) then
+				QueryQuestsCompleted()
+			elseif(not completedQuests[id]) then
+				UseContainerItem(bag, slot)
+			end
 		end
 	end
 end)
