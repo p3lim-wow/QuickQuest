@@ -66,7 +66,11 @@ end)
 QuestFrame:UnregisterEvent('QUEST_DETAIL')
 Monomyth:Register('QUEST_DETAIL', function()
 	if(QuestGetAutoAccept()) then
-		CloseQuest()
+		if(GossipFrame:IsShown()) then
+			HideUIPanel(GossipFrame)
+		else
+			CloseQuest()
+		end
 	else
 		QuestFrame_OnEvent(nil, 'QUEST_DETAIL')
 		AcceptQuest()
