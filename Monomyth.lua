@@ -148,3 +148,5 @@ Monomyth:Register('BAG_UPDATE', function(bag)
 		end
 	end
 end)
+
+QuestInfoDescriptionText.SetAlphaGradient = function() end
