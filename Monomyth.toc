@@ -1,6 +1,6 @@
 ## Interface: 40300
 ## Author: p3lim
-## Version: Alpha
+## Version: @project-version@
 ## Title: Monomyth
 ## Notes: Questing enhancements
 
