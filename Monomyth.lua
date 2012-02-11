@@ -159,23 +159,28 @@ Monomyth:Register('BANKFRAME_CLOSED', function()
 	atBank = false
 end)
 
-local completedQuests = {}
+local completedQuests, queryQuests = {}
 Monomyth:Register('QUEST_QUERY_COMPLETE', function()
-	GetQuestsCompleted(completedQuests)
+	if(queryQuests) then
+		queryQuests = false
+		GetQuestsCompleted(completedQuests)
 
-	for index = 0, 4 do
-		Monomyth.BAG_UPDATE(index)
+		for index = 0, 4 do
+			Monomyth.BAG_UPDATE(index)
+		end
 	end
 end)
 
 Monomyth:Register('BAG_UPDATE', function(bag)
 	if(bag < 0) then return end
 	if(atBank) then return end
+	if(queryQuests) then return end
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
 		if(id and not active) then
 			if(not next(completedQuests)) then
+				queryQuests = true
 				QueryQuestsCompleted()
 			elseif(not completedQuests[id]) then
 				UseContainerItem(bag, slot)
