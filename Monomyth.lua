@@ -45,11 +45,11 @@ Monomyth:Register('QUEST_GREETING', function()
 end)
 
 -- This should be part of the API, really
-local function IsQuestCompleted(index)
+local function IsGossipQuestCompleted(index)
 	return not not select(index * 4, GetGossipActiveQuests())
 end
 
-local function IsQuestTrivial(index)
+local function IsGossipQuestTrivial(index)
 	return not not select(index * 3, GetGossipAvailableQuests())
 end
 
@@ -57,7 +57,7 @@ Monomyth:Register('GOSSIP_SHOW', function()
 	local active = GetNumGossipActiveQuests()
 	if(active > 0) then
 		for index = 1, active do
-			if(IsQuestCompleted(index)) then
+			if(IsGossipQuestCompleted(index)) then
 				SelectGossipActiveQuest(index)
 			end
 		end
@@ -66,7 +66,7 @@ Monomyth:Register('GOSSIP_SHOW', function()
 	local available = GetNumGossipAvailableQuests()
 	if(available > 0) then
 		for index = 1, available do
-			if(not IsQuestTrivial(index) or IsTrackingTrivial()) then
+			if(not IsGossipQuestTrivial(index) or IsTrackingTrivial()) then
 				SelectGossipAvailableQuest(index)
 			end
 		end
