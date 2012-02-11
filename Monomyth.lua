@@ -14,6 +14,15 @@ function Monomyth:Register(event, func)
 	end
 end
 
+local function IsTrackingTrivial()
+	for index = 1, GetNumTrackingTypes() do
+		local name, _, active = GetTrackingInfo(index)
+		if(name == MINIMAP_TRACKING_TRIVIAL_QUESTS) then
+			return active
+		end
+	end
+end
+
 Monomyth:Register('QUEST_GREETING', function()
 	local active = GetNumActiveQuests()
 	if(active > 0) then
@@ -28,7 +37,9 @@ Monomyth:Register('QUEST_GREETING', function()
 	local available = GetNumAvailableQuests()
 	if(available > 0) then
 		for index = 1, available do
-			SelectAvailableQuest(index)
+			if(not IsAvailableQuestTrivial(index) or IsTrackingTrivial()) then
+				SelectAvailableQuest(index)
+			end
 		end
 	end
 end)
@@ -36,6 +47,10 @@ end)
 -- This should be part of the API, really
 local function IsQuestCompleted(index)
 	return not not select(index * 4, GetGossipActiveQuests())
+end
+
+local function IsQuestTrivial(index)
+	return not not select(index * 3, GetGossipAvailableQuests())
 end
 
 Monomyth:Register('GOSSIP_SHOW', function()
@@ -51,7 +66,9 @@ Monomyth:Register('GOSSIP_SHOW', function()
 	local available = GetNumGossipAvailableQuests()
 	if(available > 0) then
 		for index = 1, available do
-			SelectGossipAvailableQuest(index)
+			if(not IsQuestTrivial(index) or IsTrackingTrivial()) then
+				SelectGossipAvailableQuest(index)
+			end
 		end
 	end
 
