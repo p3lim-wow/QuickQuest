@@ -162,10 +162,11 @@ end)
 local completedQuests, query = {}
 Monomyth:Register('QUEST_QUERY_COMPLETE', function()
 	if(query) then
+		local bag = query
 		query = nil
-		GetQuestsCompleted(completedQuests)
 
-		Monomyth.BAG_UPDATE(query)
+		GetQuestsCompleted(completedQuests)
+		Monomyth.BAG_UPDATE(bag)
 	end
 end)
 
