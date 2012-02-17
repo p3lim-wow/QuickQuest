@@ -159,6 +159,14 @@ Monomyth:Register('BANKFRAME_CLOSED', function()
 	atBank = false
 end)
 
+Monomyth:Register('GUILDBANKFRAME_OPENED', function()
+	atBank = true
+end)
+
+Monomyth:Register('GUILDBANKFRAME_CLOSED', function()
+	atBank = false
+end)
+
 local completedQuests, query = {}
 Monomyth:Register('QUEST_QUERY_COMPLETE', function()
 	if(query) then
