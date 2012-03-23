@@ -109,6 +109,7 @@ Monomyth:Register('QUEST_ITEM_UPDATE', function(...)
 	end
 end)
 
+local completing
 Monomyth:Register('QUEST_COMPLETE', function()
 	local choices = GetNumQuestChoices()
 	if(choices <= 1) then
@@ -134,11 +135,19 @@ Monomyth:Register('QUEST_COMPLETE', function()
 			_G['QuestInfoItem' .. bestIndex]:Click()
 		end
 	end
+
+	completing = true
 end)
 
+local completedQuests = {}
 Monomyth:Register('QUEST_FINISHED', function()
 	if(choiceFinished) then
 		choiceQueue = false
+	end
+
+	if(completing) then
+		completing = false
+		completedQuests[GetQuestID()] = true
 	end
 end)
 
@@ -167,7 +176,7 @@ Monomyth:Register('GUILDBANKFRAME_CLOSED', function()
 	atBank = false
 end)
 
-local completedQuests, query = {}
+local query
 Monomyth:Register('QUEST_QUERY_COMPLETE', function()
 	if(query) then
 		local bag = query
