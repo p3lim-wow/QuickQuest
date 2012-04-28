@@ -200,6 +200,7 @@ Monomyth:Register('BAG_UPDATE', function(bag, handled)
 				QueryQuestsCompleted()
 			elseif(not completedQuests[id]) then
 				UseContainerItem(bag, slot)
+				completedQuests[id] = true
 			end
 		end
 	end
