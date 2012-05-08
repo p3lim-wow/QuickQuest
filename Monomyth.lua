@@ -80,6 +80,22 @@ Monomyth:Register('GOSSIP_SHOW', function()
 	end
 end)
 
+local darkmoonNPC = {
+	[57850] = true, -- Teleportologist Fozlebub
+	[55382] = true, -- Darkmoon Faire Mystic Mage (Horde)
+	[54334] = true, -- Darkmoon Faire Mystic Mage (Alliance)
+}
+
+Monomyth:Register('GOSSIP_CONFIRM', function(index)
+	local GUID = UnitGUID('target') or ''
+	local creatureID = tonumber(string.sub(GUID, -12, -9), 16)
+
+	if(creatureID and darkmoonNPC[creatureID]) then
+		SelectGossipOption(index, '', true)
+		StaticPopup_Hide('GOSSIP_CONFIRM')
+	end
+end)
+
 QuestFrame:UnregisterEvent('QUEST_DETAIL')
 Monomyth:Register('QUEST_DETAIL', function()
 	if(QuestGetAutoAccept()) then
