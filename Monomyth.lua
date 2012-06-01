@@ -222,6 +222,12 @@ Monomyth:Register('BAG_UPDATE', function(bag, handled)
 	end
 end)
 
+ChatFrame_AddMessageEventFilter('CHAT_MSG_SYSTEM', function(self, event, message)
+	if(message == ERR_QUEST_ALREADY_DONE) then
+		return true
+	end
+end)
+
 hooksecurefunc('QuestLogTitleButton_OnClick', function(self)
 	if(self.isHeader) then return end
 	QuestLog_SetSelection(self:GetID())
