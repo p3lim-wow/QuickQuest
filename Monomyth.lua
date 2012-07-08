@@ -6,7 +6,7 @@ local atBank, atMail
 function Monomyth:Register(event, func)
 	self:RegisterEvent(event)
 	self[event] = function(...)
-		if(IsShiftKeyDown() or atBank or atMail) then
+		if(IsShiftKeyDown()) then
 			if(event == 'QUEST_DETAIL') then
 				QuestFrame_OnEvent(nil, event)
 			end
@@ -212,7 +212,7 @@ end)
 
 Monomyth:Register('BAG_UPDATE', function(bag, handled)
 	if(bag < 0) then return end
-	if(atBank) then return end
+	if(atBank or atMail) then return end
 	if(query == bag and not handled) then return end
 
 	query = nil
