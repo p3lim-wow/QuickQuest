@@ -1,3 +1,10 @@
+if(select(4, GetBuildInfo()) == 50001) then
+	print('|cff33ff99Monomyth:|r Thanks for testing out the beta version. Make sure to report any issues!')
+else
+	print('|cff33ff99Monomyth:|r You seem to have installed a version not compatible with this version of the game.')
+	return
+end
+
 local Monomyth = CreateFrame('Frame')
 Monomyth:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
@@ -128,7 +135,6 @@ Monomyth:Register('QUEST_ITEM_UPDATE', function(...)
 	end
 end)
 
-local completing
 Monomyth:Register('QUEST_COMPLETE', function()
 	local choices = GetNumQuestChoices()
 	if(choices <= 1) then
@@ -154,19 +160,11 @@ Monomyth:Register('QUEST_COMPLETE', function()
 			_G['QuestInfoItem' .. bestIndex]:Click()
 		end
 	end
-
-	completing = true
 end)
 
-local completedQuests = {}
 Monomyth:Register('QUEST_FINISHED', function()
 	if(choiceFinished) then
 		choiceQueue = false
-	end
-
-	if(completing) then
-		completing = false
-		completedQuests[GetQuestID()] = true
 	end
 end)
 
@@ -202,32 +200,13 @@ Monomyth:Register('MAIL_CLOSED', function()
 	atMail = false
 end)
 
-local query, queried
-Monomyth:Register('QUEST_QUERY_COMPLETE', function()
-	if(query) then
-		GetQuestsCompleted(completedQuests)
-		Monomyth.BAG_UPDATE(query, true)
-	end
-end)
-
-Monomyth:Register('BAG_UPDATE', function(bag, handled)
-	if(bag < 0) then return end
+Monomyth:Register('BAG_UPDATE', function(bag)
 	if(atBank or atMail) then return end
-	if(query == bag and not handled) then return end
-
-	query = nil
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
-		if(id and not active) then
-			if(not queried) then
-				query = bag
-				queried = true
-				QueryQuestsCompleted()
-			elseif(not completedQuests[id]) then
-				UseContainerItem(bag, slot)
-				completedQuests[id] = true
-			end
+		if(id and not active and not IsQuestFlaggedCompleted(id)) then
+			UseContainerItem(bag, slot)
 		end
 	end
 end)
