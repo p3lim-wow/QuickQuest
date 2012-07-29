@@ -138,7 +138,7 @@ end)
 Monomyth:Register('QUEST_COMPLETE', function()
 	local choices = GetNumQuestChoices()
 	if(choices <= 1) then
-		GetQuestReward(QuestFrameRewardPanel.itemChoice)
+		GetQuestReward(1)
 	elseif(choices > 1) then
 		local bestValue, bestIndex = 0
 
