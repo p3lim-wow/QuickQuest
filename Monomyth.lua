@@ -146,6 +146,12 @@ Monomyth:Register('QUEST_COMPLETE', function()
 			local link = GetQuestItemLink('choice', index)
 			if(link) then
 				local _, _, _, _, _, _, _, _, _, _, value = GetItemInfo(link)
+
+				if(string.match(link, 'item:45724:')) then
+					-- Champion's Purse, contains 10 gold
+					value = 1e5
+				end
+
 				if(value > bestValue) then
 					bestValue, bestIndex = value, index
 				end
