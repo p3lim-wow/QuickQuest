@@ -62,6 +62,20 @@ local function IsGossipQuestTrivial(index)
 	return not not select(index * 3, GetGossipAvailableQuests())
 end
 
+local function GetNumGossipCompletedQuests()
+	local completed = 0
+	local active = GetNumGossipActiveQuests()
+	if(active > 0) then
+		for index = 1, active do
+			if(select(index + 3, (GetGossipActiveQuests()))) then
+				completed = completed + 1
+			end
+		end
+	end
+
+	return completed
+end
+
 Monomyth:Register('GOSSIP_SHOW', function()
 	local active = GetNumGossipActiveQuests()
 	if(active > 0) then
@@ -108,15 +122,14 @@ end)
 
 QuestFrame:UnregisterEvent('QUEST_DETAIL')
 Monomyth:Register('QUEST_DETAIL', function()
-	if(QuestGetAutoAccept()) then
-		if(GossipFrame:IsShown()) then
-			HideUIPanel(GossipFrame)
-		else
-			CloseQuest()
-		end
-	else
-		QuestFrame_OnEvent(nil, 'QUEST_DETAIL')
+	if(not QuestGetAutoAccept()) then
 		AcceptQuest()
+	end
+end)
+
+Monomyth:Register('QUEST_ACCEPTED', function()
+	if(GossipFrame:IsShown() and GetNumGossipAvailableQuests() == 0 and GetNumGossipCompletedQuests() == 0) then
+		CloseGossip()
 	end
 end)
 
