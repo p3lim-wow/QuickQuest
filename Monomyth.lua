@@ -55,11 +55,11 @@ end)
 
 -- This should be part of the API, really
 local function IsGossipQuestCompleted(index)
-	return not not select(index * 4, GetGossipActiveQuests())
+	return not not select(((index * 5) - 5) + 4, GetGossipActiveQuests())
 end
 
 local function IsGossipQuestTrivial(index)
-	return not not select(index * 3, GetGossipAvailableQuests())
+	return not not select(((index * 6) - 6) + 3, GetGossipAvailableQuests())
 end
 
 local function GetNumGossipCompletedQuests()
