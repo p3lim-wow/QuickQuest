@@ -13,11 +13,7 @@ local atBank, atMail
 function Monomyth:Register(event, func)
 	self:RegisterEvent(event)
 	self[event] = function(...)
-		if(IsShiftKeyDown()) then
-			if(event == 'QUEST_DETAIL') then
-				QuestFrame_OnEvent(nil, event)
-			end
-		else
+		if(not IsShiftKeyDown()) then
 			func(...)
 		end
 	end
@@ -100,6 +96,7 @@ Monomyth:Register('GOSSIP_SHOW', function()
 		local _, type = GetGossipOptions()
 		if(type == 'gossip') then
 			SelectGossipOption(1)
+			return
 		end
 	end
 end)
@@ -120,7 +117,6 @@ Monomyth:Register('GOSSIP_CONFIRM', function(index)
 	end
 end)
 
-QuestFrame:UnregisterEvent('QUEST_DETAIL')
 Monomyth:Register('QUEST_DETAIL', function()
 	if(not QuestGetAutoAccept()) then
 		AcceptQuest()
