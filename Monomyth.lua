@@ -1,10 +1,3 @@
-if(select(4, GetBuildInfo()) == 50001) then
-	print('|cff33ff99Monomyth:|r Thanks for testing out the beta version. Make sure to report any issues!')
-else
-	print('|cff33ff99Monomyth:|r You seem to have installed a version not compatible with this version of the game.')
-	return
-end
-
 local Monomyth = CreateFrame('Frame')
 Monomyth:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
