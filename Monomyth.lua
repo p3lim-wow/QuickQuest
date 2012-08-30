@@ -14,7 +14,7 @@ end
 
 local function IsTrackingTrivial()
 	for index = 1, GetNumTrackingTypes() do
-		local name, _, active = GetTrackingInfo(index)
+		local name, __, active = GetTrackingInfo(index)
 		if(name == MINIMAP_TRACKING_TRIVIAL_QUESTS) then
 			return active
 		end
@@ -25,7 +25,7 @@ Monomyth:Register('QUEST_GREETING', function()
 	local active = GetNumActiveQuests()
 	if(active > 0) then
 		for index = 1, active do
-			local _, complete = GetActiveTitle(index)
+			local __, complete = GetActiveTitle(index)
 			if(complete) then
 				SelectActiveQuest(index)
 			end
@@ -84,9 +84,9 @@ Monomyth:Register('GOSSIP_SHOW', function()
 		end
 	end
 
-	local _, instance = GetInstanceInfo()
+	local __, instance = GetInstanceInfo()
 	if(available == 0 and active == 0 and GetNumGossipOptions() == 1 and instance ~= 'raid') then
-		local _, type = GetGossipOptions()
+		local __, type = GetGossipOptions()
 		if(type == 'gossip') then
 			SelectGossipOption(1)
 			return
@@ -141,7 +141,7 @@ Monomyth:Register('QUEST_COMPLETE', function()
 		for index = 1, choices do
 			local link = GetQuestItemLink('choice', index)
 			if(link) then
-				local _, _, _, _, _, _, _, _, _, _, value = GetItemInfo(link)
+				local __, __, __, __, __, __, __, __, __, __, value = GetItemInfo(link)
 
 				if(string.match(link, 'item:45724:')) then
 					-- Champion's Purse, contains 10 gold
@@ -206,7 +206,7 @@ Monomyth:Register('BAG_UPDATE', function(bag)
 	if(atBank or atMail) then return end
 
 	for slot = 1, GetContainerNumSlots(bag) do
-		local _, id, active = GetContainerItemQuestInfo(bag, slot)
+		local __, id, active = GetContainerItemQuestInfo(bag, slot)
 		if(id and not active and not IsQuestFlaggedCompleted(id)) then
 			UseContainerItem(bag, slot)
 		end
