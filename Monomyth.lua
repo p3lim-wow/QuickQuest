@@ -245,15 +245,4 @@ ChatFrame_AddMessageEventFilter('CHAT_MSG_SYSTEM', function(self, event, message
 	end
 end)
 
-hooksecurefunc('QuestLogTitleButton_OnClick', function(self)
-	if(self.isHeader) then return end
-	QuestLog_SetSelection(self:GetID())
-
-	if(IsControlKeyDown()) then
-		AbandonQuest()
-	elseif(IsAltKeyDown() and GetQuestLogPushable()) then
-		QuestLogPushQuest()
-	end
-end)
-
 QuestInfoDescriptionText.SetAlphaGradient = function() end
