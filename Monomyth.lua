@@ -1,7 +1,7 @@
 local Monomyth = CreateFrame('Frame')
 Monomyth:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
-local atBank, atMail
+local atBank, atMail, atMerchant
 
 function Monomyth:Register(event, func)
 	self:RegisterEvent(event)
@@ -202,8 +202,16 @@ Monomyth:Register('MAIL_CLOSED', function()
 	atMail = false
 end)
 
+Monomyth:Register('MERCHANT_SHOW', function()
+	atMerchant = true
+end)
+
+Monomyth:Register('MERCHANT_CLOSED', function()
+	atMerchant = false
+end)
+
 Monomyth:Register('BAG_UPDATE', function(bag)
-	if(atBank or atMail) then return end
+	if(atBank or atMail or atMerchant) then return end
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local __, id, active = GetContainerItemQuestInfo(bag, slot)
