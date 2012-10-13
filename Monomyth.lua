@@ -210,12 +210,30 @@ Monomyth:Register('MERCHANT_CLOSED', function()
 	atMerchant = false
 end)
 
+local ignoredItems = {
+	-- Inscription weapons
+	[31690] = true, -- Inscribed Tiger Staff
+	[31691] = true, -- Inscribed Crane Staff
+	[31692] = true, -- Inscribed Serpent Staff
+
+	-- Darkmoon Faire artifacts
+	[29443] = true, -- Imbued Crystal
+	[29444] = true, -- Monstrous Egg
+	[29445] = true, -- Mysterious Grimoire
+	[29446] = true, -- Ornate Weapon
+	[29451] = true, -- A Treatise on Strategy
+	[29456] = true, -- Banner of the Fallen
+	[29457] = true, -- Captured Insignia
+	[29458] = true, -- Fallen Adventurer's Journal
+	[29464] = true, -- Soothsayer's Runes
+}
+
 Monomyth:Register('BAG_UPDATE', function(bag)
 	if(atBank or atMail or atMerchant) then return end
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
-		if(id and not active and not IsQuestFlaggedCompleted(id)) then
+		if(id and not active and not IsQuestFlaggedCompleted(id) and not ignoredItems[id]) then
 			UseContainerItem(bag, slot)
 		end
 	end
