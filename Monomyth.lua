@@ -118,6 +118,14 @@ end)
 
 Monomyth:Register('QUEST_ACCEPT_CONFIRM', AcceptQuest)
 
+Monomyth:Register('QUEST_ACCEPTED', function(id)
+	if(not GetCVarBool('autoQuestWatch')) then return end
+
+	if(not IsQuestWatched(id) and GetNumQuestWatches() < MAX_WATCHABLE_QUESTS) then
+		AddQuestWatch(id)
+	end
+end)
+
 Monomyth:Register('QUEST_PROGRESS', function()
 	if(IsQuestCompletable()) then
 		CompleteQuest()
