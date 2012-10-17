@@ -268,10 +268,14 @@ Monomyth:Register('BAG_UPDATE', function(bag)
 	end
 end)
 
+local errors = {
+	[ERR_QUEST_ALREADY_DONE] = true,
+	[ERR_QUEST_FAILED_LOW_LEVEL] = true,
+	[ERR_QUEST_NEED_PREREQS] = true,
+}	
+
 ChatFrame_AddMessageEventFilter('CHAT_MSG_SYSTEM', function(self, event, message)
-	if(message == ERR_QUEST_ALREADY_DONE or message == ERR_QUEST_FAILED_LOW_LEVEL) then
-		return true
-	end
+	return errors[message]
 end)
 
 QuestInfoDescriptionText.SetAlphaGradient = function() end
