@@ -3,10 +3,11 @@ Monomyth:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
 local atBank, atMail, atMerchant
 
-function Monomyth:Register(event, func)
+local modifier
+function Monomyth:Register(event, func, override)
 	self:RegisterEvent(event)
 	self[event] = function(...)
-		if(not IsShiftKeyDown()) then
+		if(MonomythDB.toggle and (override or not modifier)) then
 			func(...)
 		end
 	end
@@ -51,6 +52,10 @@ local function IsGossipQuestTrivial(index)
 	return not not select(((index * 6) - 6) + 3, GetGossipAvailableQuests())
 end
 
+local function GetCreatureID()
+	return tonumber(string.sub(UnitGUID('npc') or '', -12, -9), 16)
+end
+
 local function GetNumGossipCompletedQuests()
 	local completed = 0
 	local active = GetNumGossipActiveQuests()
@@ -84,12 +89,24 @@ Monomyth:Register('GOSSIP_SHOW', function()
 		end
 	end
 
-	local _, instance = GetInstanceInfo()
-	if(available == 0 and active == 0 and GetNumGossipOptions() == 1 and instance ~= 'raid') then
-		local _, type = GetGossipOptions()
-		if(type == 'gossip') then
+	if(MonomythDB.gossip) then
+		if(available == 0 and active == 0 and GetNumGossipOptions() == 1) then
+			local _, instance = GetInstanceInfo()
+			if(not (MonomythDB.gossipraid and instance == 'raid')) then
+				local _, type = GetGossipOptions()
+				if(type == 'gossip') then
+					SelectGossipOption(1)
+					return
+				end
+			end
+		end
+	end
+
+	if(MonomythDB.faireport) then
+		local creatureID = GetCreatureID()
+		if(creatureID and creatureID == 57850) then
+			-- See if 1 is the right option
 			SelectGossipOption(1)
-			return
 		end
 	end
 end)
@@ -101,9 +118,9 @@ local darkmoonNPC = {
 }
 
 Monomyth:Register('GOSSIP_CONFIRM', function(index)
-	local GUID = UnitGUID('target') or ''
-	local creatureID = tonumber(string.sub(GUID, -12, -9), 16)
+	if(not MonomythDB.faireport) then return end
 
+	local creatureID = GetCreatureID()
 	if(creatureID and darkmoonNPC[creatureID]) then
 		SelectGossipOption(index, '', true)
 		StaticPopup_Hide('GOSSIP_CONFIRM')
@@ -218,6 +235,17 @@ Monomyth:Register('MERCHANT_CLOSED', function()
 	atMerchant = false
 end)
 
+local sub = string.sub
+Monomyth:Register('MODIFIER_STATE_CHANGED', function(key, state)
+	if(sub(key, 2) == MonomythDB.modifier) then
+		if(MonomythDB.reverse) then
+			modifier = state ~= 1
+		else
+			modifier = state == 1
+		end
+	end
+end, true)
+
 local ignoredItems = {
 	-- Inscription weapons
 	[31690] = true, -- Inscribed Tiger Staff
@@ -238,6 +266,7 @@ local ignoredItems = {
 
 Monomyth:Register('BAG_UPDATE', function(bag)
 	if(atBank or atMail or atMerchant) then return end
+	if(not MonomythDB.items) then return end
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)

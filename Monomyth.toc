@@ -3,5 +3,7 @@
 ## Version: @project-version@
 ## Title: Monomyth
 ## Notes: Questing enhancements
+## SavedVariables: MonomythDB
 
+Config.lua
 Monomyth.lua
