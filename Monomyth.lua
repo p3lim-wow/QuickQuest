@@ -56,20 +56,6 @@ local function GetCreatureID()
 	return tonumber(string.sub(UnitGUID('npc') or '', -12, -9), 16)
 end
 
-local function GetNumGossipCompletedQuests()
-	local completed = 0
-	local active = GetNumGossipActiveQuests()
-	if(active > 0) then
-		for index = 1, active do
-			if(select(index + 3, (GetGossipActiveQuests()))) then
-				completed = completed + 1
-			end
-		end
-	end
-
-	return completed
-end
-
 Monomyth:Register('GOSSIP_SHOW', function()
 	local active = GetNumGossipActiveQuests()
 	if(active > 0) then
