@@ -7,7 +7,7 @@ local modifier
 function Monomyth:Register(event, func, override)
 	self:RegisterEvent(event)
 	self[event] = function(...)
-		if(MonomythDB.toggle and (override or not modifier)) then
+		if((MonomythDB and MonomythDB.toggle or true) and (override or not modifier)) then
 			func(...)
 		end
 	end
@@ -258,7 +258,7 @@ local ignoredItems = {
 
 Monomyth:Register('BAG_UPDATE', function(bag)
 	if(atBank or atMail or atMerchant) then return end
-	if(not MonomythDB.items) then return end
+	if(not (MonomythDB and MonomythDB.items or true)) then return end
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
