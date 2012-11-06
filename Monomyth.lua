@@ -3,11 +3,11 @@ Monomyth:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
 local atBank, atMail, atMerchant
 
-local modifier
+local modifier = false
 function Monomyth:Register(event, func, override)
 	self:RegisterEvent(event)
 	self[event] = function(...)
-		if(MonomythDB.toggle and (override or not modifier)) then
+		if(override or MonomythDB.toggle and MonomythDB.reverse == modifier) then
 			func(...)
 		end
 	end
@@ -119,7 +119,7 @@ Monomyth:Register('QUEST_DETAIL', function()
 		QuestFrame_OnEvent(QuestFrame, 'QUEST_DETAIL')
 
 		-- We do this check again instead of improving the event handler
-		if(MonomythDB.toggle and not modifier) then
+		if(MonomythDB.toggle and MonomythDB.reverse == modifier) then
 			AcceptQuest()
 		end
 	end
@@ -230,11 +230,7 @@ end)
 local sub = string.sub
 Monomyth:Register('MODIFIER_STATE_CHANGED', function(key, state)
 	if(sub(key, 2) == MonomythDB.modifier) then
-		if(MonomythDB.reverse) then
-			modifier = state ~= 1
-		else
-			modifier = state == 1
-		end
+		modifier = state == 1
 	end
 end, true)
 
