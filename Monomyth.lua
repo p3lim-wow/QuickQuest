@@ -7,7 +7,7 @@ local modifier
 function Monomyth:Register(event, func, override)
 	self:RegisterEvent(event)
 	self[event] = function(...)
-		if((MonomythDB and MonomythDB.toggle or true) and (override or not modifier)) then
+		if(MonomythDB.toggle and (override or not modifier)) then
 			func(...)
 		end
 	end
@@ -256,9 +256,9 @@ local ignoredItems = {
 	[29464] = true, -- Soothsayer's Runes
 }
 
-Monomyth:Register('BAG_UPDATE', function(bag)
+local function BagUpdate(bag)
+	if(not MonomythDB.items) then return end
 	if(atBank or atMail or atMerchant) then return end
-	if(not (MonomythDB and MonomythDB.items or true)) then return end
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
@@ -266,6 +266,10 @@ Monomyth:Register('BAG_UPDATE', function(bag)
 			UseContainerItem(bag, slot)
 		end
 	end
+end
+
+Monomyth:Register('PLAYER_LOGIN', function()
+	Monomyth:Register('BAG_UPDATE', BagUpdate)
 end)
 
 local errors = {
