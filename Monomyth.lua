@@ -252,6 +252,18 @@ local ignoredItems = {
 	[29464] = true, -- Soothsayer's Runes
 }
 
+local questTip = CreateFrame('GameTooltip', 'MonomythTip', UIParent)
+local questLevel = string.gsub(ITEM_MIN_LEVEL, '%%d', '(%%d+)')
+
+local function GetQuestItemLevel()
+	for index = 1, questTip:NumLines() do
+		local level = string.match(_G['MonomythTipTextLeft' .. index]:GetText(), questLevel)
+		if(level and tonumber(level)) then
+			return tonumber(level)
+		end
+	end
+end
+
 local function BagUpdate(bag)
 	if(not MonomythDB.items) then return end
 	if(atBank or atMail or atMerchant) then return end
@@ -259,7 +271,13 @@ local function BagUpdate(bag)
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
 		if(id and not active and not IsQuestFlaggedCompleted(id) and not ignoredItems[id]) then
-			UseContainerItem(bag, slot)
+			questTip:SetBagItem(bag, slot)
+			questTip:Show()
+
+			local level = GetQuestItemLevel()
+			if(not level or level >= UnitLevel('player')) then
+				UseContainerItem(bag, slot)
+			end
 		end
 	end
 end
