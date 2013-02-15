@@ -180,7 +180,12 @@ Panel:SetScript('OnShow', function(self)
 		UIDropDownMenu_AddButton(info)
 	end)
 	Modifier:SetPoint('TOPLEFT', Reverse, 'BOTTOMLEFT', -13, -14)
-	Modifier.Text:SetText('Modifier to temporarly disable automation')
+
+	if(MonomythDB.reverse) then
+		Modifier.Text:SetText('Modifier to temporarly enable automation')
+	else
+		Modifier.Text:SetText('Modifier to temporarly disable automation')
+	end
 
 	Reverse:HookScript('OnClick', function(self)
 		if(self:GetChecked()) then
