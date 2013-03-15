@@ -11,6 +11,26 @@ local defaults = {
 	gossipraid = true,
 	modifier = 'SHIFT',
 	reverse = false,
+	ignoredQuests = {
+		-- Inscription weapons
+		[31690] = 79343, -- Inscribed Tiger Staff
+		[31691] = 79340, -- Inscribed Crane Staff
+		[31692] = 79341, -- Inscribed Serpent Staff
+
+		-- Darkmoon Faire artifacts
+		[29443] = 71635, -- Imbued Crystal
+		[29444] = 71636, -- Monstrous Egg
+		[29445] = 71637, -- Mysterious Grimoire
+		[29446] = 71638, -- Ornate Weapon
+		[29451] = 71715, -- A Treatise on Strategy
+		[29456] = 71951, -- Banner of the Fallen
+		[29457] = 71952, -- Captured Insignia
+		[29458] = 71953, -- Fallen Adventurer's Journal
+		[29464] = 71716, -- Soothsayer's Runes
+
+		-- Misc
+		[31664] = 88604, -- Nat's Fishing Journal
+	}
 }
 
 local Panel = CreateFrame('Frame', nil, InterfaceOptionsFramePanelContainer)
@@ -27,6 +47,8 @@ Panel:SetScript('OnEvent', function()
 		end
 	end
 end)
+
+local UpdateFilterBox
 
 function Panel:okay()
 	for key, value in pairs(temporary) do
@@ -54,6 +76,8 @@ function Panel:refresh()
 			UIDropDownMenu_SetText(button, _G[MonomythDB[key] .. '_KEY'])
 		end
 	end
+
+	UpdateFilterBox()
 end
 
 local CreateCheckButton
@@ -103,6 +127,41 @@ do
 		return Dropdown
 	end
 end
+
+local filterBackdrop = {
+	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=], tile = true, tileSize = 16,
+	edgeFile = [=[Interface\Tooltips\UI-Tooltip-Border]=], edgeSize = 16,
+	insets = {left = 4, right = 4, top = 4, bottom = 4}
+}
+
+local function FilterDetailsOnEnter(self)
+	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
+	GameTooltip:AddLine('Easily add more items to filter by\ngrabbing one from your inventory\nand dropping it into the box below.\n\nJust as easily you remove an existing\nitem by right-clicking on it.', 1, 1, 1)
+	GameTooltip:Show()
+end
+
+local function FilterItemOnEnter(self)
+	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
+	GameTooltip:SetItemByID(self.itemID)
+end
+
+local filterItems = {}
+
+StaticPopupDialogs.MONOMYTH_FILTER = {
+	text = 'Are you sure you want to delete |T%s:16|t%s from the filter?',
+	button1 = 'Yes',
+	button2 = 'No',
+	OnAccept = function(self, data)
+		MonomythDB.ignoredQuests[data.questID] = nil
+		filterItems[data.itemID] = nil
+		data.button:Hide()
+
+		UpdateFilterBox()
+	end,
+	timeout = 0,
+	hideOnEscape = true,
+	preferredIndex = 3, -- Avoid some taint
+}
 
 Panel:SetScript('OnShow', function(self)
 	local Title = self:CreateFontString(nil, nil, 'GameFontNormalLarge')
@@ -192,6 +251,96 @@ Panel:SetScript('OnShow', function(self)
 			Modifier.Text:SetText('Modifier to temporarly enable automation')
 		else
 			Modifier.Text:SetText('Modifier to temporarly disable automation')
+		end
+	end)
+
+	local FilterText = self:CreateFontString(nil, nil, 'GameFontHighlight')
+	FilterText:SetPoint('TOPLEFT', Modifier, 'BOTTOMLEFT', 18, -30)
+	FilterText:SetText('Items filtered from automization')
+
+	local FilterDetails = CreateFrame('Button', nil, self)
+	FilterDetails:SetPoint('LEFT', FilterText, 'RIGHT')
+	FilterDetails:SetNormalTexture([=[Interface\GossipFrame\ActiveQuestIcon]=])
+	FilterDetails:SetSize(16, 16)
+
+	FilterDetails:SetScript('OnEnter', FilterDetailsOnEnter)
+	FilterDetails:SetScript('OnLeave', GameTooltip_Hide)
+
+	local FilterBox = CreateFrame('Frame', nil, self)
+	FilterBox:SetPoint('TOPLEFT', FilterText, 'BOTTOMLEFT', -12, -8)
+	FilterBox:SetPoint('BOTTOMRIGHT', -8, 8)
+	FilterBox:SetBackdrop(filterBackdrop)
+	FilterBox:SetBackdropColor(0, 0, 0, 1/2)
+
+	local FilterBounds = CreateFrame('Frame', nil, FilterBox)
+	FilterBounds:SetPoint('TOPLEFT', 8, -8)
+	FilterBounds:SetPoint('BOTTOMRIGHT', -8, 8)
+
+	local function FilterItemOnClick(self, button)
+		if(button == 'RightButton') then
+			local _, link, _, _, _, _, _, _, _, texture = GetItemInfo(self.itemID)
+			local dialog = StaticPopup_Show('MONOMYTH_FILTER', texture, link)
+			dialog.data = {
+				itemID = self.itemID,
+				questID = self.questID,
+				button = self
+			}
+		end
+	end
+
+	function UpdateFilterBox()
+		for quest, item in pairs(MonomythDB.ignoredQuests) do
+			if(not filterItems[item]) then
+				local Button = CreateFrame('Button', nil, FilterBox)
+				Button:SetSize(34, 34)
+				Button:RegisterForClicks('AnyUp')
+
+				local Texture = Button:CreateTexture(nil, 'ARTWORK')
+				Texture:SetAllPoints()
+				Texture:SetTexture(select(10, GetItemInfo(item)))
+
+				Button:SetScript('OnClick', FilterItemOnClick)
+				Button:SetScript('OnEnter', FilterItemOnEnter)
+				Button:SetScript('OnLeave', GameTooltip_Hide)
+
+				Button.questID = quest
+				Button.itemID = item
+
+				filterItems[item] = Button
+			end
+		end
+
+		local index = 1
+		local cols = math.floor(FilterBounds:GetWidth() / 36)
+
+		for item, button in pairs(filterItems) do
+			button:ClearAllPoints()
+			button:SetPoint('TOPLEFT', FilterBounds, (index - 1) % cols * 36, math.floor((index - 1) / cols) * -36)
+
+			index = index + 1
+		end
+	end
+
+	UpdateFilterBox()
+
+	FilterBox:SetScript('OnMouseUp', function()
+		if(CursorHasItem()) then
+			local _, itemID, link = GetCursorInfo()
+
+			for bag = 0, 4 do
+				for slot = 1, GetContainerNumSlots(bag) do
+					if(GetContainerItemLink(bag, slot) == link) then
+						local _, questID = GetContainerItemQuestInfo(bag, slot)
+						if(questID) then
+							MonomythDB.ignoredQuests[questID] = itemID
+							ClearCursor()
+
+							UpdateFilterBox()
+							return
+						end
+					end
+				end
+			end
 		end
 	end)
 
