@@ -185,7 +185,7 @@ Panel:SetScript('OnShow', function(self)
 
 	local Gossip = CreateCheckButton(self, 'gossip')
 	Gossip:SetPoint('TOPLEFT', Items, 'BOTTOMLEFT', 0, -8)
-	Gossip.Text:SetText('Automaticly select gossip option if there is only one')
+	Gossip.Text:SetText('Automatically select gossip option if there is only one')
 
 	local GossipRaid = CreateCheckButton(self, 'gossipraid')
 	GossipRaid:SetPoint('TOPLEFT', Gossip, 'BOTTOMLEFT', 24, -8)
@@ -211,7 +211,7 @@ Panel:SetScript('OnShow', function(self)
 
 	local Darkmoon = CreateCheckButton(self, 'faireport')
 	Darkmoon:SetPoint('TOPLEFT', GossipRaid, 'BOTTOMLEFT', -24, -8)
-	Darkmoon.Text:SetText('Darkmoon Faire: Automaticly teleport')
+	Darkmoon.Text:SetText('Darkmoon Faire: Automatically teleport')
 
 	local Reverse = CreateCheckButton(self, 'reverse')
 	Reverse:SetPoint('TOPLEFT', Darkmoon, 'BOTTOMLEFT', 0, -8)
@@ -256,7 +256,7 @@ Panel:SetScript('OnShow', function(self)
 
 	local FilterText = self:CreateFontString(nil, nil, 'GameFontHighlight')
 	FilterText:SetPoint('TOPLEFT', Modifier, 'BOTTOMLEFT', 18, -30)
-	FilterText:SetText('Items filtered from automization')
+	FilterText:SetText('Items filtered from automation')
 
 	local FilterDetails = CreateFrame('Button', nil, self)
 	FilterDetails:SetPoint('LEFT', FilterText, 'RIGHT')
