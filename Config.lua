@@ -11,6 +11,7 @@ local defaults = {
 	gossipraid = true,
 	modifier = 'SHIFT',
 	reverse = false,
+	delay = false,
 	ignoredQuests = {
 		-- Inscription weapons
 		[31690] = 79343, -- Inscribed Tiger Staff
@@ -48,8 +49,6 @@ Panel:SetScript('OnEvent', function()
 	end
 end)
 
-local UpdateFilterBox
-
 function Panel:okay()
 	for key, value in pairs(temporary) do
 		MonomythDB[key] = value
@@ -61,7 +60,12 @@ function Panel:cancel()
 end
 
 function Panel:default()
-	MonomythDB = defaults
+	for key, value in pairs(defaults) do
+		if(key ~= 'ignoredQuests') then
+			MonomythDB[key] = value
+		end
+	end
+
 	table.wipe(temporary)
 end
 
@@ -76,8 +80,36 @@ function Panel:refresh()
 			UIDropDownMenu_SetText(button, _G[MonomythDB[key] .. '_KEY'])
 		end
 	end
+end
 
-	UpdateFilterBox()
+local function ToggleAll(self)
+	local enabled = self:GetChecked()
+
+	for _, button in pairs(buttons) do
+		if(button:IsObjectType('CheckButton')) then
+			if(enabled) then
+				local parent = button.realParent
+				if(not parent or parent:GetChecked()) then
+					button:Enable()
+					button.Text:SetTextColor(1, 1, 1)
+				end
+			else
+				if(button ~= self) then
+					button:Disable()
+				end
+
+				button.Text:SetTextColor(1/3, 1/3, 1/3)
+			end
+		elseif(button:IsObjectType('Button')) then
+			if(enabled) then
+				UIDropDownMenu_EnableDropDown(button)
+				button.Text:SetTextColor(1, 1, 1)
+			else
+				UIDropDownMenu_DisableDropDown(button)
+				button.Text:SetTextColor(1/3, 1/3, 1/3)
+			end
+		end
+	end
 end
 
 local CreateCheckButton
@@ -90,10 +122,11 @@ do
 		end
 	end
 
-	function CreateCheckButton(parent, key)
+	function CreateCheckButton(parent, key, realParent)
 		local CheckButton = CreateFrame('CheckButton', nil, parent, 'InterfaceOptionsCheckButtonTemplate')
 		CheckButton:SetHitRectInsets(0, 0, 0, 0)
 		CheckButton:SetScript('OnClick', ClickCheckButton)
+		CheckButton.realParent = realParent
 		CheckButton.key = key
 
 		buttons[key] = CheckButton
@@ -128,41 +161,6 @@ do
 	end
 end
 
-local filterBackdrop = {
-	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=], tile = true, tileSize = 16,
-	edgeFile = [=[Interface\Tooltips\UI-Tooltip-Border]=], edgeSize = 16,
-	insets = {left = 4, right = 4, top = 4, bottom = 4}
-}
-
-local function FilterDetailsOnEnter(self)
-	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
-	GameTooltip:AddLine('Easily add more items to filter by\ngrabbing one from your inventory\nand dropping it into the box below.\n\nJust as easily you remove an existing\nitem by right-clicking on it.', 1, 1, 1)
-	GameTooltip:Show()
-end
-
-local function FilterItemOnEnter(self)
-	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
-	GameTooltip:SetItemByID(self.itemID)
-end
-
-local filterItems = {}
-
-StaticPopupDialogs.MONOMYTH_FILTER = {
-	text = 'Are you sure you want to delete |T%s:16|t%s from the filter?',
-	button1 = 'Yes',
-	button2 = 'No',
-	OnAccept = function(self, data)
-		MonomythDB.ignoredQuests[data.questID] = nil
-		filterItems[data.itemID] = nil
-		data.button:Hide()
-
-		UpdateFilterBox()
-	end,
-	timeout = 0,
-	hideOnEscape = true,
-	preferredIndex = 3, -- Avoid some taint
-}
-
 Panel:SetScript('OnShow', function(self)
 	local Title = self:CreateFontString(nil, nil, 'GameFontNormalLarge')
 	Title:SetPoint('TOPLEFT', 16, -16)
@@ -177,17 +175,22 @@ Panel:SetScript('OnShow', function(self)
 
 	local Toggle = CreateCheckButton(self, 'toggle')
 	Toggle:SetPoint('TOPLEFT', Description, 'BOTTOMLEFT', -2, -10)
+	Toggle:HookScript('OnClick', ToggleAll)
 	Toggle.Text:SetText('Enable automating')
 
+	local Delay = CreateCheckButton(self, 'delay')
+	Delay:SetPoint('TOPLEFT', Toggle, 'BOTTOMLEFT', 24, -8)
+	Delay.Text:SetText('Slow down the automating')
+
 	local Items = CreateCheckButton(self, 'items')
-	Items:SetPoint('TOPLEFT', Toggle, 'BOTTOMLEFT', 0, -8)
-	Items.Text:SetText('Automaticly start quests from items')
+	Items:SetPoint('TOPLEFT', Delay, 'BOTTOMLEFT', -24, -8)
+	Items.Text:SetText('Start quests from items')
 
 	local Gossip = CreateCheckButton(self, 'gossip')
 	Gossip:SetPoint('TOPLEFT', Items, 'BOTTOMLEFT', 0, -8)
-	Gossip.Text:SetText('Automatically select gossip option if there is only one')
+	Gossip.Text:SetText('Select gossip option if there is only one')
 
-	local GossipRaid = CreateCheckButton(self, 'gossipraid')
+	local GossipRaid = CreateCheckButton(self, 'gossipraid', Gossip)
 	GossipRaid:SetPoint('TOPLEFT', Gossip, 'BOTTOMLEFT', 24, -8)
 	GossipRaid.Text:SetText('Only select gossip option while not in a raid')
 
@@ -254,8 +257,73 @@ Panel:SetScript('OnShow', function(self)
 		end
 	end)
 
+	Panel:refresh()
+	ToggleAll(Toggle)
+
+	self:SetScript('OnShow', nil)
+end)
+
+local UpdateFilterBox
+
+local FilterPanel = CreateFrame('Frame', nil, Panel)
+FilterPanel.name = 'Filters'
+FilterPanel.parent = addonName
+FilterPanel:Hide()
+
+function FilterPanel:default()
+	MonomythDB.ignoredQuests = defaults.ignoredQuests
+	UpdateFilterBox()
+end
+
+local filterBackdrop = {
+	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=], tile = true, tileSize = 16,
+	edgeFile = [=[Interface\Tooltips\UI-Tooltip-Border]=], edgeSize = 16,
+	insets = {left = 4, right = 4, top = 4, bottom = 4}
+}
+
+local FilterDetailsText = [[
+Easily add more items to filter by
+grabbing one from your inventory
+and dropping it into the box below.
+
+Just as easily you remove an existing
+item by right-clicking on it.
+
+This only works with items that starts quests.
+]]
+
+local function FilterDetailsOnEnter(self)
+	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
+	GameTooltip:AddLine(FilterDetailsText, 1, 1, 1)
+	GameTooltip:Show()
+end
+
+local function FilterItemOnEnter(self)
+	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
+	GameTooltip:SetItemByID(self.itemID)
+end
+
+local filterItems = {}
+
+StaticPopupDialogs.MONOMYTH_FILTER = {
+	text = 'Are you sure you want to delete |T%s:16|t%s from the filter?',
+	button1 = 'Yes',
+	button2 = 'No',
+	OnAccept = function(self, data)
+		MonomythDB.ignoredQuests[data.questID] = nil
+		filterItems[data.itemID] = nil
+		data.button:Hide()
+
+		UpdateFilterBox()
+	end,
+	timeout = 0,
+	hideOnEscape = true,
+	preferredIndex = 3, -- Avoid some taint
+}
+
+FilterPanel:SetScript('OnShow', function(self)
 	local FilterText = self:CreateFontString(nil, nil, 'GameFontHighlight')
-	FilterText:SetPoint('TOPLEFT', Modifier, 'BOTTOMLEFT', 18, -30)
+	FilterText:SetPoint('TOPLEFT', 20, -20)
 	FilterText:SetText('Items filtered from automation')
 
 	local FilterDetails = CreateFrame('Button', nil, self)
@@ -311,7 +379,8 @@ Panel:SetScript('OnShow', function(self)
 		end
 
 		local index = 1
-		local cols = math.floor(FilterBounds:GetWidth() / 36)
+		local width = FilterBounds:GetWidth()
+		local cols = math.floor((width > 0 and width or 591) / 36)
 
 		for item, button in pairs(filterItems) do
 			button:ClearAllPoints()
@@ -348,6 +417,7 @@ Panel:SetScript('OnShow', function(self)
 end)
 
 InterfaceOptions_AddCategory(Panel)
+InterfaceOptions_AddCategory(FilterPanel)
 
 SLASH_Monomyth1 = '/monomyth'
 SlashCmdList[addonName] = function()

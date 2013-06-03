@@ -1,14 +1,57 @@
 local Monomyth = CreateFrame('Frame')
 Monomyth:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
+local DelayHandler
+do
+	local currentInfo = {}
+
+	local Delayer = Monomyth:CreateAnimationGroup()
+	Delayer:CreateAnimation():SetDuration(1)
+	Delayer:SetLooping('NONE')
+	Delayer:SetScript('OnFinished', function()
+		DelayHandler(unpack(currentInfo))
+	end)
+
+	local delayed = true
+	function DelayHandler(func, ...)
+		if(delayed) then
+			delayed = false
+			currentInfo = {func, ...}
+
+			Delayer:Play()
+		else
+			delayed = true
+			func(...)
+		end
+	end
+end
+
 local atBank, atMail, atMerchant
+
+local delayEvent = {
+	GOSSIP_SHOW = true,
+	GOSSIP_CONFIRM = true,
+	QUEST_GREETING = true,
+	QUEST_DETAIL = true,
+	QUEST_ACCEPT_CONFIRM = true,
+	QUEST_ACCEPTED = true,
+	QUEST_PROGRESS = true,
+	QUEST_ITEM_UPDATE = true,
+	QUEST_COMPLETE = true,
+	QUEST_FINISHED = true,
+	QUEST_AUTOCOMPLETE = true,	
+}
 
 local modifier = false
 function Monomyth:Register(event, func, override)
 	self:RegisterEvent(event)
 	self[event] = function(...)
 		if(override or MonomythDB.toggle and MonomythDB.reverse == modifier) then
-			func(...)
+			if(MonomythDB.delay and delayEvent[event]) then
+				DelayHandler(func, ...)
+			else
+				func(...)
+			end
 		end
 	end
 end
