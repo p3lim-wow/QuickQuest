@@ -365,16 +365,27 @@ FilterPanel:SetScript('OnShow', function(self)
 
 				local Texture = Button:CreateTexture(nil, 'ARTWORK')
 				Texture:SetAllPoints()
-				Texture:SetTexture(select(10, GetItemInfo(item)))
 
 				Button:SetScript('OnClick', FilterItemOnClick)
 				Button:SetScript('OnEnter', FilterItemOnEnter)
 				Button:SetScript('OnLeave', GameTooltip_Hide)
 
+				Button.Texture = Texture
 				Button.questID = quest
 				Button.itemID = item
 
 				filterItems[item] = Button
+			end
+		end
+
+		local queryItems
+		for item, Button in pairs(filterItems) do
+			local _, _, _, _, _, _, _, _, _, textureFile = GetItemInfo(item)
+			if(textureFile) then
+				Button.Texture:SetTexture(textureFile)
+			elseif(not queryItems) then
+				self:RegisterEvent('GET_ITEM_INFO_RECEIVED')
+				queryItems = true
 			end
 		end
 
@@ -387,6 +398,10 @@ FilterPanel:SetScript('OnShow', function(self)
 			button:SetPoint('TOPLEFT', FilterBounds, (index - 1) % cols * 36, math.floor((index - 1) / cols) * -36)
 
 			index = index + 1
+		end
+
+		if(not queryItems) then
+			self:UnregisterEvent('GET_ITEM_INFO_RECEIVED')
 		end
 	end
 
@@ -414,6 +429,12 @@ FilterPanel:SetScript('OnShow', function(self)
 	end)
 
 	self:SetScript('OnShow', nil)
+end)
+
+FilterPanel:HookScript('OnEvent', function(self, event)
+	if(event == 'GET_ITEM_INFO_RECEIVED') then
+		UpdateFilterBox()
+	end
 end)
 
 InterfaceOptions_AddCategory(Panel)
