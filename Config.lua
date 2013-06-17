@@ -278,7 +278,12 @@ FilterPanel.parent = addonName
 FilterPanel:Hide()
 
 function FilterPanel:default()
-	MonomythDB.ignoredQuests = defaults.ignoredQuests
+	table.wipe(MonomythDB.ignoredQuests)
+
+	for quest, item in pairs(defaults.ignoredQuests) do
+		MonomythDB.ignoredQuests[quest] = item
+	end
+
 	UpdateFilterBox()
 end
 
