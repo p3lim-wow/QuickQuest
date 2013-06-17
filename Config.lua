@@ -29,6 +29,13 @@ local defaults = {
 		[29458] = 71953, -- Fallen Adventurer's Journal
 		[29464] = 71716, -- Soothsayer's Runes
 
+		-- Tiller Gifts
+		['progress_79264'] = 79264, -- Ruby Shard
+		['progress_79265'] = 79265, -- Blue Feather
+		['progress_79266'] = 79266, -- Jade Cat
+		['progress_79267'] = 79267, -- Lovely Apple
+		['progress_79268'] = 79268, -- Marsh Lily
+
 		-- Misc
 		[31664] = 88604, -- Nat's Fishing Journal
 	}
