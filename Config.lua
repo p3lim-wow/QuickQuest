@@ -301,6 +301,9 @@ end
 local function FilterItemOnEnter(self)
 	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
 	GameTooltip:SetItemByID(self.itemID)
+	GameTooltip:AddLine(' ')
+	GameTooltip:AddLine('Right-click to remove from list', 0, 1, 0)
+	GameTooltip:Show()
 end
 
 local filterItems = {}
