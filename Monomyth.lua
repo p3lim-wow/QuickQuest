@@ -16,7 +16,14 @@ do
 	function DelayHandler(func, ...)
 		if(delayed) then
 			delayed = false
-			currentInfo = {func, ...}
+
+			table.wipe(currentInfo)
+			table.insert(currentInfo, func)
+
+			for index = 1, select('#', ...) do
+				local argument = select(index, ...)
+				table.insert(currentInfo, argument)
+			end
 
 			Delayer:Play()
 		else
