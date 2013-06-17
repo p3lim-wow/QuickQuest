@@ -34,11 +34,7 @@ local delayEvent = {
 	QUEST_GREETING = true,
 	QUEST_DETAIL = true,
 	QUEST_ACCEPT_CONFIRM = true,
-	QUEST_ACCEPTED = true,
 	QUEST_PROGRESS = true,
-	QUEST_ITEM_UPDATE = true,
-	QUEST_COMPLETE = true,
-	QUEST_FINISHED = true,
 	QUEST_AUTOCOMPLETE = true,	
 }
 
