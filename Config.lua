@@ -418,7 +418,11 @@ FilterPanel:SetScript('OnShow', function(self)
 				for slot = 1, GetContainerNumSlots(bag) do
 					if(GetContainerItemLink(bag, slot) == link) then
 						local _, questID = GetContainerItemQuestInfo(bag, slot)
-						if(questID) then
+						if(not questID) then
+							questID = string.format('progress_%s', itemID)
+						end
+
+						if(not MonomythDB.ignoredQuests[questID]) then
 							MonomythDB.ignoredQuests[questID] = itemID
 							ClearCursor()
 

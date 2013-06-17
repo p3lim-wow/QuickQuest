@@ -178,16 +178,34 @@ Monomyth:Register('QUEST_ACCEPTED', function(id)
 	end
 end)
 
-Monomyth:Register('QUEST_PROGRESS', function()
-	if(IsQuestCompletable()) then
-		CompleteQuest()
+local choiceQueue
+Monomyth:Register('QUEST_ITEM_UPDATE', function()
+	if(choiceQueue and Monomyth[choiceQueue]) then
+		Monomyth[choiceQueue]()
 	end
 end)
 
-local choiceQueue, choiceFinished
-Monomyth:Register('QUEST_ITEM_UPDATE', function(...)
-	if(choiceQueue) then
-		Monomyth.QUEST_COMPLETE()
+Monomyth:Register('QUEST_PROGRESS', function()
+	if(IsQuestCompletable()) then
+		local requiredItems = GetNumQuestItems()
+		if(requiredItems > 0) then
+			for index = 1, requiredItems do
+				local link = GetQuestItemLink('required', index)
+				if(link) then
+					local id = tonumber(string.match(link, 'item:(%d+)'))
+					for _, itemID in pairs(MonomythDB.ignoredQuests) do
+						if(itemID == id) then
+							return
+						end
+					end
+				else
+					choiceQueue = 'QUEST_PROGRESS'
+					return
+				end
+			end
+		end
+
+		CompleteQuest()
 	end
 end)
 
@@ -212,22 +230,19 @@ Monomyth:Register('QUEST_COMPLETE', function()
 					bestValue, bestIndex = value, index
 				end
 			else
-				choiceQueue = true
+				choiceQueue = 'QUEST_COMPLETE'
 				return GetQuestItemInfo('choice', index)
 			end
 		end
 
 		if(bestIndex) then
-			choiceFinished = true
 			_G['QuestInfoItem' .. bestIndex]:Click()
 		end
 	end
 end)
 
 Monomyth:Register('QUEST_FINISHED', function()
-	if(choiceFinished) then
-		choiceQueue = false
-	end
+	choiceQueue = nil
 end)
 
 Monomyth:Register('QUEST_AUTOCOMPLETE', function(id)
