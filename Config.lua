@@ -461,5 +461,7 @@ InterfaceOptions_AddCategory(FilterPanel)
 
 SLASH_Monomyth1 = '/monomyth'
 SlashCmdList[addonName] = function()
+	-- On first load IOF doesn't select the right category or panel, this is a dirty fix
+	InterfaceOptionsFrame_OpenToCategory(addonName)
 	InterfaceOptionsFrame_OpenToCategory(addonName)
 end
