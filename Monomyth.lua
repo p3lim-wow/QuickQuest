@@ -159,17 +159,11 @@ Monomyth:Register('GOSSIP_CONFIRM', function(index)
 	end
 end)
 
-QuestFrame:UnregisterEvent('QUEST_DETAIL')
 Monomyth:Register('QUEST_DETAIL', function()
 	if(not QuestGetAutoAccept() and not QuestIsFromAreaTrigger()) then
-		QuestFrame_OnEvent(QuestFrame, 'QUEST_DETAIL')
-
-		-- We do this check again instead of improving the event handler
-		if(MonomythDB.toggle and MonomythDB.reverse == modifier) then
-			AcceptQuest()
-		end
+		AcceptQuest()
 	end
-end, true)
+end)
 
 Monomyth:Register('QUEST_ACCEPT_CONFIRM', AcceptQuest)
 
