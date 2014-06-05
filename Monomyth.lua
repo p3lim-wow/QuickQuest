@@ -168,6 +168,10 @@ end)
 Monomyth:Register('QUEST_ACCEPT_CONFIRM', AcceptQuest)
 
 Monomyth:Register('QUEST_ACCEPTED', function(id)
+	if(QuestFrame:IsShown() and QuestGetAutoAccept()) then
+		CloseQuest()
+	end
+
 	if(not GetCVarBool('autoQuestWatch')) then return end
 
 	if(not IsQuestWatched(id) and GetNumQuestWatches() < MAX_WATCHABLE_QUESTS) then
