@@ -160,7 +160,7 @@ Monomyth:Register('GOSSIP_CONFIRM', function(index)
 end)
 
 Monomyth:Register('QUEST_DETAIL', function()
-	if(not QuestGetAutoAccept() and not QuestIsFromAreaTrigger()) then
+	if(not QuestGetAutoAccept()) then
 		AcceptQuest()
 	end
 end)
