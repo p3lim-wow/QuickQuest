@@ -34,6 +34,7 @@ do
 end
 
 local atBank, atMail, atMerchant
+local choiceQueue, autoCompleteIndex
 
 local delayEvent = {
 	GOSSIP_SHOW = true,
@@ -173,7 +174,6 @@ Monomyth:Register('QUEST_ACCEPTED', function(id)
 	end
 end)
 
-local choiceQueue
 Monomyth:Register('QUEST_ITEM_UPDATE', function()
 	if(choiceQueue and Monomyth[choiceQueue]) then
 		Monomyth[choiceQueue]()
@@ -238,13 +238,23 @@ end)
 
 Monomyth:Register('QUEST_FINISHED', function()
 	choiceQueue = nil
+	autoCompleteIndex = nil
 end)
 
 Monomyth:Register('QUEST_AUTOCOMPLETE', function(id)
 	local index = GetQuestLogIndexByID(id)
 	if(GetQuestLogIsAutoComplete(index)) then
-		-- The quest might not be considered complete, investigate later
 		ShowQuestComplete(index)
+
+		autoCompleteIndex = index
+	end
+end)
+
+Monomyth:Register('BAG_UPDATE_DELAYED', function()
+	if(autoCompleteIndex) then
+		ShowQuestComplete(autoCompleteIndex)
+
+		autoCompleteIndex = nil
 	end
 end)
 
