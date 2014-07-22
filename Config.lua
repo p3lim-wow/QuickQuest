@@ -49,7 +49,7 @@ Panel:RegisterEvent('PLAYER_LOGIN')
 Panel:SetScript('OnEvent', function()
 	MonomythDB = MonomythDB or defaults
 
-	for key, value in pairs(defaults) do
+	for key, value in next, defaults do
 		if(MonomythDB[key] == nil) then
 			MonomythDB[key] = value
 		end
@@ -57,7 +57,7 @@ Panel:SetScript('OnEvent', function()
 end)
 
 function Panel:okay()
-	for key, value in pairs(temporary) do
+	for key, value in next, temporary do
 		MonomythDB[key] = value
 	end
 end
@@ -67,7 +67,7 @@ function Panel:cancel()
 end
 
 function Panel:default()
-	for key, value in pairs(defaults) do
+	for key, value in next, defaults do
 		if(key ~= 'ignoredQuests') then
 			MonomythDB[key] = value
 		end
@@ -77,7 +77,7 @@ function Panel:default()
 end
 
 function Panel:refresh()
-	for key, button in pairs(buttons) do
+	for key, button in next, buttons do
 		if(button:IsObjectType('CheckButton')) then
 			button:SetChecked(MonomythDB[key])
 		elseif(button:IsObjectType('Button')) then
@@ -92,7 +92,7 @@ end
 local function ToggleAll(self)
 	local enabled = self:GetChecked()
 
-	for _, button in pairs(buttons) do
+	for _, button in next, buttons do
 		if(button:IsObjectType('CheckButton')) then
 			if(enabled) then
 				local parent = button.realParent
@@ -280,7 +280,7 @@ FilterPanel:Hide()
 function FilterPanel:default()
 	table.wipe(MonomythDB.ignoredQuests)
 
-	for quest, item in pairs(defaults.ignoredQuests) do
+	for quest, item in next, defaults.ignoredQuests do
 		MonomythDB.ignoredQuests[quest] = item
 	end
 
@@ -372,7 +372,7 @@ FilterPanel:SetScript('OnShow', function(self)
 	end
 
 	function UpdateFilterBox()
-		for quest, item in pairs(MonomythDB.ignoredQuests) do
+		for quest, item in next, MonomythDB.ignoredQuests do
 			if(not filterItems[item]) then
 				local Button = CreateFrame('Button', nil, FilterBox)
 				Button:SetSize(34, 34)
@@ -394,7 +394,7 @@ FilterPanel:SetScript('OnShow', function(self)
 		end
 
 		local queryItems
-		for item, Button in pairs(filterItems) do
+		for item, Button in next, filterItems do
 			local _, _, _, _, _, _, _, _, _, textureFile = GetItemInfo(item)
 			if(textureFile) then
 				Button.Texture:SetTexture(textureFile)
@@ -408,7 +408,7 @@ FilterPanel:SetScript('OnShow', function(self)
 		local width = FilterBounds:GetWidth()
 		local cols = math.floor((width > 0 and width or 591) / 36)
 
-		for item, button in pairs(filterItems) do
+		for item, button in next, filterItems do
 			button:ClearAllPoints()
 			button:SetPoint('TOPLEFT', FilterBounds, (index - 1) % cols * 36, math.floor((index - 1) / cols) * -36)
 

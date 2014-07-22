@@ -188,7 +188,7 @@ Monomyth:Register('QUEST_PROGRESS', function()
 				local link = GetQuestItemLink('required', index)
 				if(link) then
 					local id = tonumber(string.match(link, 'item:(%d+)'))
-					for _, itemID in pairs(MonomythDB.ignoredQuests) do
+					for _, itemID in next, MonomythDB.ignoredQuests do
 						if(itemID == id) then
 							return
 						end
