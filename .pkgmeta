@@ -1,0 +1,5 @@
+package-as: Monomyth
+
+manual-changelog:
+    filename: CHANGELOG.txt
+    markup-type: bbcode
