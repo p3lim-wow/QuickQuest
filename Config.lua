@@ -47,6 +47,11 @@ Panel:Hide()
 
 Panel:RegisterEvent('PLAYER_LOGIN')
 Panel:SetScript('OnEvent', function()
+	if(IsAddOnLoaded('Monomyth')) then
+		DisableAddOn('Monomyth')
+		print('|cffff8080QuickQuest:|r You\'re running a conflicting addon (Monomyth), type /reload to resolve')
+	end
+
 	QuickQuestDB = QuickQuestDB or defaults
 
 	for key, value in next, defaults do
