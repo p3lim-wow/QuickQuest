@@ -1,4 +1,4 @@
-local addonName = ...
+local addonName, L = ...
 
 local buttons = {}
 local temporary = {}
@@ -47,9 +47,10 @@ Panel:Hide()
 
 Panel:RegisterEvent('PLAYER_LOGIN')
 Panel:SetScript('OnEvent', function()
-	if(IsAddOnLoaded('Monomyth')) then
-		DisableAddOn('Monomyth')
-		print('|cffff8080QuickQuest:|r You\'re running a conflicting addon (Monomyth), type /reload to resolve')
+	local oldName = 'Monomyth'
+	if(IsAddOnLoaded(oldName)) then
+		DisableAddOn(oldName)
+		print('|cffff8080QuickQuest:|r', string.format(L['You\'re running a conflicting addon (%s), type /reload to resolve'], oldName))
 	end
 
 	QuickQuestDB = QuickQuestDB or defaults
@@ -182,29 +183,29 @@ Panel:SetScript('OnShow', function(self)
 	Description:SetPoint('TOPLEFT', Title, 'BOTTOMLEFT', 0, -8)
 	Description:SetPoint('RIGHT', -32, 0)
 	Description:SetJustifyH('LEFT')
-	Description:SetText('Less clicking, more action!')
+	Description:SetText(L['Less clicking, more action!'])
 	self.Description = Description
 
 	local Toggle = CreateCheckButton(self, 'toggle')
 	Toggle:SetPoint('TOPLEFT', Description, 'BOTTOMLEFT', -2, -10)
 	Toggle:HookScript('OnClick', ToggleAll)
-	Toggle.Text:SetText('Enable automating')
+	Toggle.Text:SetText(L['Enable automating'])
 
 	local Delay = CreateCheckButton(self, 'delay')
 	Delay:SetPoint('TOPLEFT', Toggle, 'BOTTOMLEFT', 24, -8)
-	Delay.Text:SetText('Slow down the automating')
+	Delay.Text:SetText(L['Slow down the automating'])
 
 	local Items = CreateCheckButton(self, 'items')
 	Items:SetPoint('TOPLEFT', Delay, 'BOTTOMLEFT', -24, -8)
-	Items.Text:SetText('Start quests from items')
+	Items.Text:SetText(L['Start quests from items'])
 
 	local Gossip = CreateCheckButton(self, 'gossip')
 	Gossip:SetPoint('TOPLEFT', Items, 'BOTTOMLEFT', 0, -8)
-	Gossip.Text:SetText('Select gossip option if there is only one')
+	Gossip.Text:SetText(L['Select gossip option if there is only one'])
 
 	local GossipRaid = CreateCheckButton(self, 'gossipraid', Gossip)
 	GossipRaid:SetPoint('TOPLEFT', Gossip, 'BOTTOMLEFT', 24, -8)
-	GossipRaid.Text:SetText('Only select gossip option while not in a raid')
+	GossipRaid.Text:SetText(L['Only select gossip option while not in a raid'])
 
 	Gossip:HookScript('OnClick', function(self)
 		if(self:GetChecked()) then
@@ -226,11 +227,11 @@ Panel:SetScript('OnShow', function(self)
 
 	local Darkmoon = CreateCheckButton(self, 'faireport')
 	Darkmoon:SetPoint('TOPLEFT', GossipRaid, 'BOTTOMLEFT', -24, -8)
-	Darkmoon.Text:SetText('Darkmoon Faire: Automatically teleport')
+	Darkmoon.Text:SetText(L['Darkmoon Faire: Automatically teleport'])
 
 	local Reverse = CreateCheckButton(self, 'reverse')
 	Reverse:SetPoint('TOPLEFT', Darkmoon, 'BOTTOMLEFT', 0, -8)
-	Reverse.Text:SetText('Reverse the behaviour of the modifier key')
+	Reverse.Text:SetText(L['Reverse the behaviour of the modifier key'])
 
 	local Modifier = CreateDropdown(self, 'modifier', function(self)
 		local selected = UIDropDownMenu_GetSelectedValue(self)
@@ -256,16 +257,16 @@ Panel:SetScript('OnShow', function(self)
 	Modifier:SetPoint('TOPLEFT', Reverse, 'BOTTOMLEFT', -13, -14)
 
 	if(QuickQuestDB.reverse) then
-		Modifier.Text:SetText('Modifier to temporarly enable automation')
+		Modifier.Text:SetText(L['Modifier to temporarly enable automation'])
 	else
-		Modifier.Text:SetText('Modifier to temporarly disable automation')
+		Modifier.Text:SetText(L['Modifier to temporarly disable automation'])
 	end
 
 	Reverse:HookScript('OnClick', function(self)
 		if(self:GetChecked()) then
-			Modifier.Text:SetText('Modifier to temporarly enable automation')
+			Modifier.Text:SetText(L['Modifier to temporarly enable automation'])
 		else
-			Modifier.Text:SetText('Modifier to temporarly disable automation')
+			Modifier.Text:SetText(L['Modifier to temporarly disable automation'])
 		end
 	end)
 
@@ -298,20 +299,9 @@ local filterBackdrop = {
 	insets = {left = 4, right = 4, top = 4, bottom = 4}
 }
 
-local FilterDetailsText = [[
-Easily add more items to filter by
-grabbing one from your inventory
-and dropping it into the box below.
-
-Just as easily you remove an existing
-item by right-clicking on it.
-
-This only works with items that starts quests.
-]]
-
 local function FilterDetailsOnEnter(self)
 	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
-	GameTooltip:AddLine(FilterDetailsText, 1, 1, 1)
+	GameTooltip:AddLine(L.FilterDetailsTooltip, 1, 1, 1)
 	GameTooltip:Show()
 end
 
@@ -319,14 +309,14 @@ local function FilterItemOnEnter(self)
 	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
 	GameTooltip:SetItemByID(self.itemID)
 	GameTooltip:AddLine(' ')
-	GameTooltip:AddLine('Right-click to remove from list', 0, 1, 0)
+	GameTooltip:AddLine(L['Right-click to remove from list'], 0, 1, 0)
 	GameTooltip:Show()
 end
 
 local filterItems = {}
 
 StaticPopupDialogs.QUICKQUEST_FILTER = {
-	text = 'Are you sure you want to delete |T%s:16|t%s from the filter?',
+	text = L['Are you sure you want to delete |T%s:16|t%s from the filter?'],
 	button1 = 'Yes',
 	button2 = 'No',
 	OnAccept = function(self, data)
@@ -344,7 +334,7 @@ StaticPopupDialogs.QUICKQUEST_FILTER = {
 FilterPanel:SetScript('OnShow', function(self)
 	local FilterText = self:CreateFontString(nil, nil, 'GameFontHighlight')
 	FilterText:SetPoint('TOPLEFT', 20, -20)
-	FilterText:SetText('Items filtered from automation')
+	FilterText:SetText(L['Items filtered from automation'])
 
 	local FilterDetails = CreateFrame('Button', nil, self)
 	FilterDetails:SetPoint('LEFT', FilterText, 'RIGHT')
