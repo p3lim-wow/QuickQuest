@@ -6,6 +6,10 @@ setmetatable(L, {__index = function(L, key)
 	return value
 end})
 
+L['ALT key'] = ALT_KEY
+L['CTRL key'] = CTRL_KEY
+L['SHIFT key'] = SHIFT_KEY
+
 L.FilterDetailsTooltip = [[
 Easily add more items to filter by
 grabbing one from your inventory
