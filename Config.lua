@@ -229,10 +229,6 @@ Panel:SetScript('OnShow', function(self)
 	Darkmoon:SetPoint('TOPLEFT', GossipRaid, 'BOTTOMLEFT', -24, -8)
 	Darkmoon.Text:SetText(L['Darkmoon Faire: Automatically teleport'])
 
-	local Reverse = CreateCheckButton(self, 'reverse')
-	Reverse:SetPoint('TOPLEFT', Darkmoon, 'BOTTOMLEFT', 0, -8)
-	Reverse.Text:SetText(L['Reverse the behaviour of the modifier key'])
-
 	local Modifier = CreateDropdown(self, 'modifier', function(self)
 		local selected = UIDropDownMenu_GetSelectedValue(self)
 		local info = UIDropDownMenu_CreateInfo()
@@ -254,7 +250,7 @@ Panel:SetScript('OnShow', function(self)
 		info.checked = selected == info.value
 		UIDropDownMenu_AddButton(info)
 	end)
-	Modifier:SetPoint('TOPLEFT', Reverse, 'BOTTOMLEFT', -13, -14)
+	Modifier:SetPoint('TOPLEFT', Darkmoon, 'BOTTOMLEFT', -13, -14)
 
 	if(QuickQuestDB.reverse) then
 		Modifier.Text:SetText(L['Modifier to temporarly enable automation'])
@@ -262,6 +258,9 @@ Panel:SetScript('OnShow', function(self)
 		Modifier.Text:SetText(L['Modifier to temporarly disable automation'])
 	end
 
+	local Reverse = CreateCheckButton(self, 'reverse')
+	Reverse:SetPoint('TOPLEFT', Modifier, 'BOTTOMLEFT', 37, -8)
+	Reverse.Text:SetText(L['Reverse the behaviour of the modifier key'])
 	Reverse:HookScript('OnClick', function(self)
 		if(self:GetChecked()) then
 			Modifier.Text:SetText(L['Modifier to temporarly enable automation'])
