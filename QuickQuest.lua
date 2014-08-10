@@ -1,11 +1,11 @@
-local Monomyth = CreateFrame('Frame')
-Monomyth:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
+local QuickQuest = CreateFrame('Frame')
+QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
 local DelayHandler
 do
 	local currentInfo = {}
 
-	local Delayer = Monomyth:CreateAnimationGroup()
+	local Delayer = QuickQuest:CreateAnimationGroup()
 	Delayer:CreateAnimation():SetDuration(1)
 	Delayer:SetLooping('NONE')
 	Delayer:SetScript('OnFinished', function()
@@ -43,15 +43,15 @@ local delayEvent = {
 	QUEST_DETAIL = true,
 	QUEST_ACCEPT_CONFIRM = true,
 	QUEST_PROGRESS = true,
-	QUEST_AUTOCOMPLETE = true,	
+	QUEST_AUTOCOMPLETE = true
 }
 
 local modifier = false
-function Monomyth:Register(event, func, override)
+function QuickQuest:Register(event, func, override)
 	self:RegisterEvent(event)
 	self[event] = function(...)
-		if(override or MonomythDB.toggle and MonomythDB.reverse == modifier) then
-			if(MonomythDB.delay and delayEvent[event]) then
+		if(override or QuickQuestDB.toggle and QuickQuestDB.reverse == modifier) then
+			if(QuickQuestDB.delay and delayEvent[event]) then
 				DelayHandler(func, ...)
 			else
 				func(...)
@@ -69,7 +69,7 @@ local function IsTrackingTrivial()
 	end
 end
 
-Monomyth:Register('QUEST_GREETING', function()
+QuickQuest:Register('QUEST_GREETING', function()
 	local active = GetNumActiveQuests()
 	if(active > 0) then
 		for index = 1, active do
@@ -103,7 +103,7 @@ local function GetCreatureID()
 	return tonumber(string.sub(UnitGUID('npc') or '', -12, -9), 16)
 end
 
-Monomyth:Register('GOSSIP_SHOW', function()
+QuickQuest:Register('GOSSIP_SHOW', function()
 	local active = GetNumGossipActiveQuests()
 	if(active > 0) then
 		for index = 1, active do
@@ -122,10 +122,10 @@ Monomyth:Register('GOSSIP_SHOW', function()
 		end
 	end
 
-	if(MonomythDB.gossip) then
+	if(QuickQuestDB.gossip) then
 		if(available == 0 and active == 0 and GetNumGossipOptions() == 1) then
 			local _, instance = GetInstanceInfo()
-			if(not (MonomythDB.gossipraid and instance == 'raid')) then
+			if(not (QuickQuestDB.gossipraid and instance == 'raid')) then
 				local _, type = GetGossipOptions()
 				if(type == 'gossip') then
 					SelectGossipOption(1)
@@ -150,8 +150,8 @@ local darkmoonNPC = {
 	[54334] = true, -- Darkmoon Faire Mystic Mage (Alliance)
 }
 
-Monomyth:Register('GOSSIP_CONFIRM', function(index)
-	if(not MonomythDB.faireport) then return end
+QuickQuest:Register('GOSSIP_CONFIRM', function(index)
+	if(not QuickQuestDB.faireport) then return end
 
 	local creatureID = GetCreatureID()
 	if(creatureID and darkmoonNPC[creatureID]) then
@@ -160,27 +160,27 @@ Monomyth:Register('GOSSIP_CONFIRM', function(index)
 	end
 end)
 
-Monomyth:Register('QUEST_DETAIL', function()
+QuickQuest:Register('QUEST_DETAIL', function()
 	if(not QuestGetAutoAccept()) then
 		AcceptQuest()
 	end
 end)
 
-Monomyth:Register('QUEST_ACCEPT_CONFIRM', AcceptQuest)
+QuickQuest:Register('QUEST_ACCEPT_CONFIRM', AcceptQuest)
 
-Monomyth:Register('QUEST_ACCEPTED', function(id)
+QuickQuest:Register('QUEST_ACCEPTED', function(id)
 	if(QuestFrame:IsShown() and QuestGetAutoAccept()) then
 		CloseQuest()
 	end
 end)
 
-Monomyth:Register('QUEST_ITEM_UPDATE', function()
-	if(choiceQueue and Monomyth[choiceQueue]) then
-		Monomyth[choiceQueue]()
+QuickQuest:Register('QUEST_ITEM_UPDATE', function()
+	if(choiceQueue and QuickQuest[choiceQueue]) then
+		QuickQuest[choiceQueue]()
 	end
 end)
 
-Monomyth:Register('QUEST_PROGRESS', function()
+QuickQuest:Register('QUEST_PROGRESS', function()
 	if(IsQuestCompletable()) then
 		local requiredItems = GetNumQuestItems()
 		if(requiredItems > 0) then
@@ -188,7 +188,7 @@ Monomyth:Register('QUEST_PROGRESS', function()
 				local link = GetQuestItemLink('required', index)
 				if(link) then
 					local id = tonumber(string.match(link, 'item:(%d+)'))
-					for _, itemID in next, MonomythDB.ignoredQuests do
+					for _, itemID in next, QuickQuestDB.ignoredQuests do
 						if(itemID == id) then
 							return
 						end
@@ -204,7 +204,7 @@ Monomyth:Register('QUEST_PROGRESS', function()
 	end
 end)
 
-Monomyth:Register('QUEST_COMPLETE', function()
+QuickQuest:Register('QUEST_COMPLETE', function()
 	local choices = GetNumQuestChoices()
 	if(choices <= 1) then
 		GetQuestReward(1)
@@ -236,12 +236,12 @@ Monomyth:Register('QUEST_COMPLETE', function()
 	end
 end)
 
-Monomyth:Register('QUEST_FINISHED', function()
+QuickQuest:Register('QUEST_FINISHED', function()
 	choiceQueue = nil
 	autoCompleteIndex = nil
 end)
 
-Monomyth:Register('QUEST_AUTOCOMPLETE', function(id)
+QuickQuest:Register('QUEST_AUTOCOMPLETE', function(id)
 	local index = GetQuestLogIndexByID(id)
 	if(GetQuestLogIsAutoComplete(index)) then
 		ShowQuestComplete(index)
@@ -250,7 +250,7 @@ Monomyth:Register('QUEST_AUTOCOMPLETE', function(id)
 	end
 end)
 
-Monomyth:Register('BAG_UPDATE_DELAYED', function()
+QuickQuest:Register('BAG_UPDATE_DELAYED', function()
 	if(autoCompleteIndex) then
 		ShowQuestComplete(autoCompleteIndex)
 
@@ -258,51 +258,51 @@ Monomyth:Register('BAG_UPDATE_DELAYED', function()
 	end
 end)
 
-Monomyth:Register('BANKFRAME_OPENED', function()
+QuickQuest:Register('BANKFRAME_OPENED', function()
 	atBank = true
 end)
 
-Monomyth:Register('BANKFRAME_CLOSED', function()
+QuickQuest:Register('BANKFRAME_CLOSED', function()
 	atBank = false
 end)
 
-Monomyth:Register('GUILDBANKFRAME_OPENED', function()
+QuickQuest:Register('GUILDBANKFRAME_OPENED', function()
 	atBank = true
 end)
 
-Monomyth:Register('GUILDBANKFRAME_CLOSED', function()
+QuickQuest:Register('GUILDBANKFRAME_CLOSED', function()
 	atBank = false
 end)
 
-Monomyth:Register('MAIL_SHOW', function()
+QuickQuest:Register('MAIL_SHOW', function()
 	atMail = true
 end)
 
-Monomyth:Register('MAIL_CLOSED', function()
+QuickQuest:Register('MAIL_CLOSED', function()
 	atMail = false
 end)
 
-Monomyth:Register('MERCHANT_SHOW', function()
+QuickQuest:Register('MERCHANT_SHOW', function()
 	atMerchant = true
 end)
 
-Monomyth:Register('MERCHANT_CLOSED', function()
+QuickQuest:Register('MERCHANT_CLOSED', function()
 	atMerchant = false
 end)
 
 local sub = string.sub
-Monomyth:Register('MODIFIER_STATE_CHANGED', function(key, state)
-	if(sub(key, 2) == MonomythDB.modifier) then
+QuickQuest:Register('MODIFIER_STATE_CHANGED', function(key, state)
+	if(sub(key, 2) == QuickQuestDB.modifier) then
 		modifier = state == 1
 	end
 end, true)
 
-local questTip = CreateFrame('GameTooltip', 'MonomythTip', UIParent)
+local questTip = CreateFrame('GameTooltip', 'QuickQuestTip', UIParent)
 local questLevel = string.gsub(ITEM_MIN_LEVEL, '%%d', '(%%d+)')
 
 local function GetQuestItemLevel()
 	for index = 1, questTip:NumLines() do
-		local level = string.match(_G['MonomythTipTextLeft' .. index]:GetText(), questLevel)
+		local level = string.match(_G['QuickQuestTipTextLeft' .. index]:GetText(), questLevel)
 		if(level and tonumber(level)) then
 			return tonumber(level)
 		end
@@ -310,12 +310,12 @@ local function GetQuestItemLevel()
 end
 
 local function BagUpdate(bag)
-	if(not MonomythDB.items) then return end
+	if(not QuickQuestDB.items) then return end
 	if(atBank or atMail or atMerchant) then return end
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
-		if(id and not active and not IsQuestFlaggedCompleted(id) and not MonomythDB.ignoredQuests[id]) then
+		if(id and not active and not IsQuestFlaggedCompleted(id) and not QuickQuestDB.ignoredQuests[id]) then
 			questTip:SetBagItem(bag, slot)
 			questTip:Show()
 
@@ -327,15 +327,15 @@ local function BagUpdate(bag)
 	end
 end
 
-Monomyth:Register('PLAYER_LOGIN', function()
-	Monomyth:Register('BAG_UPDATE', BagUpdate)
+QuickQuest:Register('PLAYER_LOGIN', function()
+	QuickQuest:Register('BAG_UPDATE', BagUpdate)
 end)
 
 local errors = {
 	[ERR_QUEST_ALREADY_DONE] = true,
 	[ERR_QUEST_FAILED_LOW_LEVEL] = true,
 	[ERR_QUEST_NEED_PREREQS] = true,
-}	
+}
 
 ChatFrame_AddMessageEventFilter('CHAT_MSG_SYSTEM', function(self, event, message)
 	return errors[message]

@@ -1,9 +1,0 @@
-## Interface: 50400
-## Author: p3lim
-## Version: @project-version@
-## Title: Monomyth
-## Notes: Questing enhancements
-## SavedVariables: MonomythDB
-
-Config.lua
-Monomyth.lua

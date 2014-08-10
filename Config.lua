@@ -47,18 +47,18 @@ Panel:Hide()
 
 Panel:RegisterEvent('PLAYER_LOGIN')
 Panel:SetScript('OnEvent', function()
-	MonomythDB = MonomythDB or defaults
+	QuickQuestDB = QuickQuestDB or defaults
 
 	for key, value in next, defaults do
-		if(MonomythDB[key] == nil) then
-			MonomythDB[key] = value
+		if(QuickQuestDB[key] == nil) then
+			QuickQuestDB[key] = value
 		end
 	end
 end)
 
 function Panel:okay()
 	for key, value in next, temporary do
-		MonomythDB[key] = value
+		QuickQuestDB[key] = value
 	end
 end
 
@@ -69,7 +69,7 @@ end
 function Panel:default()
 	for key, value in next, defaults do
 		if(key ~= 'ignoredQuests') then
-			MonomythDB[key] = value
+			QuickQuestDB[key] = value
 		end
 	end
 
@@ -79,12 +79,12 @@ end
 function Panel:refresh()
 	for key, button in next, buttons do
 		if(button:IsObjectType('CheckButton')) then
-			button:SetChecked(MonomythDB[key])
+			button:SetChecked(QuickQuestDB[key])
 		elseif(button:IsObjectType('Button')) then
-			UIDropDownMenu_SetSelectedValue(button, MonomythDB[key])
+			UIDropDownMenu_SetSelectedValue(button, QuickQuestDB[key])
 
 			-- This is for some reason needed, gotta take a look into it later
-			UIDropDownMenu_SetText(button, _G[MonomythDB[key] .. '_KEY'])
+			UIDropDownMenu_SetText(button, _G[QuickQuestDB[key] .. '_KEY'])
 		end
 	end
 end
@@ -150,12 +150,12 @@ do
 	end
 
 	function CreateDropdown(parent, key, func)
-		local Dropdown = CreateFrame('Button', 'MonomythDropDown_' .. GetTime(), parent, 'UIDropDownMenuTemplate')
+		local Dropdown = CreateFrame('Button', 'QuickQuestDropDown_' .. GetTime(), parent, 'UIDropDownMenuTemplate')
 		Dropdown.OnClick = OnClick
 		Dropdown.key = key
 
 		UIDropDownMenu_SetWidth(Dropdown, 90)
-		UIDropDownMenu_SetSelectedValue(Dropdown, MonomythDB[key])
+		UIDropDownMenu_SetSelectedValue(Dropdown, QuickQuestDB[key])
 		UIDropDownMenu_Initialize(Dropdown, func)
 
 		local Text = Dropdown:CreateFontString(nil, nil, 'GameFontHighlight')
@@ -211,7 +211,7 @@ Panel:SetScript('OnShow', function(self)
 		end
 	end)
 
-	if(MonomythDB.gossip) then
+	if(QuickQuestDB.gossip) then
 		GossipRaid:Enable()
 		GossipRaid.Text:SetTextColor(1, 1, 1)
 	else
@@ -250,7 +250,7 @@ Panel:SetScript('OnShow', function(self)
 	end)
 	Modifier:SetPoint('TOPLEFT', Reverse, 'BOTTOMLEFT', -13, -14)
 
-	if(MonomythDB.reverse) then
+	if(QuickQuestDB.reverse) then
 		Modifier.Text:SetText('Modifier to temporarly enable automation')
 	else
 		Modifier.Text:SetText('Modifier to temporarly disable automation')
@@ -278,10 +278,10 @@ FilterPanel.parent = addonName
 FilterPanel:Hide()
 
 function FilterPanel:default()
-	table.wipe(MonomythDB.ignoredQuests)
+	table.wipe(QuickQuestDB.ignoredQuests)
 
 	for quest, item in next, defaults.ignoredQuests do
-		MonomythDB.ignoredQuests[quest] = item
+		QuickQuestDB.ignoredQuests[quest] = item
 	end
 
 	UpdateFilterBox()
@@ -320,12 +320,12 @@ end
 
 local filterItems = {}
 
-StaticPopupDialogs.MONOMYTH_FILTER = {
+StaticPopupDialogs.QUICKQUEST_FILTER = {
 	text = 'Are you sure you want to delete |T%s:16|t%s from the filter?',
 	button1 = 'Yes',
 	button2 = 'No',
 	OnAccept = function(self, data)
-		MonomythDB.ignoredQuests[data.questID] = nil
+		QuickQuestDB.ignoredQuests[data.questID] = nil
 		filterItems[data.itemID] = nil
 		data.button:Hide()
 
@@ -362,7 +362,7 @@ FilterPanel:SetScript('OnShow', function(self)
 	local function FilterItemOnClick(self, button)
 		if(button == 'RightButton') then
 			local _, link, _, _, _, _, _, _, _, texture = GetItemInfo(self.itemID)
-			local dialog = StaticPopup_Show('MONOMYTH_FILTER', texture, link)
+			local dialog = StaticPopup_Show('QUICKQUEST_FILTER', texture, link)
 			dialog.data = {
 				itemID = self.itemID,
 				questID = self.questID,
@@ -372,7 +372,7 @@ FilterPanel:SetScript('OnShow', function(self)
 	end
 
 	function UpdateFilterBox()
-		for quest, item in next, MonomythDB.ignoredQuests do
+		for quest, item in next, QuickQuestDB.ignoredQuests do
 			if(not filterItems[item]) then
 				local Button = CreateFrame('Button', nil, FilterBox)
 				Button:SetSize(34, 34)
@@ -434,8 +434,8 @@ FilterPanel:SetScript('OnShow', function(self)
 							questID = string.format('progress_%s', itemID)
 						end
 
-						if(not MonomythDB.ignoredQuests[questID]) then
-							MonomythDB.ignoredQuests[questID] = itemID
+						if(not QuickQuestDB.ignoredQuests[questID]) then
+							QuickQuestDB.ignoredQuests[questID] = itemID
 							ClearCursor()
 
 							UpdateFilterBox()
@@ -459,7 +459,8 @@ end)
 InterfaceOptions_AddCategory(Panel)
 InterfaceOptions_AddCategory(FilterPanel)
 
-SLASH_Monomyth1 = '/monomyth'
+SLASH_QuickQuest1 = '/qq'
+SLASH_QuickQuest2 = '/quickquest'
 SlashCmdList[addonName] = function()
 	-- On first load IOF doesn't select the right category or panel, this is a dirty fix
 	InterfaceOptionsFrame_OpenToCategory(addonName)
