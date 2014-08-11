@@ -135,7 +135,7 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 		end
 	end
 
-	if(MonomythDB.faireport) then
+	if(QuickQuestDB.faireport) then
 		local creatureID = GetCreatureID()
 		if(creatureID and creatureID == 57850) then
 			-- See if 1 is the right option
