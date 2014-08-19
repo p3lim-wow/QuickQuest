@@ -6,13 +6,16 @@ QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 local DelayHandler
 do
 	local currentInfo = {}
-
-	local Delayer = QuickQuest:CreateAnimationGroup()
-	Delayer:CreateAnimation():SetDuration(1)
-	Delayer:SetLooping('NONE')
-	Delayer:SetScript('OnFinished', function()
+	local function TimerCallback()
 		DelayHandler(unpack(currentInfo))
-	end)
+	end
+
+	local Delayer
+	if(not WoD) then
+		Delayer = QuickQuest:CreateAnimationGroup()
+		Delayer:CreateAnimation():SetDuration(1)
+		Delayer:SetScript('OnFinished', TimerCallback)
+	end
 
 	local delayed = true
 	function DelayHandler(func, ...)
@@ -27,7 +30,11 @@ do
 				table.insert(currentInfo, argument)
 			end
 
-			Delayer:Play()
+			if(WoD) then
+				C_Timer.After(1, TimerCallback)
+			else
+				Delayer:Play()
+			end
 		else
 			delayed = true
 			func(...)
