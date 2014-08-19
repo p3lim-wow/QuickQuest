@@ -1,3 +1,5 @@
+local WoD = select(4, GetBuildInfo()) >= 6e4
+
 local QuickQuest = CreateFrame('Frame')
 QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
@@ -231,7 +233,11 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 		end
 
 		if(bestIndex) then
-			_G['QuestInfoItem' .. bestIndex]:Click()
+			if(WoD) then
+				QuestInfoFrame.rewardsFrame.RewardButton[bestIndex]:Click()
+			else
+				_G['QuestInfoItem' .. bestIndex]:Click()
+			end
 		end
 	end
 end)
