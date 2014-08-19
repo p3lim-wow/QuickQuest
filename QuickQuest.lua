@@ -101,8 +101,18 @@ local function IsGossipQuestTrivial(index)
 	return not not select(((index * 6) - 6) + 3, GetGossipAvailableQuests())
 end
 
-local function GetCreatureID()
-	return tonumber(string.sub(UnitGUID('npc') or '', -12, -9), 16)
+local GetCreatureID
+if(WoD) then
+	function GetCreatureID()
+		local type, _, _, _, _, id = string.split(':', UnitGUID('npc') or '')
+		if(type == 'Creature' and id and tonumber(id)) then
+			return tonumber(id)
+		end
+	end
+else
+	function GetCreatureID()
+		return tonumber(string.sub(UnitGUID('npc') or '', -12, -9), 16)
+	end
 end
 
 QuickQuest:Register('GOSSIP_SHOW', function()
