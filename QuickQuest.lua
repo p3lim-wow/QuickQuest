@@ -108,16 +108,16 @@ local function IsGossipQuestTrivial(index)
 	return not not select(((index * 6) - 6) + 3, GetGossipAvailableQuests())
 end
 
-local GetCreatureID
+local GetNPCID
 if(WoD) then
-	function GetCreatureID()
+	function GetNPCID()
 		local type, _, _, _, _, id = string.split(':', UnitGUID('npc') or '')
 		if(type == 'Creature' and id and tonumber(id)) then
 			return tonumber(id)
 		end
 	end
 else
-	function GetCreatureID()
+	function GetNPCID()
 		return tonumber(string.sub(UnitGUID('npc') or '', -12, -9), 16)
 	end
 end
@@ -155,8 +155,8 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 	end
 
 	if(QuickQuestDB.faireport) then
-		local creatureID = GetCreatureID()
-		if(creatureID and creatureID == 57850) then
+		local npcID = GetNPCID()
+		if(npcID and npcID == 57850) then
 			-- See if 1 is the right option
 			SelectGossipOption(1)
 		end
@@ -172,8 +172,8 @@ local darkmoonNPC = {
 QuickQuest:Register('GOSSIP_CONFIRM', function(index)
 	if(not QuickQuestDB.faireport) then return end
 
-	local creatureID = GetCreatureID()
-	if(creatureID and darkmoonNPC[creatureID]) then
+	local npcID = GetNPCID()
+	if(npcID and darkmoonNPC[npcID]) then
 		SelectGossipOption(index, '', true)
 		StaticPopup_Hide('GOSSIP_CONFIRM')
 	end
