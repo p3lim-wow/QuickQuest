@@ -188,19 +188,19 @@ do
 		Dropdown:SetScript('OnHide', OnHide)
 		Dropdown.keys = items
 
-		local LeftTexture = Dropdown:CreateTexture(nil, 'ARTWORK')
+		local LeftTexture = Dropdown:CreateTexture()
 		LeftTexture:SetPoint('TOPLEFT', -14, 17)
 		LeftTexture:SetSize(25, 64)
 		LeftTexture:SetTexture([[Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame]])
 		LeftTexture:SetTexCoord(0, 0.1953125, 0, 1)
 
-		local RightTexture = Dropdown:CreateTexture(nil, 'ARTWORK')
+		local RightTexture = Dropdown:CreateTexture()
 		RightTexture:SetPoint('TOPRIGHT', 14, 17)
 		RightTexture:SetSize(25, 64)
 		RightTexture:SetTexture([[Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame]])
 		RightTexture:SetTexCoord(0.8046875, 1, 0, 1)
 
-		local MiddleTexture = Dropdown:CreateTexture(nil, 'ARTWORK')
+		local MiddleTexture = Dropdown:CreateTexture()
 		MiddleTexture:SetPoint('TOPLEFT', LeftTexture, 'TOPRIGHT')
 		MiddleTexture:SetPoint('TOPRIGHT', RightTexture, 'TOPLEFT')
 		MiddleTexture:SetTexture([[Interface\Glues\CharacterCreate\CharacterCreate-LabelFrame]])
@@ -461,7 +461,7 @@ FilterPanel:SetScript('OnShow', function(self)
 				Button:SetSize(34, 34)
 				Button:RegisterForClicks('AnyUp')
 
-				local Texture = Button:CreateTexture(nil, 'ARTWORK')
+				local Texture = Button:CreateTexture()
 				Texture:SetAllPoints()
 
 				Button:SetScript('OnClick', FilterItemOnClick)
