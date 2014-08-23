@@ -251,7 +251,7 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 
 		if(bestIndex) then
 			if(WoD) then
-				QuestInfoFrame.rewardsFrame.RewardButton[bestIndex]:Click()
+				QuestInfoRewardsFrame.RewardButtons[bestIndex]:Click()
 			else
 				_G['QuestInfoItem' .. bestIndex]:Click()
 			end
