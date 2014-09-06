@@ -262,21 +262,28 @@ end)
 QuickQuest:Register('QUEST_FINISHED', function()
 	choiceQueue = nil
 	autoCompleteIndex = nil
+
+	if(GetNumAutoQuestPopUps() > 0) then
+		QuickQuest:QUEST_AUTOCOMPLETE()
+	end
 end)
 
-QuickQuest:Register('QUEST_AUTOCOMPLETE', function(id)
-	local index = GetQuestLogIndexByID(id)
-	if(GetQuestLogIsAutoComplete(index)) then
-		ShowQuestComplete(index)
-
-		autoCompleteIndex = index
+QuickQuest:Register('QUEST_AUTOCOMPLETE', function()
+	while(not autoCompleteIndex and GetNumAutoQuestPopUps() > 0) do
+		local id, type = GetAutoQuestPopUp(1)
+		if(type == 'COMPLETE') then
+			local index = GetQuestLogIndexByID(id)
+			ShowQuestComplete(index)
+			autoCompleteIndex = index
+		else
+			return
+		end
 	end
 end)
 
 QuickQuest:Register('BAG_UPDATE_DELAYED', function()
 	if(autoCompleteIndex) then
 		ShowQuestComplete(autoCompleteIndex)
-
 		autoCompleteIndex = nil
 	end
 end)
@@ -352,6 +359,10 @@ end
 
 QuickQuest:Register('PLAYER_LOGIN', function()
 	QuickQuest:Register('BAG_UPDATE', BagUpdate)
+
+	if(GetNumAutoQuestPopUps() > 0) then
+		QuickQuest:QUEST_AUTOCOMPLETE()
+	end
 end)
 
 local errors = {
