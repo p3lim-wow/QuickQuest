@@ -111,10 +111,7 @@ end
 local GetNPCID
 if(WoD) then
 	function GetNPCID()
-		local type, _, _, _, _, id = string.split(':', UnitGUID('npc') or '')
-		if(type == 'Creature' and id and tonumber(id)) then
-			return tonumber(id)
-		end
+		return tonumber(string.match(UnitGUID('npc') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
 	end
 else
 	function GetNPCID()
