@@ -1,3 +1,12 @@
+## Changes in 60000.16-Release:
+
+- Added: Changelog
+- Added: Localization
+- Changed: Update Interface version
+- Fixed: "Auto quests" should now complete properly
+- Fixed: Further issues brought on by the beta client
+- Removed: Compatability code for "Mists of Pandaria"
+
 ## Changes in 50400.15-Release:
 
 - Added: Support for "Warlords of Draenor" expansion
