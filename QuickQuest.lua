@@ -1,5 +1,3 @@
-local WoD = select(4, GetBuildInfo()) >= 6e4
-
 local QuickQuest = CreateFrame('Frame')
 QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
@@ -8,13 +6,6 @@ do
 	local currentInfo = {}
 	local function TimerCallback()
 		DelayHandler(unpack(currentInfo))
-	end
-
-	local Delayer
-	if(not WoD) then
-		Delayer = QuickQuest:CreateAnimationGroup()
-		Delayer:CreateAnimation():SetDuration(1)
-		Delayer:SetScript('OnFinished', TimerCallback)
 	end
 
 	local delayed = true
@@ -30,11 +21,7 @@ do
 				table.insert(currentInfo, argument)
 			end
 
-			if(WoD) then
-				C_Timer.After(1, TimerCallback)
-			else
-				Delayer:Play()
-			end
+			C_Timer.After(1, TimerCallback)
 		else
 			delayed = true
 			func(...)
@@ -108,15 +95,8 @@ local function IsGossipQuestTrivial(index)
 	return not not select(((index * 6) - 6) + 3, GetGossipAvailableQuests())
 end
 
-local GetNPCID
-if(WoD) then
-	function GetNPCID()
-		return tonumber(string.match(UnitGUID('npc') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
-	end
-else
-	function GetNPCID()
-		return tonumber(string.sub(UnitGUID('npc') or '', -12, -9), 16)
-	end
+local function GetNPCID()
+	return tonumber(string.match(UnitGUID('npc') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
 end
 
 QuickQuest:Register('GOSSIP_SHOW', function()
@@ -247,11 +227,7 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 		end
 
 		if(bestIndex) then
-			if(WoD) then
-				QuestInfoRewardsFrame.RewardButtons[bestIndex]:Click()
-			else
-				_G['QuestInfoItem' .. bestIndex]:Click()
-			end
+			QuestInfoRewardsFrame.RewardButtons[bestIndex]:Click()
 		end
 	end
 end)
@@ -329,9 +305,9 @@ local questLevel = string.gsub(ITEM_MIN_LEVEL, '%%d', '(%%d+)')
 
 local function GetQuestItemLevel()
 	for index = 1, questTip:NumLines() do
-		local level = string.match(_G['QuickQuestTipTextLeft' .. index]:GetText(), questLevel)
-		if(level and tonumber(level)) then
-			return tonumber(level)
+		local level = tonumber(string.match(_G['QuickQuestTipTextLeft' .. index]:GetText(), questLevel))
+		if(level) then
+			return level
 		end
 	end
 end
