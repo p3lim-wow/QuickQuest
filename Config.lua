@@ -11,7 +11,6 @@ local defaults = {
 	gossipraid = true,
 	modifier = 'SHIFT',
 	reverse = false,
-	delay = false,
 	itemBlacklist = {
 		-- Inscription weapons
 		[31690] = 79343, -- Inscribed Tiger Staff
@@ -305,12 +304,8 @@ Panel:SetScript('OnShow', function(self)
 	Toggle:HookScript('OnClick', ToggleAll)
 	Toggle.Text:SetText(L['Enable automating'])
 
-	local Delay = CreateCheckButton(self, 'delay')
-	Delay:SetPoint('TOPLEFT', Toggle, 'BOTTOMLEFT', 24, -8)
-	Delay.Text:SetText(L['Slow down the automating'])
-
 	local Items = CreateCheckButton(self, 'items')
-	Items:SetPoint('TOPLEFT', Delay, 'BOTTOMLEFT', -24, -8)
+	Items:SetPoint('TOPLEFT', Toggle, 'BOTTOMLEFT', 0, -8)
 	Items.Text:SetText(L['Start quests from items'])
 
 	local Gossip = CreateCheckButton(self, 'gossip')

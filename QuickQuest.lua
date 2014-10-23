@@ -1,57 +1,15 @@
 local QuickQuest = CreateFrame('Frame')
 QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
-local DelayHandler
-do
-	local currentInfo = {}
-	local function TimerCallback()
-		DelayHandler(unpack(currentInfo))
-	end
-
-	local delayed = true
-	function DelayHandler(func, ...)
-		if(delayed) then
-			delayed = false
-
-			table.wipe(currentInfo)
-			table.insert(currentInfo, func)
-
-			for index = 1, select('#', ...) do
-				local argument = select(index, ...)
-				table.insert(currentInfo, argument)
-			end
-
-			C_Timer.After(1, TimerCallback)
-		else
-			delayed = true
-			func(...)
-		end
-	end
-end
-
 local atBank, atMail, atMerchant
 local choiceQueue, autoCompleteIndex
-
-local delayEvent = {
-	GOSSIP_SHOW = true,
-	GOSSIP_CONFIRM = true,
-	QUEST_GREETING = true,
-	QUEST_DETAIL = true,
-	QUEST_ACCEPT_CONFIRM = true,
-	QUEST_PROGRESS = true,
-	QUEST_AUTOCOMPLETE = true
-}
 
 local modifier = false
 function QuickQuest:Register(event, func, override)
 	self:RegisterEvent(event)
 	self[event] = function(...)
 		if(override or QuickQuestDB.toggle and QuickQuestDB.reverse == modifier) then
-			if(QuickQuestDB.delay and delayEvent[event]) then
-				DelayHandler(func, ...)
-			else
-				func(...)
-			end
+			func(...)
 		end
 	end
 end
