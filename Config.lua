@@ -72,6 +72,8 @@ function Panel:okay()
 	for key, value in next, temporary do
 		QuickQuestDB[key] = value
 	end
+
+	table.wipe(temporary)
 end
 
 function Panel:cancel()
