@@ -55,6 +55,12 @@ Panel:SetScript('OnEvent', function()
 
 	QuickQuestDB = QuickQuestDB or defaults
 
+	-- TEMP: import from old DB
+	if(QuickQuestDB.ignoredQuests) then
+		QuickQuestDB.itemBlacklist = QuickQuestDB.ignoredQuests
+		QuickQuestDB.ignoredQuests = nil
+	end
+
 	for key, value in next, defaults do
 		if(QuickQuestDB[key] == nil) then
 			QuickQuestDB[key] = value
