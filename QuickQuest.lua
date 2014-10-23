@@ -184,7 +184,7 @@ QuickQuest:Register('QUEST_PROGRESS', function()
 				local link = GetQuestItemLink('required', index)
 				if(link) then
 					local id = tonumber(string.match(link, 'item:(%d+)'))
-					for _, itemID in next, QuickQuestDB.ignoredQuests do
+					for _, itemID in next, QuickQuestDB.itemBlacklist do
 						if(itemID == id) then
 							return
 						end
@@ -318,7 +318,7 @@ local function BagUpdate(bag)
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
-		if(id and not active and not IsQuestFlaggedCompleted(id) and not QuickQuestDB.ignoredQuests[id]) then
+		if(id and not active and not IsQuestFlaggedCompleted(id) and not QuickQuestDB.itemBlacklist[id]) then
 			questTip:SetBagItem(bag, slot)
 			questTip:Show()
 

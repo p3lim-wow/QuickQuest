@@ -12,7 +12,7 @@ local defaults = {
 	modifier = 'SHIFT',
 	reverse = false,
 	delay = false,
-	ignoredQuests = {
+	itemBlacklist = {
 		-- Inscription weapons
 		[31690] = 79343, -- Inscribed Tiger Staff
 		[31691] = 79340, -- Inscribed Crane Staff
@@ -74,7 +74,7 @@ end
 
 function Panel:default()
 	for key, value in next, defaults do
-		if(key ~= 'ignoredQuests') then
+		if(key ~= 'itemBlacklist') then
 			QuickQuestDB[key] = value
 		end
 	end
@@ -364,88 +364,76 @@ Panel:SetScript('OnShow', function(self)
 	self:SetScript('OnShow', nil)
 end)
 
-local UpdateFilterBox
-
-local FilterPanel = CreateFrame('Frame', nil, Panel)
-FilterPanel.name = 'Filters'
-FilterPanel.parent = addonName
-FilterPanel:Hide()
-
-function FilterPanel:default()
-	table.wipe(QuickQuestDB.ignoredQuests)
-
-	for quest, item in next, defaults.ignoredQuests do
-		QuickQuestDB.ignoredQuests[quest] = item
-	end
-
-	UpdateFilterBox()
-end
-
-local filterBackdrop = {
-	bgFile = [=[Interface\ChatFrame\ChatFrameBackground]=], tile = true, tileSize = 16,
-	edgeFile = [=[Interface\Tooltips\UI-Tooltip-Border]=], edgeSize = 16,
+local containerBackdrop = {
+	bgFile = [[Interface\ChatFrame\ChatFrameBackground]], tile = true, tileSize = 16,
+	edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 16,
 	insets = {left = 4, right = 4, top = 4, bottom = 4}
 }
 
-local function FilterDetailsOnEnter(self)
-	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
-	GameTooltip:AddLine(L.FilterDetailsTooltip, 1, 1, 1)
-	GameTooltip:Show()
+local ItemPanel = CreateFrame('Frame', nil, Panel)
+ItemPanel.name = 'Item Blacklist'
+ItemPanel.parent = addonName
+ItemPanel:Hide()
+
+function ItemPanel:default()
+	table.wipe(QuickQuestDB.itemBlacklist)
+
+	for quest, item in next, defaults.itemBlacklist do
+		QuickQuestDB.itemBlacklist[quest] = item
+	end
+
+	self:UpdateList()
 end
 
-local function FilterItemOnEnter(self)
-	GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
-	GameTooltip:SetItemByID(self.itemID)
-	GameTooltip:AddLine(' ')
-	GameTooltip:AddLine(L['Right-click to remove from list'], 0, 1, 0)
-	GameTooltip:Show()
-end
+local items = {}
 
-local filterItems = {}
-
-StaticPopupDialogs.QUICKQUEST_FILTER = {
-	text = L['Are you sure you want to delete |T%s:16|t%s from the filter?'],
+StaticPopupDialogs.QUICKQUEST_ITEM_REMOVE = {
+	text = L['Are you sure you want to delete\n|T%s:16|t%s\nfrom the filter?'],
 	button1 = 'Yes',
 	button2 = 'No',
 	OnAccept = function(self, data)
-		QuickQuestDB.ignoredQuests[data.questID] = nil
-		filterItems[data.itemID] = nil
+		QuickQuestDB.itemBlacklist[data.questID] = nil
+		items[data.itemID] = nil
 		data.button:Hide()
 
-		UpdateFilterBox()
+		ItemPanel:UpdateList()
 	end,
 	timeout = 0,
 	hideOnEscape = true,
 	preferredIndex = 3, -- Avoid some taint
 }
 
-FilterPanel:SetScript('OnShow', function(self)
-	local FilterText = self:CreateFontString(nil, nil, 'GameFontHighlight')
-	FilterText:SetPoint('TOPLEFT', 20, -20)
-	FilterText:SetText(L['Items filtered from automation'])
+ItemPanel:SetScript('OnShow', function(self)
+	local Title = self:CreateFontString(nil, nil, 'GameFontHighlight')
+	Title:SetPoint('TOPLEFT', 20, -20)
+	Title:SetText(L['Items filtered from automation'])
 
-	local FilterDetails = CreateFrame('Button', nil, self)
-	FilterDetails:SetPoint('LEFT', FilterText, 'RIGHT')
-	FilterDetails:SetNormalTexture([=[Interface\GossipFrame\ActiveQuestIcon]=])
-	FilterDetails:SetSize(16, 16)
+	local Description = CreateFrame('Button', nil, self)
+	Description:SetPoint('LEFT', Title, 'RIGHT')
+	Description:SetNormalTexture([[Interface\GossipFrame\ActiveQuestIcon]])
+	Description:SetSize(16, 16)
 
-	FilterDetails:SetScript('OnEnter', FilterDetailsOnEnter)
-	FilterDetails:SetScript('OnLeave', GameTooltip_Hide)
+	Description:SetScript('OnLeave', GameTooltip_Hide)
+	Description:SetScript('OnEnter', function(self)
+		GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
+		GameTooltip:AddLine(L.ItemBlacklistTooltip, 1, 1, 1)
+		GameTooltip:Show()
+	end)
 
-	local FilterBox = CreateFrame('Frame', nil, self)
-	FilterBox:SetPoint('TOPLEFT', FilterText, 'BOTTOMLEFT', -12, -8)
-	FilterBox:SetPoint('BOTTOMRIGHT', -8, 8)
-	FilterBox:SetBackdrop(filterBackdrop)
-	FilterBox:SetBackdropColor(0, 0, 0, 1/2)
+	local Items = CreateFrame('Frame', nil, self)
+	Items:SetPoint('TOPLEFT', Title, 'BOTTOMLEFT', -12, -8)
+	Items:SetPoint('BOTTOMRIGHT', -8, 8)
+	Items:SetBackdrop(containerBackdrop)
+	Items:SetBackdropColor(0, 0, 0, 1/2)
 
-	local FilterBounds = CreateFrame('Frame', nil, FilterBox)
-	FilterBounds:SetPoint('TOPLEFT', 8, -8)
-	FilterBounds:SetPoint('BOTTOMRIGHT', -8, 8)
+	local Boundaries = CreateFrame('Frame', nil, Items)
+	Boundaries:SetPoint('TOPLEFT', 8, -8)
+	Boundaries:SetPoint('BOTTOMRIGHT', -8, 8)
 
-	local function FilterItemOnClick(self, button)
+	local function ItemOnClick(self, button)
 		if(button == 'RightButton') then
 			local _, link, _, _, _, _, _, _, _, texture = GetItemInfo(self.itemID)
-			local dialog = StaticPopup_Show('QUICKQUEST_FILTER', texture, link)
+			local dialog = StaticPopup_Show('QUICKQUEST_ITEM_REMOVE', texture, link)
 			dialog.data = {
 				itemID = self.itemID,
 				questID = self.questID,
@@ -454,46 +442,51 @@ FilterPanel:SetScript('OnShow', function(self)
 		end
 	end
 
-	function UpdateFilterBox()
-		for quest, item in next, QuickQuestDB.ignoredQuests do
-			if(not filterItems[item]) then
-				local Button = CreateFrame('Button', nil, FilterBox)
+	local function ItemOnEnter(self)
+		GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
+		GameTooltip:SetItemByID(self.itemID)
+		GameTooltip:AddLine(' ')
+		GameTooltip:AddLine(L['Right-click to remove from list'], 0, 1, 0)
+		GameTooltip:Show()
+	end
+
+	self.UpdateList = function()
+		local index = 1
+		local width = Boundaries:GetWidth()
+		local cols = math.floor((width > 0 and width or 591) / 36)
+
+		for quest, item in next, QuickQuestDB.itemBlacklist do
+			local Button = items[item]
+			if(not Button) then
+				Button = CreateFrame('Button', nil, Items)
 				Button:SetSize(34, 34)
 				Button:RegisterForClicks('AnyUp')
 
 				local Texture = Button:CreateTexture()
 				Texture:SetAllPoints()
+				Button.Texture = Texture
 
-				Button:SetScript('OnClick', FilterItemOnClick)
-				Button:SetScript('OnEnter', FilterItemOnEnter)
+				Button:SetScript('OnClick', ItemOnClick)
+				Button:SetScript('OnEnter', ItemOnEnter)
 				Button:SetScript('OnLeave', GameTooltip_Hide)
 
-				Button.Texture = Texture
-				Button.questID = quest
-				Button.itemID = item
-
-				filterItems[item] = Button
+				items[item] = Button
 			end
-		end
 
-		local queryItems
-		for item, Button in next, filterItems do
 			local _, _, _, _, _, _, _, _, _, textureFile = GetItemInfo(item)
+
 			if(textureFile) then
 				Button.Texture:SetTexture(textureFile)
 			elseif(not queryItems) then
 				self:RegisterEvent('GET_ITEM_INFO_RECEIVED')
 				queryItems = true
 			end
-		end
 
-		local index = 1
-		local width = FilterBounds:GetWidth()
-		local cols = math.floor((width > 0 and width or 591) / 36)
+			Button:ClearAllPoints()
+			Button:SetPoint('TOPLEFT', Boundaries, (index - 1) % cols * 36, math.floor((index - 1) / cols) * -36)
 
-		for item, button in next, filterItems do
-			button:ClearAllPoints()
-			button:SetPoint('TOPLEFT', FilterBounds, (index - 1) % cols * 36, math.floor((index - 1) / cols) * -36)
+			Button.questID = quest
+			Button.itemID = item
 
 			index = index + 1
 		end
@@ -503,9 +496,9 @@ FilterPanel:SetScript('OnShow', function(self)
 		end
 	end
 
-	UpdateFilterBox()
+	self:UpdateList()
 
-	FilterBox:SetScript('OnMouseUp', function()
+	Items:SetScript('OnMouseUp', function()
 		if(CursorHasItem()) then
 			local _, itemID, link = GetCursorInfo()
 
@@ -517,11 +510,11 @@ FilterPanel:SetScript('OnShow', function(self)
 							questID = string.format('progress_%s', itemID)
 						end
 
-						if(not QuickQuestDB.ignoredQuests[questID]) then
-							QuickQuestDB.ignoredQuests[questID] = itemID
+						if(not QuickQuestDB.itemBlacklist[questID]) then
+							QuickQuestDB.itemBlacklist[questID] = itemID
 							ClearCursor()
 
-							UpdateFilterBox()
+							self:UpdateList()
 							return
 						end
 					end
@@ -533,14 +526,14 @@ FilterPanel:SetScript('OnShow', function(self)
 	self:SetScript('OnShow', nil)
 end)
 
-FilterPanel:HookScript('OnEvent', function(self, event)
+ItemPanel:HookScript('OnEvent', function(self, event)
 	if(event == 'GET_ITEM_INFO_RECEIVED') then
-		UpdateFilterBox()
+		self:UpdateList()
 	end
 end)
 
 InterfaceOptions_AddCategory(Panel)
-InterfaceOptions_AddCategory(FilterPanel)
+InterfaceOptions_AddCategory(ItemPanel)
 
 SLASH_QuickQuest1 = '/qq'
 SLASH_QuickQuest2 = '/quickquest'
