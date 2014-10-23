@@ -233,6 +233,7 @@ do
 		local Menu = CreateFrame('Frame', nil, Dropdown)
 		Menu:SetPoint('TOPLEFT', Dropdown, 'BOTTOMLEFT', 0, 4)
 		Menu:SetBackdrop(BACKDROP)
+		Menu:SetFrameStrata('DIALOG')
 		Menu:Hide()
 		Menu.key = key
 		Menu.items = {}
