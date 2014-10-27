@@ -8,7 +8,7 @@ local defaults = {
 	items = true,
 	faireport = true,
 	gossip = true,
-	gossipraid = true,
+	gossipraid = 1,
 	modifier = 'SHIFT',
 	reverse = false,
 	itemBlacklist = {
@@ -58,6 +58,14 @@ Panel:SetScript('OnEvent', function()
 	if(QuickQuestDB.ignoredQuests) then
 		QuickQuestDB.itemBlacklist = QuickQuestDB.ignoredQuests
 		QuickQuestDB.ignoredQuests = nil
+	end
+
+	if(type(QuickQuestDB.gossipraid) == 'boolean') then
+		if(QuickQuestDB.gossipraid) then
+			QuickQuestDB.gossipraid = 0
+		else
+			QuickQuestDB.gossipraid = 2
+		end
 	end
 
 	for key, value in next, defaults do
@@ -189,10 +197,22 @@ do
 		Menu:GetParent().Label:SetText(self:GetText())
 	end
 
+	local function Enable(self)
+		self.Label:SetTextColor(1, 1, 1)
+		self.Button:Enable()
+	end
+
+	local function Disable(self)
+		self.Label:SetTextColor(1/3, 1/3, 1/3)
+		self.Button:Disable()
+	end
+
 	function CreateDropdown(parent, key, items)
 		local Dropdown = CreateFrame('Frame', nil, parent)
 		Dropdown:SetSize(110, 32)
 		Dropdown:SetScript('OnHide', OnHide)
+		Dropdown.Enable = Enable
+		Dropdown.Disable = Disable
 		Dropdown.keys = items
 
 		local LeftTexture = Dropdown:CreateTexture()
@@ -312,9 +332,13 @@ Panel:SetScript('OnShow', function(self)
 	Gossip:SetPoint('TOPLEFT', Items, 'BOTTOMLEFT', 0, -8)
 	Gossip.Text:SetText(L['Select gossip option if there is only one'])
 
-	local GossipRaid = CreateCheckButton(self, 'gossipraid', Gossip)
-	GossipRaid:SetPoint('TOPLEFT', Gossip, 'BOTTOMLEFT', 24, -8)
-	GossipRaid.Text:SetText(L['Only select gossip option while not in a raid'])
+	local GossipRaid = CreateDropdown(self, 'gossipraid', {
+		[0] = L['Never'],
+		[1] = L['Soloing'],
+		[2] = L['Always']
+	})
+	GossipRaid:SetPoint('TOPLEFT', Gossip, 'BOTTOMLEFT', 24, -10)
+	GossipRaid.Text:SetText(L['When to select gossip while in a raid'])
 
 	Gossip:HookScript('OnClick', function(self)
 		if(self:GetChecked()) then

@@ -76,24 +76,25 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 		end
 	end
 
-	if(QuickQuestDB.gossip) then
-		if(available == 0 and active == 0 and GetNumGossipOptions() == 1) then
-			local _, instance = GetInstanceInfo()
-			if(not (QuickQuestDB.gossipraid and instance == 'raid')) then
-				local _, type = GetGossipOptions()
-				if(type == 'gossip') then
-					SelectGossipOption(1)
-					return
-				end
+	if(available == 0 and active == 0 and GetNumGossipOptions() == 1) then
+		if(QuickQuestDB.faireport) then
+			local npcID = GetNPCID()
+			if(npcID == 57850) then
+				return SelectGossipOption(1)
 			end
 		end
-	end
 
-	if(QuickQuestDB.faireport) then
-		local npcID = GetNPCID()
-		if(npcID and npcID == 57850) then
-			-- See if 1 is the right option
-			SelectGossipOption(1)
+		if(QuickQuestDB.gossip) then
+			local _, instance = GetInstanceInfo()
+			if(instance == 'raid' and QuickQuestDB.gossipraid > 0) then
+				if(GetNumGroupMembers() > 1 and QuickQuestDB.gossipraid < 2) then
+					return
+				end
+
+				SelectGossipOption(1)
+			elseif(instance ~= 'raid') then
+				SelectGossipOption(1)
+			end
 		end
 	end
 end)
