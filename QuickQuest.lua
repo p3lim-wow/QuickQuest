@@ -245,35 +245,35 @@ end)
 
 QuickQuest:Register('BANKFRAME_OPENED', function()
 	atBank = true
-end)
+end, true)
 
 QuickQuest:Register('BANKFRAME_CLOSED', function()
 	atBank = false
-end)
+end, true)
 
 QuickQuest:Register('GUILDBANKFRAME_OPENED', function()
 	atBank = true
-end)
+end, true)
 
 QuickQuest:Register('GUILDBANKFRAME_CLOSED', function()
 	atBank = false
-end)
+end, true)
 
 QuickQuest:Register('MAIL_SHOW', function()
 	atMail = true
-end)
+end, true)
 
 QuickQuest:Register('MAIL_CLOSED', function()
 	atMail = false
-end)
+end, true)
 
 QuickQuest:Register('MERCHANT_SHOW', function()
 	atMerchant = true
-end)
+end, true)
 
 QuickQuest:Register('MERCHANT_CLOSED', function()
 	atMerchant = false
-end)
+end, true)
 
 local sub = string.sub
 QuickQuest:Register('MODIFIER_STATE_CHANGED', function(key, state)
