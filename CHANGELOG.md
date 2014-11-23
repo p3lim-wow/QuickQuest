@@ -1,3 +1,12 @@
+## Changes in 60000.17-Release:
+
+- Added: More options for handling gossip in raids
+- Changed: Blacklisted bodyguards from auto-gossip
+- Changed: Disabled localizations until they are more mature
+- Fixed: Modifier not working when inverted
+- Fixed: Quest rewards sometimes not highlighting properly
+- Removed: Delay option
+
 ## Changes in 60000.16-Release:
 
 - Added: Changelog
