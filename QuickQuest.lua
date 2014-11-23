@@ -75,6 +75,16 @@ local function GetNPCID()
 	return tonumber(string.match(UnitGUID('npc') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
 end
 
+local bodyguards = {
+	[86945] = true, -- Aeda Brightdawn (Horde)
+	[86933] = true, -- Vivianne (Horde)
+	[86927] = true, -- Delvar Ironfist (Alliance)
+	[86934] = true, -- Defender Illona (Alliance)
+	[86682] = true, -- Tormmok
+	[86964] = true, -- Leorajh
+	[86946] = true, -- Talonpriest Ishaal
+}
+
 QuickQuest:Register('GOSSIP_SHOW', function()
 	local active = GetNumGossipActiveQuests()
 	if(active > 0) then
@@ -95,8 +105,8 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 	end
 
 	if(available == 0 and active == 0 and GetNumGossipOptions() == 1) then
+		local npcID = GetNPCID()
 		if(QuickQuestDB.faireport) then
-			local npcID = GetNPCID()
 			if(npcID == 57850) then
 				return SelectGossipOption(1)
 			end
@@ -110,7 +120,7 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 				end
 
 				SelectGossipOption(1)
-			elseif(instance ~= 'raid') then
+			elseif(instance ~= 'raid' and not bodyguards[npcID]) then
 				SelectGossipOption(1)
 			end
 		end
