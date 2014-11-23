@@ -4,13 +4,31 @@ QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 local atBank, atMail, atMerchant
 local choiceQueue, autoCompleteIndex
 
-local modifier = false
-function QuickQuest:Register(event, func, override)
-	self:RegisterEvent(event)
-	self[event] = function(...)
-		if(override or QuickQuestDB.toggle and QuickQuestDB.reverse == modifier) then
-			func(...)
+local metatable = {
+	__call = function(methods, ...)
+		for _, method in next, methods do
+			method(...)
 		end
+	end
+}
+
+local modifier = false
+function QuickQuest:Register(event, method, override)
+	local newmethod
+	if(not override) then
+		newmethod = function(...)
+			if(QuickQuestDB.toggle and QuickQuestDB.reverse == modifier) then
+				method(...)
+			end
+		end
+	end
+
+	local methods = self[event]
+	if(methods) then
+		self[event] = setmetatable({methods, newmethod or method}, metatable)
+	else
+		self[event] = newmethod or method
+		self:RegisterEvent(event)
 	end
 end
 
@@ -133,7 +151,7 @@ QuickQuest:Register('QUEST_ITEM_UPDATE', function()
 	if(choiceQueue and QuickQuest[choiceQueue]) then
 		QuickQuest[choiceQueue]()
 	end
-end)
+end, true)
 
 QuickQuest:Register('QUEST_PROGRESS', function()
 	if(IsQuestCompletable()) then
@@ -163,7 +181,12 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 	local choices = GetNumQuestChoices()
 	if(choices <= 1) then
 		GetQuestReward(1)
-	elseif(choices > 1) then
+	end
+end)
+
+QuickQuest:Register('QUEST_COMPLETE', function()
+	local choices = GetNumQuestChoices()
+	if(choices > 1) then
 		local bestValue, bestIndex = 0
 
 		for index = 1, choices do
@@ -186,10 +209,10 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 		end
 
 		if(bestIndex) then
-			QuestInfoRewardsFrame.RewardButtons[bestIndex]:Click()
+			QuestInfoItem_OnClick(QuestInfoRewardsFrame.RewardButtons[bestIndex])
 		end
 	end
-end)
+end, true)
 
 QuickQuest:Register('QUEST_FINISHED', function()
 	choiceQueue = nil
