@@ -19,6 +19,7 @@ L['ALT key'] = ALT_KEY
 L['CTRL key'] = CTRL_KEY
 L['SHIFT key'] = SHIFT_KEY
 
+--[==========[
 local locale = GetLocale()
 if(locale == 'deDE') then
 	--@localization(locale="deDE", format="lua_additive_table")@
@@ -41,3 +42,4 @@ elseif(locale == 'zhCN') then
 elseif(locale == 'zhTW') then
 	--@localization(locale="zhTW", format="lua_additive_table")@
 end
+--]==========]
