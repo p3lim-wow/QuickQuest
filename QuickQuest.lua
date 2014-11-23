@@ -339,5 +339,3 @@ local errors = {
 ChatFrame_AddMessageEventFilter('CHAT_MSG_SYSTEM', function(self, event, message)
 	return errors[message]
 end)
-
-QuestInfoDescriptionText.SetAlphaGradient = function() end
