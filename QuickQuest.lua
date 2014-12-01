@@ -199,6 +199,11 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 	end
 end)
 
+local cashRewards = {
+	[45724] = 1e5, -- Champion's Purse
+	[64491] = 2e6, -- Royal Reward
+}
+
 QuickQuest:Register('QUEST_COMPLETE', function()
 	local choices = GetNumQuestChoices()
 	if(choices > 1) then
@@ -208,11 +213,7 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 			local link = GetQuestItemLink('choice', index)
 			if(link) then
 				local _, _, _, _, _, _, _, _, _, _, value = GetItemInfo(link)
-
-				if(string.match(link, 'item:45724:')) then
-					-- Champion's Purse, contains 10 gold
-					value = 1e5
-				end
+				value = cashRewards[tonumber(string.match(link, 'item:(%d+):'))] or value
 
 				if(value > bestValue) then
 					bestValue, bestIndex = value, index
