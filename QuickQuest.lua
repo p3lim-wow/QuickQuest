@@ -75,7 +75,7 @@ local function GetNPCID()
 	return tonumber(string.match(UnitGUID('npc') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
 end
 
-local npcBlacklist = {
+local ignoreGossipNPC = {
 	-- Bodyguards
 	[86945] = true, -- Aeda Brightdawn (Horde)
 	[86933] = true, -- Vivianne (Horde)
@@ -125,7 +125,7 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 				end
 
 				SelectGossipOption(1)
-			elseif(instance ~= 'raid' and not npcBlacklist[npcID]) then
+			elseif(instance ~= 'raid' and not ignoreGossipNPC[npcID]) then
 				SelectGossipOption(1)
 			end
 		end
