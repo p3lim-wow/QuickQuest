@@ -1,3 +1,10 @@
+## Changes in 60000.18-Release:
+
+- Added: Royal Reward as cash reward from quests in Uldum
+- Added: Blaclist for auto-accepting weekly seal quests
+- Changed: Improved behavior for auto-accepting quests
+- Changed: Blacklist more commonly misclicked NPCs
+
 ## Changes in 60000.17-Release:
 
 - Added: More options for handling gossip in raids
