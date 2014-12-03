@@ -2,7 +2,7 @@ local QuickQuest = CreateFrame('Frame')
 QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
 local atBank, atMail, atMerchant
-local choiceQueue, autoCompleteIndex
+local choiceQueue, autoCompleteIndex, autoCompleteTicker
 
 local metatable = {
 	__call = function(methods, ...)
@@ -148,6 +148,13 @@ QuickQuest:Register('GOSSIP_CONFIRM', function(index)
 	end
 end)
 
+QuestFrame:UnregisterEvent('QUEST_DETAIL')
+QuickQuest:Register('QUEST_DETAIL', function()
+	if(not QuestGetAutoAccept() or not QuestIsFromAreaTrigger()) then
+		QuestFrame_OnEvent(QuestFrame, 'QUEST_DETAIL')
+	end
+end, true)
+
 QuickQuest:Register('QUEST_DETAIL', function()
 	if(not QuestGetAutoAccept()) then
 		AcceptQuest()
@@ -234,22 +241,31 @@ QuickQuest:Register('QUEST_FINISHED', function()
 	choiceQueue = nil
 	autoCompleteIndex = nil
 
+	if(autoCompleteTicker) then
+		autoCompleteTicker:Cancel()
+		autoCompleteTicker = nil
+	end
+
 	if(GetNumAutoQuestPopUps() > 0) then
 		QuickQuest:QUEST_AUTOCOMPLETE()
 	end
 end)
 
-QuickQuest:Register('QUEST_AUTOCOMPLETE', function()
-	while(not autoCompleteIndex and GetNumAutoQuestPopUps() > 0) do
+local function CompleteAutoComplete(self)
+	if(not autoCompleteIndex and GetNumAutoQuestPopUps() > 0) then
 		local id, type = GetAutoQuestPopUp(1)
 		if(type == 'COMPLETE') then
 			local index = GetQuestLogIndexByID(id)
 			ShowQuestComplete(index)
 			autoCompleteIndex = index
-		else
-			return
 		end
+
+		self:Cancel()
 	end
+end
+
+QuickQuest:Register('QUEST_AUTOCOMPLETE', function(questID)
+	autoCompleteTicker = C_Timer.NewTicker(1/4, CompleteAutoComplete, 20)
 end)
 
 QuickQuest:Register('BAG_UPDATE_DELAYED', function()
