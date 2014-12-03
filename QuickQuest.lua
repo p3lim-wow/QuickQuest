@@ -32,6 +32,10 @@ function QuickQuest:Register(event, method, override)
 	end
 end
 
+local function GetNPCID()
+	return tonumber(string.match(UnitGUID('npc') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
+end
+
 local function IsTrackingTrivial()
 	for index = 1, GetNumTrackingTypes() do
 		local name, _, active = GetTrackingInfo(index)
@@ -41,7 +45,17 @@ local function IsTrackingTrivial()
 	end
 end
 
+local ignoreQuestNPC = {
+	[88570] = true, -- Fate-Twister Tiklal
+	[87391] = true, -- Fate-Twister Seress
+}
+
 QuickQuest:Register('QUEST_GREETING', function()
+	local npcID = GetNPCID()
+	if(ignoreQuestNPC[npcID]) then
+		return
+	end
+
 	local active = GetNumActiveQuests()
 	if(active > 0) then
 		for index = 1, active do
@@ -69,10 +83,6 @@ end
 
 local function IsGossipQuestTrivial(index)
 	return not not select(((index * 6) - 6) + 3, GetGossipAvailableQuests())
-end
-
-local function GetNPCID()
-	return tonumber(string.match(UnitGUID('npc') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
 end
 
 local ignoreGossipNPC = {
