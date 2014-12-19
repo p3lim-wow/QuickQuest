@@ -324,12 +324,15 @@ QuickQuest:Register('MODIFIER_STATE_CHANGED', function(key, state)
 	end
 end, true)
 
-local questTip = CreateFrame('GameTooltip', 'QuickQuestTip', UIParent)
-local questLevel = string.gsub(ITEM_MIN_LEVEL, '%%d', '(%%d+)')
+local questTip = CreateFrame('GameTooltip', 'QuickQuestTip', UIParent, 'GameTooltipTemplate')
+local questString = string.gsub(ITEM_MIN_LEVEL, '%%d', '(%%d+)')
 
-local function GetQuestItemLevel()
+local function GetContainerItemQuestLevel(bag, slot)
+	questTip:SetOwner(UIParent, 'ANCHOR_NONE')
+	questTip:SetBagItem(bag, slot)
+
 	for index = 1, questTip:NumLines() do
-		local level = tonumber(string.match(_G['QuickQuestTipTextLeft' .. index]:GetText(), questLevel))
+		local level = tonumber(string.match(_G['QuickQuestTipTextLeft' .. index]:GetText(), questString))
 		if(level) then
 			return level
 		end
@@ -343,11 +346,8 @@ local function BagUpdate(bag)
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
 		if(id and not active and not IsQuestFlaggedCompleted(id) and not QuickQuestDB.itemBlacklist[id]) then
-			questTip:SetBagItem(bag, slot)
-			questTip:Show()
-
-			local level = GetQuestItemLevel()
-			if(not level or level >= UnitLevel('player')) then
+			local level = GetContainerItemQuestLevel(bag, slot)
+			if(level <= UnitLevel('player')) then
 				UseContainerItem(bag, slot)
 			end
 		end
@@ -360,14 +360,4 @@ QuickQuest:Register('PLAYER_LOGIN', function()
 	if(GetNumAutoQuestPopUps() > 0) then
 		QuickQuest:QUEST_AUTOCOMPLETE()
 	end
-end)
-
-local errors = {
-	[ERR_QUEST_ALREADY_DONE] = true,
-	[ERR_QUEST_FAILED_LOW_LEVEL] = true,
-	[ERR_QUEST_NEED_PREREQS] = true,
-}
-
-ChatFrame_AddMessageEventFilter('CHAT_MSG_SYSTEM', function(self, event, message)
-	return errors[message]
 end)
