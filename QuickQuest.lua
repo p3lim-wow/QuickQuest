@@ -337,6 +337,8 @@ local function GetContainerItemQuestLevel(bag, slot)
 			return level
 		end
 	end
+
+	return 1
 end
 
 local function BagUpdate(bag)
