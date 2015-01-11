@@ -2,7 +2,7 @@
 ## Author: p3lim
 ## Version: @project-version@
 ## Title: QuickQuest
-## Notes: Quest automization wizardry
+## Notes: Quest automation wizardry
 ## SavedVariables: QuickQuestDB
 
 Localization.lua
