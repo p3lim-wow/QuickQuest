@@ -101,6 +101,11 @@ local ignoreGossipNPC = {
 }
 
 QuickQuest:Register('GOSSIP_SHOW', function()
+	local npcID = GetNPCID()
+	if(ignoreQuestNPC[npcID]) then
+		return
+	end
+
 	local active = GetNumGossipActiveQuests()
 	if(active > 0) then
 		for index = 1, active do
