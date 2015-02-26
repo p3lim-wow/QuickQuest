@@ -1,3 +1,8 @@
+### Changes in 60100.19-Release:
+
+- Changed: Update Interface version
+- Fixed: Sealing Fate automation still running (quest was changed)
+
 ### Changes in 60000.18-Release:
 
 - Added: Royal Reward as cash reward from quests in Uldum
