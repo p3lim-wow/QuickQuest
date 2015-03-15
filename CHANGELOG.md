@@ -1,3 +1,7 @@
+### Changes in 60100.20-Release
+
+- Added: Garrison scouting missives to the default item blacklist
+
 ### Changes in 60100.19-Release:
 
 - Changed: Update Interface version
