@@ -10,6 +10,9 @@ L['ALT key'] = ALT_KEY
 L['CTRL key'] = CTRL_KEY
 L['SHIFT key'] = SHIFT_KEY
 
+L['Never'] = NEVER
+L['Always'] = ALWAYS
+
 --[==========[
 local locale = GetLocale()
 if(locale == 'deDE') then

@@ -32,8 +32,12 @@ Options:Initialize(function(self)
 
 	local GossipRaid = self:CreateDropDown('gossipraid')
 	GossipRaid:SetPoint('TOPLEFT', Gossip, 'BOTTOMLEFT', 24, -10)
-	GossipRaid:SetValues({[0] = NEVER, [1] = L['Soloing'], [2] = ALWAYS})
 	GossipRaid:SetText(L['When to select gossip while in a raid'])
+	GossipRaid:SetValues({
+		[0] = L['Never'],
+		[1] = L['Soloing'],
+		[2] = L['Always']
+	})
 
 	Gossip:On('Update', 'Click', function(self)
 		GossipRaid:SetEnabled(self:GetChecked())
