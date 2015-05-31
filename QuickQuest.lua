@@ -182,6 +182,10 @@ QuickQuest:Register('QUEST_ACCEPTED', function(id)
 	if(QuestFrame:IsShown() and QuestGetAutoAccept()) then
 		CloseQuest()
 	end
+
+	if(QuickQuestDB.share) then
+		QuestLogPushQuest(id)
+	end
 end)
 
 QuickQuest:Register('QUEST_ITEM_UPDATE', function()

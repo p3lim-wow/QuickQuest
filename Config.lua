@@ -6,6 +6,7 @@ local defaults = {
 	gossipraid = 1,
 	modifier = 'SHIFT',
 	reverse = false,
+	share = false,
 }
 
 local Options = LibStub('Wasabi'):New(addonName, 'QuickQuestDB', defaults)
@@ -19,6 +20,11 @@ Options:Initialize(function(self)
 	local Items = self:CreateCheckButton('items')
 	Items:SetPoint('TOPLEFT', Title, 'BOTTOMLEFT', 0, -8)
 	Items:SetText(L['Automatically start quests from items'])
+
+	local Share = self:CreateCheckButton('share')
+	Share:SetPoint('TOPLEFT', Items, 'BOTTOMLEFT', 0, -8)
+	Share:SetText(L['Automatically share quests when picked up'])
+	Share:SetNewFeature(true)
 
 	local Gossip = self:CreateCheckButton('gossip')
 	Gossip:SetPoint('TOPLEFT', Share, 'BOTTOMLEFT', 0, -8)
