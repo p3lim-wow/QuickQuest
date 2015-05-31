@@ -17,7 +17,7 @@ function QuickQuest:Register(event, method, override)
 	local newmethod
 	if(not override) then
 		newmethod = function(...)
-			if(QuickQuestDB.toggle and QuickQuestDB.reverse == modifier) then
+			if(QuickQuestDB.reverse == modifier) then
 				method(...)
 			end
 		end
@@ -198,7 +198,7 @@ QuickQuest:Register('QUEST_PROGRESS', function()
 				local link = GetQuestItemLink('required', index)
 				if(link) then
 					local id = tonumber(string.match(link, 'item:(%d+)'))
-					for _, itemID in next, QuickQuestDB.itemBlacklist do
+					for _, itemID in next, QuickQuestItemBlacklist do
 						if(itemID == id) then
 							return
 						end
@@ -352,7 +352,7 @@ local function BagUpdate(bag)
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
-		if(id and not active and not IsQuestFlaggedCompleted(id) and not QuickQuestDB.itemBlacklist[id]) then
+		if(id and not active and not IsQuestFlaggedCompleted(id) and not QuickQuestItemBlacklist[id]) then
 			local level = GetContainerItemQuestLevel(bag, slot)
 			if(level <= UnitLevel('player')) then
 				UseContainerItem(bag, slot)

@@ -1,0 +1,6 @@
+[submodule "LibStub"]
+	path = libs/LibStub
+	url = git://github.com/p3lim-wow/LibStub.git
+[submodule "Wasabi"]
+	path = libs/Wasabi
+	url = git://github.com/p3lim-wow/Wasabi.git
