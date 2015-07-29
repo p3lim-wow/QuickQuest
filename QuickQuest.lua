@@ -98,6 +98,17 @@ local ignoreGossipNPC = {
 	-- Misc NPCs
 	[79740] = true, -- Warmaster Zog (Horde)
 	[79953] = true, -- Lieutenant Thorn (Alliance)
+
+	-- Sassy Imps variants
+	[95142] = true,
+	[95201] = true,
+	[95200] = true,
+	[95141] = true,
+	[95139] = true,
+	[95144] = true,
+	[95146] = true,
+	[95143] = true,
+	[95145] = true,
 }
 
 QuickQuest:Register('GOSSIP_SHOW', function()
