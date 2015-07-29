@@ -95,6 +95,17 @@ local ignoreGossipNPC = {
 	[86964] = true, -- Leorajh
 	[86946] = true, -- Talonpriest Ishaal
 
+	-- Sassy Imps
+	[95139] = true,
+	[95141] = true,
+	[95142] = true,
+	[95143] = true,
+	[95144] = true,
+	[95145] = true,
+	[95146] = true,
+	[95200] = true,
+	[95201] = true,
+
 	-- Misc NPCs
 	[79740] = true, -- Warmaster Zog (Horde)
 	[79953] = true, -- Lieutenant Thorn (Alliance)
