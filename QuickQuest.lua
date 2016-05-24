@@ -198,7 +198,10 @@ QuickQuest:Register('QUEST_DETAIL', function()
 end, true)
 
 QuickQuest:Register('QUEST_DETAIL', function()
-	if(not QuestGetAutoAccept()) then
+	if(QuestGetAutoAccept()) then
+		AcknowledgeAutoAcceptQuest()
+	else
+		-- XXX: no way to tell if the quest is trivial or ignored
 		AcceptQuest()
 	end
 end)
@@ -206,10 +209,6 @@ end)
 QuickQuest:Register('QUEST_ACCEPT_CONFIRM', AcceptQuest)
 
 QuickQuest:Register('QUEST_ACCEPTED', function(id)
-	if(QuestFrame:IsShown() and QuestGetAutoAccept()) then
-		CloseQuest()
-	end
-
 	if(QuickQuestDB.share) then
 		QuestLogPushQuest(id)
 	end
