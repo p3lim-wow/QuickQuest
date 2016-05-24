@@ -1,6 +1,8 @@
 local QuickQuest = CreateFrame('Frame')
 QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
+local isBetaClient = select(4, GetBuildInfo()) >= 70000
+
 local atBank, atMail, atMerchant
 local choiceQueue, autoCompleteIndex, autoCompleteTicker
 
@@ -36,10 +38,10 @@ local function GetNPCID()
 	return tonumber(string.match(UnitGUID('npc') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
 end
 
-local function IsTrackingTrivial()
+local function IsTrackingHidden()
 	for index = 1, GetNumTrackingTypes() do
 		local name, _, active = GetTrackingInfo(index)
-		if(name == MINIMAP_TRACKING_TRIVIAL_QUESTS) then
+		if(name == (MINIMAP_TRACKING_TRIVIAL_QUESTS or MINIMAP_TRACKING_HIDDEN_QUESTS)) then
 			return active
 		end
 	end
@@ -69,7 +71,7 @@ QuickQuest:Register('QUEST_GREETING', function()
 	local available = GetNumAvailableQuests()
 	if(available > 0) then
 		for index = 1, available do
-			if(not IsAvailableQuestTrivial(index) or IsTrackingTrivial()) then
+			if(not IsAvailableQuestTrivial(index) or IsTrackingHidden()) then
 				SelectAvailableQuest(index)
 			end
 		end
@@ -78,11 +80,25 @@ end)
 
 -- This should be part of the API, really
 local function IsGossipQuestCompleted(index)
-	return not not select(((index * 5) - 5) + 4, GetGossipActiveQuests())
+	if(isBetaClient) then
+		return not not select(((index * 6) - 6) + 4, GetGossipActiveQuests())
+	else
+		return not not select(((index * 5) - 5) + 4, GetGossipActiveQuests())
+	end
 end
 
 local function IsGossipQuestTrivial(index)
-	return not not select(((index * 6) - 6) + 3, GetGossipAvailableQuests())
+	if(isBetaClient) then
+		return not not select(((index * 7) - 7) + 3, GetGossipAvailableQuests())
+	else
+		return not not select(((index * 6) - 6) + 3, GetGossipAvailableQuests())
+	end
+end
+
+local function IsGossipQuestIgnored(index)
+	if(isBetaClient) then
+		return not not select(((index * 7) - 7) + 7, GetGossipAvailableQuests())
+	end
 end
 
 local ignoreGossipNPC = {
@@ -129,7 +145,7 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 	local available = GetNumGossipAvailableQuests()
 	if(available > 0) then
 		for index = 1, available do
-			if(not IsGossipQuestTrivial(index) or IsTrackingTrivial()) then
+			if((not IsGossipQuestTrivial(index) and not IsGossipQuestIgnored(index)) or IsTrackingHidden()) then
 				SelectGossipAvailableQuest(index)
 			end
 		end
@@ -176,7 +192,7 @@ end)
 
 QuestFrame:UnregisterEvent('QUEST_DETAIL')
 QuickQuest:Register('QUEST_DETAIL', function()
-	if(not QuestGetAutoAccept() or not QuestIsFromAreaTrigger()) then
+	if(not QuestGetAutoAccept() and not QuestIsFromAreaTrigger()) then
 		QuestFrame_OnEvent(QuestFrame, 'QUEST_DETAIL')
 	end
 end, true)
