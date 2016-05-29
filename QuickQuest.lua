@@ -228,7 +228,7 @@ QuickQuest:Register('QUEST_PROGRESS', function()
 				local link = GetQuestItemLink('required', index)
 				if(link) then
 					local id = tonumber(string.match(link, 'item:(%d+)'))
-					for _, itemID in next, QuickQuestItemBlacklist do
+					for _, itemID in next, QuickQuestBlacklistDB.items do
 						if(itemID == id) then
 							return
 						end
@@ -382,7 +382,7 @@ local function BagUpdate(bag)
 
 	for slot = 1, GetContainerNumSlots(bag) do
 		local _, id, active = GetContainerItemQuestInfo(bag, slot)
-		if(id and not active and not IsQuestFlaggedCompleted(id) and not QuickQuestItemBlacklist[id]) then
+		if(id and not active and not IsQuestFlaggedCompleted(id) and not QuickQuestBlacklistDB.items[id]) then
 			local level = GetContainerItemQuestLevel(bag, slot)
 			if(level <= UnitLevel('player')) then
 				UseContainerItem(bag, slot)

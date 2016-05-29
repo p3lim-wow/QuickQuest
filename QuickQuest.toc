@@ -4,7 +4,7 @@
 ## Title: QuickQuest
 ## Notes: Quest automation wizardry
 ## OptionalDeps: LibStub, Wasabi
-## SavedVariables: QuickQuestDB, QuickQuestItemBlacklist
+## SavedVariables: QuickQuestDB, QuickQuestBlacklistDB
 
 libs\LibStub\LibStub.lua
 libs\Wasabi\Wasabi.xml
