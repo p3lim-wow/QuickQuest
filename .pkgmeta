@@ -1,9 +1,25 @@
 package-as: QuickQuest
 
+externals:
+    libs/LibStub:
+        url: svn://svn.wowace.com/libstub/mainline/trunk
+    libs/Wasabi:
+        url: git://github.com/p3lim-wow/Wasabi.git
+        tag: latest
+
+optional-dependencies:
+    - libstub
+
 manual-changelog:
     filename: CHANGELOG.md
     markup-type: markdown
 
 ignore:
+    - .gitmodules
     - README.md
     - CONTRIBUTING.md
+    - libs/LibStub/tests
+    - libs/LibStub/.pkgmeta
+    - libs/Wasabi/.gitmodules
+    - libs/Wasabi/.pkgmeta
+    - libs/Wasabi/tests
