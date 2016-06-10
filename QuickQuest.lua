@@ -201,7 +201,11 @@ QuickQuest:Register('QUEST_DETAIL', function()
 	if(QuestGetAutoAccept()) then
 		AcknowledgeAutoAcceptQuest()
 	else
-		-- XXX: no way to tell if the quest is trivial or ignored
+		if(isBetaClient and IsQuestIgnored() and not IsTrackingHidden()) then
+			return
+		end
+
+		-- XXX: no way to tell if the quest is trivial
 		AcceptQuest()
 	end
 end)
