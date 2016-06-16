@@ -3,9 +3,6 @@ QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
 local isBetaClient = select(4, GetBuildInfo()) >= 70000
 
-local atBank, atMail, atMerchant
-local choiceQueue
-
 local metatable = {
 	__call = function(methods, ...)
 		for _, method in next, methods do
@@ -218,6 +215,7 @@ QuickQuest:Register('QUEST_ACCEPTED', function(id)
 	end
 end)
 
+local choiceQueue
 QuickQuest:Register('QUEST_ITEM_UPDATE', function()
 	if(choiceQueue and QuickQuest[choiceQueue]) then
 		QuickQuest[choiceQueue]()
@@ -286,79 +284,85 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 	end
 end, true)
 
-QuickQuest:Register('BANKFRAME_OPENED', function()
-	atBank = true
-end, true)
+local BagUpdate
+if(not isBetaClient) then
+	local atBank, atMail, atMerchant
+	QuickQuest:Register('BANKFRAME_OPENED', function()
+		atBank = true
+	end, true)
 
-QuickQuest:Register('BANKFRAME_CLOSED', function()
-	atBank = false
-end, true)
+	QuickQuest:Register('BANKFRAME_CLOSED', function()
+		atBank = false
+	end, true)
 
-QuickQuest:Register('GUILDBANKFRAME_OPENED', function()
-	atBank = true
-end, true)
+	QuickQuest:Register('GUILDBANKFRAME_OPENED', function()
+		atBank = true
+	end, true)
 
-QuickQuest:Register('GUILDBANKFRAME_CLOSED', function()
-	atBank = false
-end, true)
+	QuickQuest:Register('GUILDBANKFRAME_CLOSED', function()
+		atBank = false
+	end, true)
 
-QuickQuest:Register('MAIL_SHOW', function()
-	atMail = true
-end, true)
+	QuickQuest:Register('MAIL_SHOW', function()
+		atMail = true
+	end, true)
 
-QuickQuest:Register('MAIL_CLOSED', function()
-	atMail = false
-end, true)
+	QuickQuest:Register('MAIL_CLOSED', function()
+		atMail = false
+	end, true)
 
-QuickQuest:Register('MERCHANT_SHOW', function()
-	atMerchant = true
-end, true)
+	QuickQuest:Register('MERCHANT_SHOW', function()
+		atMerchant = true
+	end, true)
 
-QuickQuest:Register('MERCHANT_CLOSED', function()
-	atMerchant = false
-end, true)
+	QuickQuest:Register('MERCHANT_CLOSED', function()
+		atMerchant = false
+	end, true)
 
-local sub = string.sub
-QuickQuest:Register('MODIFIER_STATE_CHANGED', function(key, state)
-	if(sub(key, 2) == QuickQuestDB.modifier) then
-		modifier = state == 1
-	end
-end, true)
-
-local questTip = CreateFrame('GameTooltip', 'QuickQuestTip', UIParent, 'GameTooltipTemplate')
-local questString = string.gsub(ITEM_MIN_LEVEL, '%%d', '(%%d+)')
-
-local function GetContainerItemQuestLevel(bag, slot)
-	questTip:SetOwner(UIParent, 'ANCHOR_NONE')
-	questTip:SetBagItem(bag, slot)
-
-	for index = 1, questTip:NumLines() do
-		local level = tonumber(string.match(_G['QuickQuestTipTextLeft' .. index]:GetText(), questString))
-		if(level) then
-			return level
+	local sub = string.sub
+	QuickQuest:Register('MODIFIER_STATE_CHANGED', function(key, state)
+		if(sub(key, 2) == QuickQuestDB.modifier) then
+			modifier = state == 1
 		end
+	end, true)
+
+	local questTip = CreateFrame('GameTooltip', 'QuickQuestTip', UIParent, 'GameTooltipTemplate')
+	local questString = string.gsub(ITEM_MIN_LEVEL, '%%d', '(%%d+)')
+
+	local function GetContainerItemQuestLevel(bag, slot)
+		questTip:SetOwner(UIParent, 'ANCHOR_NONE')
+		questTip:SetBagItem(bag, slot)
+
+		for index = 1, questTip:NumLines() do
+			local level = tonumber(string.match(_G['QuickQuestTipTextLeft' .. index]:GetText(), questString))
+			if(level) then
+				return level
+			end
+		end
+
+		return 1
 	end
 
-	return 1
-end
+	function BagUpdate(bag)
+		if(not QuickQuestDB.items) then return end
+		if(atBank or atMail or atMerchant) then return end
 
-local function BagUpdate(bag)
-	if(not QuickQuestDB.items) then return end
-	if(atBank or atMail or atMerchant) then return end
-
-	for slot = 1, GetContainerNumSlots(bag) do
-		local _, id, active = GetContainerItemQuestInfo(bag, slot)
-		if(id and not active and not IsQuestFlaggedCompleted(id) and not QuickQuestBlacklistDB.items[id]) then
-			local level = GetContainerItemQuestLevel(bag, slot)
-			if(level <= UnitLevel('player')) then
-				UseContainerItem(bag, slot)
+		for slot = 1, GetContainerNumSlots(bag) do
+			local _, id, active = GetContainerItemQuestInfo(bag, slot)
+			if(id and not active and not IsQuestFlaggedCompleted(id) and not QuickQuestBlacklistDB.items[id]) then
+				local level = GetContainerItemQuestLevel(bag, slot)
+				if(level <= UnitLevel('player')) then
+					UseContainerItem(bag, slot)
+				end
 			end
 		end
 	end
 end
 
 QuickQuest:Register('PLAYER_LOGIN', function()
-	QuickQuest:Register('BAG_UPDATE', BagUpdate)
+	if(not isBetaClient) then
+		QuickQuest:Register('BAG_UPDATE', BagUpdate)
+	end
 
 	if(GetNumAutoQuestPopUps() > 0) then
 		QuickQuest:QUEST_AUTOCOMPLETE()
