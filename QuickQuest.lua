@@ -363,8 +363,4 @@ QuickQuest:Register('PLAYER_LOGIN', function()
 	if(not isBetaClient) then
 		QuickQuest:Register('BAG_UPDATE', BagUpdate)
 	end
-
-	if(GetNumAutoQuestPopUps() > 0) then
-		QuickQuest:QUEST_AUTOCOMPLETE()
-	end
 end)
