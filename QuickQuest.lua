@@ -4,7 +4,7 @@ QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 local isBetaClient = select(4, GetBuildInfo()) >= 70000
 
 local atBank, atMail, atMerchant
-local choiceQueue, autoCompleteIndex, autoCompleteTicker
+local choiceQueue
 
 local metatable = {
 	__call = function(methods, ...)
@@ -285,44 +285,6 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 		end
 	end
 end, true)
-
-QuickQuest:Register('QUEST_FINISHED', function()
-	choiceQueue = nil
-	autoCompleteIndex = nil
-
-	if(autoCompleteTicker) then
-		autoCompleteTicker:Cancel()
-		autoCompleteTicker = nil
-	end
-
-	if(GetNumAutoQuestPopUps() > 0) then
-		QuickQuest:QUEST_AUTOCOMPLETE()
-	end
-end)
-
-local function CompleteAutoComplete(self)
-	if(not autoCompleteIndex and GetNumAutoQuestPopUps() > 0) then
-		local id, type = GetAutoQuestPopUp(1)
-		if(type == 'COMPLETE') then
-			local index = GetQuestLogIndexByID(id)
-			ShowQuestComplete(index)
-			autoCompleteIndex = index
-		end
-
-		self:Cancel()
-	end
-end
-
-QuickQuest:Register('QUEST_AUTOCOMPLETE', function(questID)
-	autoCompleteTicker = C_Timer.NewTicker(1/4, CompleteAutoComplete, 20)
-end)
-
-QuickQuest:Register('BAG_UPDATE_DELAYED', function()
-	if(autoCompleteIndex) then
-		ShowQuestComplete(autoCompleteIndex)
-		autoCompleteIndex = nil
-	end
-end)
 
 QuickQuest:Register('BANKFRAME_OPENED', function()
 	atBank = true
