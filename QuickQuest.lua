@@ -357,10 +357,9 @@ if(not isBetaClient) then
 			end
 		end
 	end
+
+	QuickQuest:Register('PLAYER_LOGIN', function()
+		QuickQuest:Register('BAG_UPDATE', BagUpdate)
+	end)
 end
 
-QuickQuest:Register('PLAYER_LOGIN', function()
-	if(not isBetaClient) then
-		QuickQuest:Register('BAG_UPDATE', BagUpdate)
-	end
-end)
