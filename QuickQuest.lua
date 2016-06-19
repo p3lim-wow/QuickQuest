@@ -284,7 +284,13 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 	end
 end, true)
 
-local BagUpdate
+local sub = string.sub
+QuickQuest:Register('MODIFIER_STATE_CHANGED', function(key, state)
+	if(sub(key, 2) == QuickQuestDB.modifier) then
+		modifier = state == 1
+	end
+end, true)
+
 if(not isBetaClient) then
 	local atBank, atMail, atMerchant
 	QuickQuest:Register('BANKFRAME_OPENED', function()
@@ -319,13 +325,6 @@ if(not isBetaClient) then
 		atMerchant = false
 	end, true)
 
-	local sub = string.sub
-	QuickQuest:Register('MODIFIER_STATE_CHANGED', function(key, state)
-		if(sub(key, 2) == QuickQuestDB.modifier) then
-			modifier = state == 1
-		end
-	end, true)
-
 	local questTip = CreateFrame('GameTooltip', 'QuickQuestTip', UIParent, 'GameTooltipTemplate')
 	local questString = string.gsub(ITEM_MIN_LEVEL, '%%d', '(%%d+)')
 
@@ -343,7 +342,7 @@ if(not isBetaClient) then
 		return 1
 	end
 
-	function BagUpdate(bag)
+	local function BagUpdate(bag)
 		if(not QuickQuestDB.items) then return end
 		if(atBank or atMail or atMerchant) then return end
 
