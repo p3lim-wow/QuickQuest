@@ -3,6 +3,9 @@ package-as: QuickQuest
 externals:
     libs/LibStub:
         url: svn://svn.wowace.com/libstub/mainline/trunk
+    libs/LibGossipQuestInfo:
+        url: git://github.com/p3lim-wow/LibGossipQuestInfo.git
+        tag: latest
     libs/Wasabi:
         url: git://github.com/p3lim-wow/Wasabi.git
         tag: latest
@@ -20,6 +23,9 @@ ignore:
     - CONTRIBUTING.md
     - libs/LibStub/tests
     - libs/LibStub/.pkgmeta
+    - libs/LibGossipQuestInfo/.pkgmeta
+    - libs/LibGossipQuestInfo/README.md
+    - libs/LibGossipQuestInfo/CONTRIBUTING.md
     - libs/Wasabi/.gitmodules
     - libs/Wasabi/.pkgmeta
     - libs/Wasabi/tests

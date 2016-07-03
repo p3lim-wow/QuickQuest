@@ -3,10 +3,11 @@
 ## Version: @project-version@
 ## Title: QuickQuest
 ## Notes: Quest automation wizardry
-## OptionalDeps: LibStub, Wasabi
+## OptionalDeps: LibStub, LibGossipQuestInfo, Wasabi
 ## SavedVariables: QuickQuestDB, QuickQuestBlacklistDB
 
 libs\LibStub\LibStub.lua
+libs\LibGossipQuestInfo\LibGossipQuestInfo.lua
 libs\Wasabi\Wasabi.xml
 
 Localization.lua

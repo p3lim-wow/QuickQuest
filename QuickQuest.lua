@@ -84,29 +84,6 @@ QuickQuest:Register('QUEST_GREETING', function()
 	end
 end)
 
--- This should be part of the API, really
-local function IsGossipQuestCompleted(index)
-	if(isBetaClient) then
-		return not not select(((index * 6) - 6) + 4, GetGossipActiveQuests())
-	else
-		return not not select(((index * 5) - 5) + 4, GetGossipActiveQuests())
-	end
-end
-
-local function IsGossipQuestTrivial(index)
-	if(isBetaClient) then
-		return not not select(((index * 7) - 7) + 3, GetGossipAvailableQuests())
-	else
-		return not not select(((index * 6) - 6) + 3, GetGossipAvailableQuests())
-	end
-end
-
-local function IsGossipQuestIgnored(index)
-	if(isBetaClient) then
-		return not not select(((index * 7) - 7) + 7, GetGossipAvailableQuests())
-	end
-end
-
 local ignoreGossipNPC = {
 	-- Bodyguards
 	[86945] = true, -- Aeda Brightdawn (Horde)
@@ -142,7 +119,8 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 	local active = GetNumGossipActiveQuests()
 	if(active > 0) then
 		for index = 1, active do
-			if(IsGossipQuestCompleted(index)) then
+			local _, _, _, completed = GetActiveGossipQuestInfo(index)
+			if(complete) then
 				SelectGossipActiveQuest(index)
 			end
 		end
@@ -151,7 +129,8 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 	local available = GetNumGossipAvailableQuests()
 	if(available > 0) then
 		for index = 1, available do
-			if((not IsGossipQuestTrivial(index) and not IsGossipQuestIgnored(index)) or IsTrackingHidden()) then
+			local _, _, trivial, ignored = GetAvailableGossipQuestInfo(index)
+			if(not trivial and not ignored) or IsTrackingHidden()) then
 				SelectGossipAvailableQuest(index)
 			end
 		end
