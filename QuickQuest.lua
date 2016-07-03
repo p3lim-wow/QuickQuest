@@ -67,9 +67,18 @@ QuickQuest:Register('QUEST_GREETING', function()
 
 	local available = GetNumAvailableQuests()
 	if(available > 0) then
-		for index = 1, available do
-			if(not IsAvailableQuestTrivial(index) or IsTrackingHidden()) then
-				SelectAvailableQuest(index)
+		if(isBetaClient) then
+			for index = 1, available do
+				local isTrivial, _, _, _, isIgnored = GetAvailableQuestInfo(index)
+				if((not isTrivial and not isIgnored) or IsTrackingHidden()) then
+					SelectAvailableQuest(index)
+				end
+			end
+		else
+			for index = 1, available do
+				if(not IsAvailableQuestTrivial(index) or IsTrackingHidden()) then
+					SelectAvailableQuest(index)
+				end
 			end
 		end
 	end
