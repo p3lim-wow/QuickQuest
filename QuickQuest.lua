@@ -197,14 +197,14 @@ QuickQuest:Register('GOSSIP_CONFIRM', function(index)
 end)
 
 QuestFrame:UnregisterEvent('QUEST_DETAIL')
-QuickQuest:Register('QUEST_DETAIL', function()
-	if(not QuestGetAutoAccept() and not QuestIsFromAreaTrigger()) then
-		QuestFrame_OnEvent(QuestFrame, 'QUEST_DETAIL')
+QuickQuest:Register('QUEST_DETAIL', function(...)
+	if(not QuestGetAutoAccept() and not QuestIsFromAreaTrigger() and not QuickQuestBlacklistDB[GetQuestID()]) then
+		QuestFrame_OnEvent(QuestFrame, 'QUEST_DETAIL', ...)
 	end
 end, true)
 
-QuickQuest:Register('QUEST_DETAIL', function()
-	if(QuestGetAutoAccept()) then
+QuickQuest:Register('QUEST_DETAIL', function(questStartItemID)
+	if(QuestGetAutoAccept() or (questStartItemID ~= nil and questStartItemID ~= 0)) then
 		AcknowledgeAutoAcceptQuest()
 	else
 		if(isBetaClient and IsQuestIgnored() and not IsTrackingHidden()) then
@@ -216,6 +216,30 @@ QuickQuest:Register('QUEST_DETAIL', function()
 	end
 end)
 
+local function AttemptAutoComplete(event)
+	if(GetNumAutoQuestPopUps() > 0) then
+		if(UnitIsDeadOrGhost('player')) then
+			QuickQuest:Register('PLAYER_REGEN_ENABLED', AttemptAutoComplete)
+			return
+		end
+
+		local questID, popUpType = GetAutoQuestPopUp(1)
+		if(popUpType == 'OFFER') then
+			ShowQuestOffer(GetQuestLogIndexByID(questID))
+		else
+			ShowQuestComplete(GetQuestLogIndexByID(questID))
+		end
+	else
+		C_Timer.After(1, AttemptAutoComplete)
+	end
+
+	if(event == 'PLAYER_REGEN_ENABLED') then
+		QuickQuest:UnregisterEvent('PLAYER_REGEN_ENABLED')
+	end
+end
+
+QuickQuest:Register('PLAYER_LOGIN', AttemptAutoComplete)
+QuickQuest:Register('QUEST_AUTOCOMPLETE', AttemptAutoComplete)
 QuickQuest:Register('QUEST_ACCEPT_CONFIRM', AcceptQuest)
 
 QuickQuest:Register('QUEST_ACCEPTED', function(id)
