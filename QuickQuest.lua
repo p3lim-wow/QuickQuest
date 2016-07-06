@@ -122,8 +122,8 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 	local active = GetNumGossipActiveQuests()
 	if(active > 0) then
 		for index = 1, active do
-			local _, _, _, completed = GetActiveGossipQuestInfo(index)
-			if(complete) then
+			local _, _, _, _, completed = GetActiveGossipQuestInfo(index)
+			if(completed) then
 				SelectGossipActiveQuest(index)
 			end
 		end
