@@ -47,6 +47,7 @@ end
 local ignoreQuestNPC = {
 	[88570] = true, -- Fate-Twister Tiklal
 	[87391] = true, -- Fate-Twister Seress
+	[111243] = true, -- Archmage Lan'dalock
 }
 
 QuickQuest:Register('QUEST_GREETING', function()
