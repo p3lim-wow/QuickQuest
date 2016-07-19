@@ -1,4 +1,4 @@
-## Interface: 60100
+## Interface: 70000
 ## Author: p3lim
 ## Version: @project-version@
 ## Title: QuickQuest
