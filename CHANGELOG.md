@@ -1,3 +1,7 @@
+### Changes in 70000.22-Release:
+
+- Fixed: Incorrect path in the pagacker metadata file (internal fluff)
+
 ### Changes in 70000.21-Release:
 
 - Added: Sassy Imps to the blacklist
