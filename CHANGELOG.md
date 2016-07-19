@@ -26,7 +26,7 @@
 ### Changes in 60000.18-Release:
 
 - Added: Royal Reward as cash reward from quests in Uldum
-- Added: Blaclist for auto-accepting weekly seal quests
+- Added: Blacklist for auto-accepting weekly seal quests
 - Changed: Improved behavior for auto-accepting quests
 - Changed: Blacklist more commonly misclicked NPCs
 
@@ -46,7 +46,7 @@
 - Changed: Update Interface version
 - Fixed: "Auto quests" should now complete properly
 - Fixed: Further issues brought on by the beta client
-- Removed: Compatability code for "Mists of Pandaria"
+- Removed: Compatibility code for "Mists of Pandaria"
 
 ### Changes in 50400.15-Release:
 
