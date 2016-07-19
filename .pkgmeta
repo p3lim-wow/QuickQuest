@@ -2,7 +2,7 @@ package-as: QuickQuest
 
 externals:
     libs/LibStub:
-        url: svn://svn.wowace.com/wow/libstub/mainline/trunk
+        url: git://github.com/wowace-mirror/LibStub.git
     libs/LibGossipQuestInfo:
         url: git://github.com/p3lim-wow/LibGossipQuestInfo.git
         tag: latest
