@@ -1,3 +1,19 @@
+### Changes in 70000.21-Release:
+
+- Added: Sassy Imps to the blacklist
+- Added: Option to automatically share quests (warning: prone to be annoying)
+- Added: Support for ignored quests
+- Added: (Hopefully) proper support for auto-completing quests
+- Added: Legion's new bonus roll currency NPC to the blacklist
+- Changed: Update Interface version
+- Changed: Using a library to create the options
+- Changed: Using a library to handle API inconsistencies
+- Fixed: Garrison scouting missions not being ignored
+- Fixed: Auto-accept quests' window getting stuck
+- Fixed: String error in the options
+- Fixed: Garrison "Mission Specialist" NPC for Alliance not being ignored
+- Removed: Auto-accepting quests that start from items (handled by the default UI now)
+
 ### Changes in 60100.20-Release
 
 - Added: Garrison scouting missives to the default item blacklist
