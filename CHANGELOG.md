@@ -1,3 +1,7 @@
+### Changes in 70000.22-Release:
+
+- Removed: Auto-accepting items option on Legion clients
+
 ### Changes in 70000.21-Release:
 
 - Added: Sassy Imps to the blacklist
