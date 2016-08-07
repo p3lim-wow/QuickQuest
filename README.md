@@ -30,7 +30,7 @@ http://wow.curseforge.com/addons/quickquest/localization/
 ## Feedback
 
 If you have a question, please use the comments section on Curse/WoWInterface.  
-If you would like to report a bug or contribute to the project, please follow [this link](https://github.com/p3lim-wow/QuickQuest/blob/master/CONTRIBUTING.md) to get started.
+If you would like to report a bug or contribute to the project, please follow [this link](//github.com/p3lim-wow/QuickQuest/issues?q=) to get started.
 
 ## Legal
 
