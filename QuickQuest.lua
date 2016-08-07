@@ -1,8 +1,6 @@
 local QuickQuest = CreateFrame('Frame')
 QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
-local isBetaClient = select(4, GetBuildInfo()) >= 70000
-
 local metatable = {
 	__call = function(methods, ...)
 		for _, method in next, methods do
@@ -68,18 +66,10 @@ QuickQuest:Register('QUEST_GREETING', function()
 
 	local available = GetNumAvailableQuests()
 	if(available > 0) then
-		if(isBetaClient) then
-			for index = 1, available do
-				local isTrivial, _, _, _, isIgnored = GetAvailableQuestInfo(index)
-				if((not isTrivial and not isIgnored) or IsTrackingHidden()) then
-					SelectAvailableQuest(index)
-				end
-			end
-		else
-			for index = 1, available do
-				if(not IsAvailableQuestTrivial(index) or IsTrackingHidden()) then
-					SelectAvailableQuest(index)
-				end
+		for index = 1, available do
+			local isTrivial, _, _, _, isIgnored = GetAvailableQuestInfo(index)
+			if((not isTrivial and not isIgnored) or IsTrackingHidden()) then
+				SelectAvailableQuest(index)
 			end
 		end
 	end
@@ -190,7 +180,7 @@ QuickQuest:Register('QUEST_DETAIL', function(questStartItemID)
 	if(QuestGetAutoAccept() or (questStartItemID ~= nil and questStartItemID ~= 0)) then
 		AcknowledgeAutoAcceptQuest()
 	else
-		if(isBetaClient and IsQuestIgnored() and not IsTrackingHidden()) then
+		if(IsQuestIgnored() and not IsTrackingHidden()) then
 			return
 		end
 
@@ -306,75 +296,3 @@ QuickQuest:Register('MODIFIER_STATE_CHANGED', function(key, state)
 		modifier = state == 1
 	end
 end, true)
-
-if(not isBetaClient) then
-	local atBank, atMail, atMerchant
-	QuickQuest:Register('BANKFRAME_OPENED', function()
-		atBank = true
-	end, true)
-
-	QuickQuest:Register('BANKFRAME_CLOSED', function()
-		atBank = false
-	end, true)
-
-	QuickQuest:Register('GUILDBANKFRAME_OPENED', function()
-		atBank = true
-	end, true)
-
-	QuickQuest:Register('GUILDBANKFRAME_CLOSED', function()
-		atBank = false
-	end, true)
-
-	QuickQuest:Register('MAIL_SHOW', function()
-		atMail = true
-	end, true)
-
-	QuickQuest:Register('MAIL_CLOSED', function()
-		atMail = false
-	end, true)
-
-	QuickQuest:Register('MERCHANT_SHOW', function()
-		atMerchant = true
-	end, true)
-
-	QuickQuest:Register('MERCHANT_CLOSED', function()
-		atMerchant = false
-	end, true)
-
-	local questTip = CreateFrame('GameTooltip', 'QuickQuestTip', UIParent, 'GameTooltipTemplate')
-	local questString = string.gsub(ITEM_MIN_LEVEL, '%%d', '(%%d+)')
-
-	local function GetContainerItemQuestLevel(bag, slot)
-		questTip:SetOwner(UIParent, 'ANCHOR_NONE')
-		questTip:SetBagItem(bag, slot)
-
-		for index = 1, questTip:NumLines() do
-			local level = tonumber(string.match(_G['QuickQuestTipTextLeft' .. index]:GetText(), questString))
-			if(level) then
-				return level
-			end
-		end
-
-		return 1
-	end
-
-	local function BagUpdate(bag)
-		if(not QuickQuestDB.items) then return end
-		if(atBank or atMail or atMerchant) then return end
-
-		for slot = 1, GetContainerNumSlots(bag) do
-			local _, id, active = GetContainerItemQuestInfo(bag, slot)
-			if(id and not active and not IsQuestFlaggedCompleted(id) and not QuickQuestBlacklistDB.items[id]) then
-				local level = GetContainerItemQuestLevel(bag, slot)
-				if(level <= UnitLevel('player')) then
-					UseContainerItem(bag, slot)
-				end
-			end
-		end
-	end
-
-	QuickQuest:Register('PLAYER_LOGIN', function()
-		QuickQuest:Register('BAG_UPDATE', BagUpdate)
-	end)
-end
-
