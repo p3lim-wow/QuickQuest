@@ -1,31 +1,21 @@
 package-as: QuickQuest
 
 externals:
-    libs/LibStub:
-        url: git://github.com/wowace-mirror/LibStub.git
     libs/LibGossipQuestInfo:
-        url: git://github.com/p3lim-wow/LibGossipQuestInfo.git
+        url: git://git.curseforge.com/wow/libgossipquestinfo/mainline.git
         tag: latest
     libs/Wasabi:
-        url: git://github.com/p3lim-wow/Wasabi.git
+        url: git://git.curseforge.com/wow/wasabi/mainline.git
         tag: latest
 
 optional-dependencies:
-    - libstub
+    - libgossipquestinfo
+    - wasabi
 
 manual-changelog:
     filename: CHANGELOG.md
     markup-type: markdown
 
 ignore:
-    - .gitmodules
     - README.md
     - CONTRIBUTING.md
-    - libs/LibStub/tests
-    - libs/LibStub/.pkgmeta
-    - libs/LibGossipQuestInfo/.pkgmeta
-    - libs/LibGossipQuestInfo/README.md
-    - libs/LibGossipQuestInfo/CONTRIBUTING.md
-    - libs/Wasabi/.gitmodules
-    - libs/Wasabi/.pkgmeta
-    - libs/Wasabi/tests

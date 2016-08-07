@@ -1,9 +1,0 @@
-[submodule "LibStub"]
-	path = libs/LibStub
-	url = git://github.com/wowace-mirror/LibStub.git
-[submodule "LibGossipQuestInfo"]
-	path = libs/LibGossipQuestInfo
-	url = git://github.com/p3lim-wow/LibGossipQuestInfo.git
-[submodule "Wasabi"]
-	path = libs/Wasabi
-	url = git://github.com/p3lim-wow/Wasabi.git
