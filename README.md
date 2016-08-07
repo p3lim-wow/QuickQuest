@@ -1,7 +1,7 @@
 # QuickQuest
 
 This is an addon for the popular MMORPG "World of Warcraft".  
-It can be downloaded at [Curse](http://curse.com/addons/wow/quickquest) or at [WoWInterface](http://wowinterface.com/downloads/info20838).
+It can be downloaded at [Curse](//mods.curse.com/addons/wow/quickquest) or at [WoWInterface](//wowinterface.com/downloads/info20838).
 
 ## Description
 
@@ -34,4 +34,4 @@ If you would like to report a bug or contribute to the project, please follow [t
 
 ## Legal
 
-Please see the [LICENSE](https://github.com/p3lim-wow/QuickQuest/blob/master/LICENSE.txt) file.
+Please see the [LICENSE](//github.com/p3lim-wow/QuickQuest/blob/master/LICENSE.txt) file.
