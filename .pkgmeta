@@ -1,20 +1,20 @@
 package-as: QuickQuest
 
 externals:
-    libs/LibGossipQuestInfo:
-        url: git://git.curseforge.com/wow/libgossipquestinfo/mainline.git
-        tag: latest
-    libs/Wasabi:
-        url: git://git.curseforge.com/wow/wasabi/mainline.git
-        tag: latest
+  libs/LibGossipQuestInfo:
+    url: git://git.curseforge.com/wow/libgossipquestinfo/mainline.git
+    tag: latest
+  libs/Wasabi:
+    url: git://git.curseforge.com/wow/wasabi/mainline.git
+    tag: latest
 
 optional-dependencies:
-    - libgossipquestinfo
-    - wasabi
+  - libgossipquestinfo
+  - wasabi
 
 manual-changelog:
-    filename: CHANGELOG.md
-    markup-type: markdown
+  filename: CHANGELOG.md
+  markup-type: markdown
 
 ignore:
-    - README.md
+  - README.md
