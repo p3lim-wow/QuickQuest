@@ -29,7 +29,6 @@ Options:Initialize(function(self)
 	local Share = self:CreateCheckButton('share')
 	Share:SetPoint('TOPLEFT', Items or Title, 'BOTTOMLEFT', 0, -8)
 	Share:SetText(L['Automatically share quests when picked up'])
-	Share:SetNewFeature(true)
 
 	local Gossip = self:CreateCheckButton('gossip')
 	Gossip:SetPoint('TOPLEFT', Share, 'BOTTOMLEFT', 0, -8)
