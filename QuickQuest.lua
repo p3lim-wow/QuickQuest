@@ -1,6 +1,8 @@
 local QuickQuest = CreateFrame('Frame')
 QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
+local L = select(2, ...)
+
 local metatable = {
 	__call = function(methods, ...)
 		for _, method in next, methods do
@@ -9,12 +11,12 @@ local metatable = {
 	end
 }
 
-local modifier = false
+local modifier, DISABLED = false
 function QuickQuest:Register(event, method, override)
 	local newmethod
 	if(not override) then
 		newmethod = function(...)
-			if(QuickQuestDB.reverse == modifier) then
+			if(QuickQuestDB.reverse == modifier and not DISABLED) then
 				method(...)
 			end
 		end
@@ -296,3 +298,14 @@ QuickQuest:Register('MODIFIER_STATE_CHANGED', function(key, state)
 		modifier = state == 1
 	end
 end, true)
+
+local function CheckScenario()
+	if(QuickQuestDB.withered and C_Scenario.IsInScenario()) then
+		local name = C_Scenario.GetInfo()
+		DISABLED = name == L['The Collapse']
+	end
+end
+
+QuickQuest:Register('ZONE_CHANGED', CheckScenario, true)
+QuickQuest:Register('ZONE_CHANGED_NEW_AREA', CheckScenario, true)
+QuickQuest:Register('PLAYER_ENTERING_WORLD', CheckScenario, true)

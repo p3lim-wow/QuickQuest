@@ -7,6 +7,7 @@ local defaults = {
 	modifier = 'SHIFT',
 	reverse = false,
 	share = false,
+	withered = true,
 }
 
 local isBetaClient = select(4, GetBuildInfo()) >= 70000
@@ -69,6 +70,11 @@ Options:Initialize(function(self)
 			Modifier:SetText(L['Hold this key to to temporarily disable automation'])
 		end
 	end)
+
+	local Withered = self:CreateCheckButton('withered')
+	Withered:SetPoint('TOPLEFT', Reverse, 'BOTTOMLEFT', -24, -8)
+	Withered:SetText(L['Disable while doing the withered training scenario in Suramar'])
+	Withered:SetNewFeature(true)
 end)
 
 local defaultBlacklist = {
