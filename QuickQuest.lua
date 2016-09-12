@@ -272,8 +272,16 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 end)
 
 local cashRewards = {
-	[45724] = 1e5, -- Champion's Purse
-	[64491] = 2e6, -- Royal Reward
+	[45724] = 1e5, -- Champion's Purse, 10 gold
+	[64491] = 2e6, -- Royal Reward, 200 gold
+
+	-- Items from the Sixtrigger brothers quest chain in Stormheim
+	[138127] = 15, -- Mysterious Coin, 15 copper
+	[138129] = 11, -- Swatch of Priceless Silk, 11 copper
+	[138131] = 24, -- Magical Sprouting Beans, 24 copper
+	[138123] = 15, -- Shiny Gold Nugget, 15 copper
+	[138125] = 16, -- Crystal Clear Gemstone, 16 copper
+	[138133] = 27, -- Elixir of Endless Wonder, 27 copper
 }
 
 QuickQuest:Register('QUEST_COMPLETE', function()
