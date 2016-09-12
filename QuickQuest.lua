@@ -324,6 +324,8 @@ local function CheckScenario()
 	end
 end
 
+-- TODO: find a better solution for zone detection, currently none of these
+-- fire when the player leaves the scenario.
 QuickQuest:Register('ZONE_CHANGED', CheckScenario, true)
 QuickQuest:Register('ZONE_CHANGED_NEW_AREA', CheckScenario, true)
 QuickQuest:Register('PLAYER_ENTERING_WORLD', CheckScenario, true)
