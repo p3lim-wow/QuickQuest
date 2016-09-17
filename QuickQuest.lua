@@ -132,7 +132,7 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 	if(available > 0) then
 		for index = 1, available do
 			local _, _, trivial, ignored = GetAvailableGossipQuestInfo(index)
-			if((not trivial and not ignored) or IsTrackingHidden()) then
+			if((not trivial and not ignored) or IsTrackingHidden()) or (npcID == 64337 and QuickQuestDB.nomi) then
 				SelectGossipAvailableQuest(index)
 			end
 		end
