@@ -8,6 +8,7 @@ local defaults = {
 	reverse = false,
 	share = false,
 	withered = true,
+	nomi = true,
 }
 
 local isBetaClient = select(4, GetBuildInfo()) >= 70000
@@ -75,6 +76,12 @@ Options:Initialize(function(self)
 	Withered:SetPoint('TOPLEFT', Reverse, 'BOTTOMLEFT', -24, -8)
 	Withered:SetText(L['Disable while doing the withered training scenario in Suramar'])
 	Withered:SetNewFeature(true)
+
+	local Nomi = self:CreateCheckButton('nomi')
+	Nomi:SetPoint('TOPLEFT', Withered, 'BOTTOMLEFT', 0, -8)
+	Nomi:SetText(L['Always accept and complete Nomi\'s daily quest, despite being low-level'])
+	Nomi:SetNewFeature(true)
+
 end)
 
 local defaultBlacklist = {
