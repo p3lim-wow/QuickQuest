@@ -318,14 +318,10 @@ QuickQuest:Register('MODIFIER_STATE_CHANGED', function(key, state)
 end, true)
 
 local function CheckScenario()
-	if(QuickQuestDB.withered and C_Scenario.IsInScenario()) then
-		local name = C_Scenario.GetInfo()
+	if(QuickQuestDB.withered) then
+		local name = C_Scenario.IsInScenario() and C_Scenario.GetInfo()
 		DISABLED = name == L['The Collapse']
 	end
 end
 
--- TODO: find a better solution for zone detection, currently none of these
--- fire when the player leaves the scenario.
-QuickQuest:Register('ZONE_CHANGED', CheckScenario, true)
-QuickQuest:Register('ZONE_CHANGED_NEW_AREA', CheckScenario, true)
 QuickQuest:Register('PLAYER_ENTERING_WORLD', CheckScenario, true)
