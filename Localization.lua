@@ -13,6 +13,9 @@ L['SHIFT key'] = SHIFT_KEY
 L['Never'] = NEVER
 L['Always'] = ALWAYS
 
+L['enable'] = string.lower(ENABLE)
+L['disable'] = string.lower(DISABLE)
+
 local locale = GetLocale()
 if(locale == 'deDE') then
 	--@localization(locale="deDE", format="lua_additive_table")@
