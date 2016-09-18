@@ -11,8 +11,6 @@ local defaults = {
 	nomi = true,
 }
 
-local isBetaClient = select(4, GetBuildInfo()) >= 70000
-
 local Options = LibStub('Wasabi'):New(addonName, 'QuickQuestDB', defaults)
 Options:AddSlash('/qq')
 Options:AddSlash('/quickquest')
@@ -21,15 +19,8 @@ Options:Initialize(function(self)
 	Title:SetPoint('TOPLEFT', 16, -16)
 	Title:SetText(addonName)
 
-	local Items
-	if(not isBetaClient) then
-		Items = self:CreateCheckButton('items')
-		Items:SetPoint('TOPLEFT', Title, 'BOTTOMLEFT', 0, -8)
-		Items:SetText(L['Automatically start quests from items'])
-	end
-
 	local Share = self:CreateCheckButton('share')
-	Share:SetPoint('TOPLEFT', Items or Title, 'BOTTOMLEFT', 0, -8)
+	Share:SetPoint('TOPLEFT', Title, 'BOTTOMLEFT', 0, -8)
 	Share:SetText(L['Automatically share quests when picked up'])
 
 	local Gossip = self:CreateCheckButton('gossip')
