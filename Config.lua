@@ -72,7 +72,6 @@ Options:Initialize(function(self)
 	Nomi:SetPoint('TOPLEFT', Withered, 'BOTTOMLEFT', 0, -8)
 	Nomi:SetText(L['Always accept and complete Nomi\'s daily quest, despite being low-level'])
 	Nomi:SetNewFeature(true)
-
 end)
 
 local defaultBlacklist = {
