@@ -1,3 +1,11 @@
+### Changes in 70000.23-Release:
+
+- Added: Option to disable during Withered Scenario (need localization help!)
+- Added: Automated rogue class hall door opener
+- Added: Exception for Nomi's (MoP version) daily cooking quests
+- Changed: Added values to items from the Sixtrigger Brothers' quest chain
+- Removed: Old beta client compatibility
+
 ### Changes in 70000.22-Release:
 
 - Fixed: Incorrect path in the pagacker metadata file (internal fluff)
