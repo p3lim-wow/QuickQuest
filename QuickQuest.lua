@@ -59,7 +59,7 @@ QuickQuest:Register('QUEST_GREETING', function()
 	local active = GetNumActiveQuests()
 	if(active > 0) then
 		for index = 1, active do
-			local _, complete = GetActiveTitle(index)
+			local name, complete = GetActiveTitle(index)
 			if(complete) then
 				if(not name:match(GARRISON_LANDING_SHIPMENT_LABEL)) then
 					SelectActiveQuest(index)
