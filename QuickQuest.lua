@@ -61,7 +61,9 @@ QuickQuest:Register('QUEST_GREETING', function()
 		for index = 1, active do
 			local _, complete = GetActiveTitle(index)
 			if(complete) then
-				SelectActiveQuest(index)
+				if(not name:match(GARRISON_LANDING_SHIPMENT_LABEL)) then
+					SelectActiveQuest(index)
+				end
 			end
 		end
 	end
@@ -121,9 +123,11 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 	local active = GetNumGossipActiveQuests()
 	if(active > 0) then
 		for index = 1, active do
-			local _, _, _, _, completed = GetActiveGossipQuestInfo(index)
+			local name, _, _, _, completed = GetActiveGossipQuestInfo(index)
 			if(completed) then
-				SelectGossipActiveQuest(index)
+				if(not name:match(GARRISON_LANDING_SHIPMENT_LABEL)) then
+					SelectGossipActiveQuest(index)
+				end
 			end
 		end
 	end
