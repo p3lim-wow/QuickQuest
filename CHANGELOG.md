@@ -1,3 +1,7 @@
+### Changes in 70100.25-Release:
+
+- Changed: No longer attempts to automate delivery of "Supplies Needed" world quests
+
 ### Changes in 70100.24-Release:
 
 - Changed: Update Interface version
