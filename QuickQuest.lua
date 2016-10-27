@@ -50,6 +50,11 @@ local ignoreQuestNPC = {
 	[111243] = true, -- Archmage Lan'dalock
 }
 
+local worldQuestTitleAffixes = {
+	[GARRISON_LANDING_SHIPMENT_LABEL] = true, -- Work Order
+	['Supplies Needed'] = true,
+}
+
 QuickQuest:Register('QUEST_GREETING', function()
 	local npcID = GetNPCID()
 	if(ignoreQuestNPC[npcID]) then
@@ -61,7 +66,14 @@ QuickQuest:Register('QUEST_GREETING', function()
 		for index = 1, active do
 			local name, complete = GetActiveTitle(index)
 			if(complete) then
-				if(not name:match(GARRISON_LANDING_SHIPMENT_LABEL)) then
+				local ignoreQuest
+				for affix in next, worldQuestTitleAffixes do
+					if(name:match(affix)) then
+						ignoreQuest = true
+					end
+				end
+
+				if(not ignoreQuest) then
 					SelectActiveQuest(index)
 				end
 			end
@@ -125,7 +137,14 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 		for index = 1, active do
 			local name, _, _, _, completed = GetActiveGossipQuestInfo(index)
 			if(completed) then
-				if(not name:match(GARRISON_LANDING_SHIPMENT_LABEL)) then
+				local ignoreQuest
+				for affix in next, worldQuestTitleAffixes do
+					if(name:match(affix)) then
+						ignoreQuest = true
+					end
+				end
+
+				if(not ignoreQuest) then
 					SelectGossipActiveQuest(index)
 				end
 			end
