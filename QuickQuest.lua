@@ -50,10 +50,19 @@ local ignoreQuestNPC = {
 	[111243] = true, -- Archmage Lan'dalock
 }
 
-local worldQuestTitleAffixes = {
-	[GARRISON_LANDING_SHIPMENT_LABEL] = true, -- Work Order
-	['Supplies Needed'] = true,
-}
+local function GetQuestLogQuests(onlyComplete)
+	local quests = {}
+	for index = 1, GetNumQuestLogEntries() do
+		local title, _, _, isHeader, _, isComplete, _, questID = GetQuestLogTitle(index)
+		if(not isHeader) then
+			if(onlyComplete and isComplete or not onlyComplete) then
+				quests[title] = questID
+			end
+		end
+	end
+
+	return quests
+end
 
 QuickQuest:Register('QUEST_GREETING', function()
 	local npcID = GetNPCID()
@@ -63,18 +72,18 @@ QuickQuest:Register('QUEST_GREETING', function()
 
 	local active = GetNumActiveQuests()
 	if(active > 0) then
+		local logQuests = GetQuestLogQuests(true)
 		for index = 1, active do
 			local name, complete = GetActiveTitle(index)
 			if(complete) then
-				local ignoreQuest
-				for affix in next, worldQuestTitleAffixes do
-					if(name:match(affix)) then
-						ignoreQuest = true
-					end
-				end
-
-				if(not ignoreQuest) then
+				local questID = logQuests[name]
+				if(not questID) then
 					SelectActiveQuest(index)
+				else
+					local _, _, worldQuest = GetQuestTagInfo(questID)
+					if(not worldQuest) then
+						SelectActiveQuest(index)
+					end
 				end
 			end
 		end
@@ -134,18 +143,18 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 
 	local active = GetNumGossipActiveQuests()
 	if(active > 0) then
+		local logQuests = GetQuestLogQuests(true)
 		for index = 1, active do
 			local name, _, _, _, completed = GetActiveGossipQuestInfo(index)
-			if(completed) then
-				local ignoreQuest
-				for affix in next, worldQuestTitleAffixes do
-					if(name:match(affix)) then
-						ignoreQuest = true
-					end
-				end
-
-				if(not ignoreQuest) then
+			if(complete) then
+				local questID = logQuests[name]
+				if(not questID) then
 					SelectGossipActiveQuest(index)
+				else
+					local _, _, worldQuest = GetQuestTagInfo(questID)
+					if(not worldQuest) then
+						SelectGossipActiveQuest(index)
+					end
 				end
 			end
 		end
