@@ -1,3 +1,7 @@
+### Changes in 70100.27-Release:
+
+- Fixed: Libraries path
+
 ### Changes in 70100.26-Release:
 
 - Changed: Profession world quests ignoring now work on any locale
