@@ -146,7 +146,7 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 		local logQuests = GetQuestLogQuests(true)
 		for index = 1, active do
 			local name, _, _, _, completed = GetActiveGossipQuestInfo(index)
-			if(complete) then
+			if(completed) then
 				local questID = logQuests[name]
 				if(not questID) then
 					SelectGossipActiveQuest(index)
