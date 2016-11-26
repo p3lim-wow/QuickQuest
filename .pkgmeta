@@ -2,10 +2,10 @@ package-as: QuickQuest
 
 externals:
   libs/LibGossipQuestInfo:
-    url: git://git.curseforge.com/wow/libgossipquestinfo/mainline.git
+    url: git://github.com/p3lim-wow/LibGossipQuestInfo
     tag: latest
   libs/Wasabi:
-    url: git://git.curseforge.com/wow/wasabi/mainline.git
+    url: git://github.com/p3lim-wow/Wasabi
     tag: latest
 
 optional-dependencies:
