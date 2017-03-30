@@ -1,3 +1,8 @@
+### Changes in 70200.28-Release:
+
+- Changed: Update Interface version
+- Removed: Support for ignoring quests, removed by Blizzard
+
 ### Changes in 70100.27-Release:
 
 - Fixed: Libraries path
