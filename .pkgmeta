@@ -1,5 +1,7 @@
 package-as: QuickQuest
 
+enable-nolib-creation: no
+
 externals:
   libs/LibGossipQuestInfo:
     url: git://github.com/p3lim-wow/LibGossipQuestInfo
