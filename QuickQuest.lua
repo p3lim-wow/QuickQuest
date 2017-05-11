@@ -276,7 +276,7 @@ QuickQuest:Register('QUEST_PROGRESS', function()
 			for index = 1, requiredItems do
 				local link = GetQuestItemLink('required', index)
 				if(link) then
-					local id = tonumber(string.match(link, 'item:(%d+)'))
+					local id = GetItemInfoFromHyperlink(link)
 					for _, itemID in next, QuickQuestBlacklistDB.items do
 						if(itemID == id) then
 							return
@@ -322,7 +322,7 @@ QuickQuest:Register('QUEST_COMPLETE', function()
 			local link = GetQuestItemLink('choice', index)
 			if(link) then
 				local _, _, _, _, _, _, _, _, _, _, value = GetItemInfo(link)
-				value = cashRewards[tonumber(string.match(link, 'item:(%d+):'))] or value
+				value = cashRewards[(GetItemInfoFromHyperlink(link))] or value
 
 				if(value > bestValue) then
 					bestValue, bestIndex = value, index
