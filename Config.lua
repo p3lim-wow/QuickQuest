@@ -132,6 +132,15 @@ local defaultBlacklist = {
 	}
 }
 
+-- need this to get size of a pair table
+local function tLength(t)
+	local count = 0
+	for _ in next, t do
+		count = count + 1
+	end
+	return count
+end
+
 local Blacklist = Options:CreateChild('Item Blacklist', 'QuickQuestBlacklistDB', defaultBlacklist)
 Blacklist:Initialize(function(self)
 	local Title = self:CreateTitle()
@@ -165,12 +174,15 @@ Blacklist:Initialize(function(self)
 		Object:SetScript('OnLeave', GameTooltip_Hide)
 	end)
 
+	local queryItems = {}
 	Items:On('ObjectUpdate', function(self, event, Object)
-		local _, _, _, _, _, _, _, _, _, textureFile = GetItemInfo(Object.value)
+		local itemID = Object.value
+
+		local _, _, _, _, _, _, _, _, _, textureFile = GetItemInfo(itemID)
 		if(textureFile) then
 			Object:SetNormalTexture(textureFile)
-		elseif(not self.queryItems[Object.value]) then
-			self.queryItems[Object.value] = Object.key
+		elseif(not queryItems[itemID]) then
+			queryItems[itemID] = Object.key -- questID
 			self:RegisterEvent('GET_ITEM_INFO_RECEIVED')
 		end
 	end)
@@ -183,12 +195,12 @@ Blacklist:Initialize(function(self)
 
 	Items:HookScript('OnEvent', function(self, event, itemID)
 		if(event == 'GET_ITEM_INFO_RECEIVED') then
-			local questID = self.queryItems[itemID]
+			local questID = queryItems[itemID]
 			if(questID) then
-				self.queryItems[itemID] = nil
+				queryItems[itemID] = nil
 				self:AddObject(questID, itemID)
 
-				if(#self.queryItems == 0) then
+				if(tLength(queryItems) == 0) then
 					self:UnregisterEvent('GET_ITEM_INFO_RECEIVED')
 				end
 			end
@@ -216,8 +228,6 @@ Blacklist:Initialize(function(self)
 			end
 		end
 	end)
-
-	Items.queryItems = {}
 end)
 
 -- Temporary import from old DB
