@@ -1,3 +1,7 @@
+### Changes in 70200.30-Release:
+
+- Changes: No auto-gossip for class challenges
+
 ### Changes in 70200.29-Release:
 
 - Fixed: Items not showing up in the blacklist on first load
