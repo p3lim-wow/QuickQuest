@@ -123,11 +123,6 @@ local ignoreGossipNPC = {
 	[95201] = true,
 
 	-- Misc NPCs
-	[79740] = true, -- Warmaster Zog (Horde)
-	[79953] = true, -- Lieutenant Thorn (Alliance)
-	[84268] = true, -- Lieutenant Thorn (Alliance)
-	[84511] = true, -- Lieutenant Thorn (Alliance)
-	[84684] = true, -- Lieutenant Thorn (Alliance)
 	[117871] = true, -- War Councilor Victoria (Class Challenges @ Broken Shore)
 }
 
@@ -179,6 +174,11 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 	end
 
 	if(available == 0 and active == 0 and GetNumGossipOptions() == 1) then
+		if(string.match((GetGossipOptions()), TRACKER_HEADER_PROVINGGROUNDS)) then
+			-- ignore proving grounds queue
+			return
+		end
+
 		if(QuickQuestDB.faireport) then
 			if(npcID == 57850) then
 				return SelectGossipOption(1)
