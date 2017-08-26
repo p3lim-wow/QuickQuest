@@ -3,6 +3,7 @@ package-as: QuickQuest
 enable-nolib-creation: no
 
 externals:
+  libs/LibStub: svn://svn.wowace.com/wow/libstub/mainline/tags/1.0
   libs/LibGossipQuestInfo:
     url: git://github.com/p3lim-wow/LibGossipQuestInfo
     tag: latest
@@ -11,6 +12,7 @@ externals:
     tag: latest
 
 optional-dependencies:
+  - libstub
   - libgossipquestinfo
   - wasabi
 
