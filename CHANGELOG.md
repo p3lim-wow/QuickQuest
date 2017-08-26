@@ -1,3 +1,8 @@
+### Changes in 70200.31-Release:
+
+- Changed: Proving Grounds is being ignored globally now
+- Fixed: LibStub not being packaged recusively
+
 ### Changes in 70200.30-Release:
 
 - Changes: No auto-gossip for class challenges
