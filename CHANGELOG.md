@@ -1,3 +1,8 @@
+### Changes in 70300.32-Release:
+
+- Changed: Update Interface version
+- Changed: Update embeds for regression fix
+
 ### Changes in 70200.31-Release:
 
 - Changed: Proving Grounds is being ignored globally now
