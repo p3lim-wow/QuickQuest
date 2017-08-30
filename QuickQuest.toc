@@ -6,6 +6,12 @@
 ## OptionalDeps: LibGossipQuestInfo, Wasabi
 ## SavedVariables: QuickQuestDB, QuickQuestBlacklistDB
 
+#@do-not-package@
+..\LibStub\LibStub.lua
+..\LibGossipQuestInfo\LibGossipQuestInfo.lua
+..\Wasabi\embed.xml
+#@end-do-not-package@
+
 libs\LibGossipQuestInfo\LibGossipQuestInfo.lua
 libs\Wasabi\embed.xml
 
