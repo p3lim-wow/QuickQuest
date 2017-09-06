@@ -1,3 +1,7 @@
+### Changes in 70300.33-Release:
+
+- Added: Chieftain Hatuun to the NPC blacklist
+
 ### Changes in 70300.32-Release:
 
 - Changed: Update Interface version
