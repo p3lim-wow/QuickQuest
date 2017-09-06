@@ -12,6 +12,7 @@
 ..\Wasabi\embed.xml
 #@end-do-not-package@
 
+libs\LibStub\LibStub.lua
 libs\LibGossipQuestInfo\LibGossipQuestInfo.lua
 libs\Wasabi\embed.xml
 
