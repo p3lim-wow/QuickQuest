@@ -49,6 +49,7 @@ local ignoreQuestNPC = {
 	[87391] = true, -- Fate-Twister Seress
 	[111243] = true, -- Archmage Lan'dalock
 	[103792] = true, -- Griftah (one of his quests is a scam)
+	[119388] = true, -- Chieftain Hatuun (he will eat your resources)
 }
 
 local function GetQuestLogQuests(onlyComplete)
