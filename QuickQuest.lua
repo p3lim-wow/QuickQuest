@@ -49,7 +49,6 @@ local ignoreQuestNPC = {
 	[87391] = true, -- Fate-Twister Seress
 	[111243] = true, -- Archmage Lan'dalock
 	[103792] = true, -- Griftah (one of his quests is a scam)
-	[119388] = true, -- Chieftain Hatuun (he will eat your resources)
 }
 
 local function GetQuestLogQuests(onlyComplete)
@@ -125,6 +124,12 @@ local ignoreGossipNPC = {
 
 	-- Misc NPCs
 	[117871] = true, -- War Councilor Victoria (Class Challenges @ Broken Shore)
+}
+
+local ignoredQuestsIDs = {
+	[48634] = true, -- Further Supplying Krokuun
+	[48635] = true, -- More Void Inoculation
+	[48636] = true, -- Fueling the Antoran Campaign	
 }
 
 local rogueClassHallInsignia = {
@@ -292,6 +297,12 @@ QuickQuest:Register('QUEST_PROGRESS', function()
 			end
 		end
 
+		-- check for ignored QuestID's stored in the table "ignoredQuestsIDs"
+		local QuestID = GetQuestID()
+		if QuestID and ignoredQuestsIDs[QuestID] then
+			return
+		end
+		
 		CompleteQuest()
 	end
 end)
