@@ -49,7 +49,10 @@ local ignoreQuestNPC = {
 	[87391] = true, -- Fate-Twister Seress
 	[111243] = true, -- Archmage Lan'dalock
 	[103792] = true, -- Griftah (one of his quests is a scam)
-	[119388] = true, -- Chieftain Hatuun (he will eat your resources)
+	[119388] = true, -- Chieftain Hatuun (repeatable resource quest)
+	[124312] = true, -- High Exarch Turalyon (repeatable resource quest)
+	[126954] = true, -- High Exarch Turalyon (repeatable resource quest)
+	[127037] = true, -- Nabiru (repeatable resource quest)
 }
 
 local function GetQuestLogQuests(onlyComplete)
