@@ -9,12 +9,6 @@
 ## X-Curse-Project-ID: 36494
 ## X-WoWI-ID: 20838
 
-#@do-not-package@
-..\LibStub\LibStub.lua
-..\LibGossipQuestInfo\LibGossipQuestInfo.lua
-..\Wasabi\embed.xml
-#@end-do-not-package@
-
 libs\LibStub\LibStub.lua
 libs\LibGossipQuestInfo\LibGossipQuestInfo.lua
 libs\Wasabi\embed.xml
