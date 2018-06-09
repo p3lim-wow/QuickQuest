@@ -1,19 +1,15 @@
 package-as: QuickQuest
 
-enable-nolib-creation: no
-
 externals:
-  libs/LibStub: https://repos.wowace.com/wow/libstub/trunk
+  libs/LibStub:
+    url: https://repos.wowace.com/wow/libstub/trunk
+    tag: 1.0
   libs/LibGossipQuestInfo:
     url: git://github.com/p3lim-wow/LibGossipQuestInfo
     tag: latest
   libs/Wasabi:
     url: git://github.com/p3lim-wow/Wasabi
     tag: latest
-
-optional-dependencies:
-  - libgossipquestinfo
-  - wasabi
 
 manual-changelog:
   filename: CHANGELOG.md
