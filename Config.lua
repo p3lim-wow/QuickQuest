@@ -57,9 +57,9 @@ Options:Initialize(function(self)
 	Reverse:SetText(L['Reverse the behaviour of the modifier key'])
 	Reverse:On('Update', 'Click', function(self)
 		if(Reverse:GetChecked()) then
-			Modifier:SetFormattedText(L['Hold this key to to temporarily %s automation'], L['enable'])
+			Modifier:SetText(L['Hold this key to to temporarily enable automation'])
 		else
-			Modifier:SetFormattedText(L['Hold this key to to temporarily %s automation'], L['disable'])
+			Modifier:SetText(L['Hold this key to to temporarily disable automation'])
 		end
 	end)
 
