@@ -1,3 +1,7 @@
+### Changes in 80000.35-Release:
+
+- Changed: Update Interface version
+
 ### Changes in 70300.34-Release:
 
 - Added: Nabiru and High Exarch Turalyon to the NPC blacklist
