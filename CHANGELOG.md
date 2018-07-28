@@ -1,3 +1,9 @@
+### Changes in 80000.36-Release:
+
+- Added: zhCN translations (thanks @EKE00372)
+- Added: zhTW translations (thanks @EKE00372)
+- Changed: Using mapID for withered training detection (thanks @siweia)
+
 ### Changes in 80000.35-Release:
 
 - Changed: Update Interface version
