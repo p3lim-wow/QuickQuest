@@ -1,8 +1,5 @@
 local L = select(2, ...)('zhTW')
 
--- Withered scenario, pulled from LibBabble-SubZone-3.0
-L['The Collapse'] = '崩塌遺跡'
-
 -- Config
 L['Automatically share quests when picked up'] = '拾取任務物品後自動接任務'
 L['Automatically select single gossip options'] = '自動選擇單一對話選項'

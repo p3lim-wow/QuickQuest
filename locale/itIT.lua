@@ -1,8 +1,5 @@
 local L = select(2, ...)('itIT')
 
--- Withered scenario, pulled from LibBabble-SubZone-3.0
-L['The Collapse'] = 'Crollo'
-
 -- Config
 -- L['Automatically share quests when picked up'] = '' -- MISSING!
 -- L['Automatically select single gossip options'] = '' -- MISSING!

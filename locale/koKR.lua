@@ -1,8 +1,5 @@
 local L = select(2, ...)('koKR')
 
--- Withered scenario, pulled from LibBabble-SubZone-3.0
-L['The Collapse'] = '붕괴지'
-
 -- Config
 L['Automatically share quests when picked up'] = '자동으로 퀘스트 공유'
 -- L['Automatically select single gossip options'] = '' -- MISSING!

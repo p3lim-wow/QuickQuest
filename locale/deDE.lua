@@ -1,8 +1,5 @@
 local L = select(2, ...)('deDE')
 
--- Withered scenario, pulled from LibBabble-SubZone-3.0
-L['The Collapse'] = 'Der Einsturz'
-
 -- Config
 L['Automatically share quests when picked up'] = 'Quests beim Annehmen automatisch teilen'
 L['Automatically select single gossip options'] = 'Einzeloptionen in Dialogen automatisch auswählen'
