@@ -190,7 +190,9 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 		end
 
 		if(QuickQuestDB.gossip) then
-			local _, instance = GetInstanceInfo()
+			local _, instance, _, _, _, _, _, mapID = GetInstanceInfo()
+			if(QuickQuestDB.withered and instance == "scenario" and mapID == 1626) then return end
+
 			if(instance == 'raid' and QuickQuestDB.gossipraid > 0) then
 				if(GetNumGroupMembers() > 1 and QuickQuestDB.gossipraid < 2) then
 					return
@@ -351,12 +353,3 @@ QuickQuest:Register('MODIFIER_STATE_CHANGED', function(key, state)
 		modifier = state == 1
 	end
 end, true)
-
-local function CheckScenario()
-	if(QuickQuestDB.withered) then
-		local name = C_Scenario.IsInScenario() and C_Scenario.GetInfo()
-		DISABLED = name == L['The Collapse']
-	end
-end
-
-QuickQuest:Register('PLAYER_ENTERING_WORLD', CheckScenario, true)
