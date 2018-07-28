@@ -1,7 +1,7 @@
 local L = select(2, ...)('zhCN')
 
 -- Withered scenario, pulled from LibBabble-SubZone-3.0
-L['The Collapse'] = '崩塌遗迹'
+L['The Collapse'] = '大陷坑'
 
 -- Config
 L['Automatically share quests when picked up'] = '拾取任务物品后自动接任务'
