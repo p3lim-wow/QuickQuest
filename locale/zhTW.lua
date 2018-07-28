@@ -6,7 +6,7 @@ L['The Collapse'] = '崩塌遺跡'
 -- Config
 L['Automatically share quests when picked up'] = '拾取任務物品後自動接任務'
 L['Automatically select single gossip options'] = '自動選擇單一對話選項'
-L['When to select gossip while in a raid'] = '當你在團隊中，啟用自動選擇對話選項的功能'
+L['When to select gossip while in a raid'] = '當你在團隊中，是否啟用自動選擇對話選項的功能'
 L['Automatically pay Darkmoon Faire teleporting fees'] = '自動支付暗月馬戲團傳送費'
 L['Reverse the behaviour of the modifier key'] = '反轉輔助鍵的行為（勾選後，按下按鍵才啟用自動交接）'
 L['Hold this key to to temporarily enable automation'] = '按住這個按鍵可以暫時啟用自動交接'
