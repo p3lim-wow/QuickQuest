@@ -10,7 +10,6 @@
 ## X-WoWI-ID: 20838
 
 libs\LibStub\LibStub.lua
-libs\LibGossipQuestInfo\LibGossipQuestInfo.lua
 libs\Wasabi\embed.xml
 
 locale\initialize.lua
