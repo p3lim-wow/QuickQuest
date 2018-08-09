@@ -136,6 +136,17 @@ local rogueClassHallInsignia = {
 	[93188] = true, -- Mongar
 }
 
+local darkmoonDailyNPCs = {
+	[54601] = true, -- Mola
+	[15303] = true, -- Maxima Blastenheimer
+	[14841] = true, -- Rinling
+	[54605] = true, -- Finlay Coolshot
+	[85546] = true, -- Ziggie Sparks
+	[54485] = true, -- Jessica Rogers
+	[85519] = true, -- Christoph VonFeasel
+	[67370] = true, -- Jeremy Feasel
+}
+
 local function GetAvailableGossipQuestInfo(index)
 	local name, level, isTrivial, frequency, isRepeatable, isLegendary, isIgnored = select(((index * 7) - 7) + 1, GetGossipAvailableQuests())
 	return name, level, isTrivial, isIgnored, isRepeatable, frequency == 2, frequency == 3, isLegendary
@@ -185,6 +196,16 @@ QuickQuest:Register('GOSSIP_SHOW', function()
 
 	if(rogueClassHallInsignia[npcID]) then
 		return SelectGossipOption(1)
+	end
+
+	if(darkmoonDailyNPCs[npcID] and active == 1 and not select(5, GetActiveGossipQuestInfo(1))) then
+		-- auto-start the daily interaction
+		for index = 1, GetNumGossipOptions() do
+			if(string.find((select((index * 2) - 1, GetGossipOptions())), 'FF0008E8')) then
+				-- matching by the blue text color is sufficient
+				return SelectGossipOption(index)
+			end
+		end
 	end
 
 	if(available == 0 and active == 0 and GetNumGossipOptions() == 1) then
