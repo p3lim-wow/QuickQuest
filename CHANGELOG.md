@@ -1,3 +1,7 @@
+### Changes in 80000.37-Release:
+
+- Added: Zurvan to the ignore list
+
 ### Changes in 80000.36-Release:
 
 - Added: zhCN translations (thanks @EKE00372)
