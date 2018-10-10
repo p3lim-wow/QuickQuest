@@ -53,7 +53,8 @@ local ignoreQuestNPC = {
 	[124312] = true, -- High Exarch Turalyon (repeatable resource quest)
 	[126954] = true, -- High Exarch Turalyon (repeatable resource quest)
 	[127037] = true, -- Nabiru (repeatable resource quest)
-	[141584] = true, -- Zurvan (Seal of Wartorn Fate)
+	[141584] = true, -- Zurvan (Seal of Wartorn Fate, Horde)
+	[142063] = true, -- Tezran (Seal of Wartorn Fate, Alliance)
 }
 
 local function GetQuestLogQuests(onlyComplete)
