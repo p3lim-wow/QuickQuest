@@ -1,3 +1,7 @@
+### Changes in 80000.38-Release:
+
+- Added: Tezran to the ignore list
+
 ### Changes in 80000.37-Release:
 
 - Added: Zurvan to the ignore list
