@@ -32,7 +32,7 @@ function QuickQuest:Register(event, method, override)
 end
 
 local function GetNPCID()
-	return tonumber(string.match(UnitGUID('npc') or '', 'Creature%-.-%-.-%-.-%-.-%-(.-)%-'))
+	return tonumber(string.match(UnitGUID('npc') or '', '%w+%-.-%-.-%-.-%-.-%-(.-)%-'))
 end
 
 local function IsTrackingHidden()
