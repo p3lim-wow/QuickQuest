@@ -130,6 +130,7 @@ local ignoreGossipNPC = {
 
 	-- Misc NPCs
 	[117871] = true, -- War Councilor Victoria (Class Challenges @ Broken Shore)
+	[143925] = true, -- Dark Iron Mole Machine (Dark Iron Dwarf racial)
 }
 
 local rogueClassHallInsignia = {
