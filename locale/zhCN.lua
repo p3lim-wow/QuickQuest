@@ -1,7 +1,7 @@
 local L = select(2, ...)('zhCN')
 
 -- Config
-L['Automatically share quests when picked up'] = '拾取任务物品后自动接任务'
+L['Automatically share quests when picked up'] = '接受任务后自动分享'
 L['Automatically select single gossip options'] = '自动选择单一对话选项'
 L['When to select gossip while in a raid'] = '当你在团队中，是否启用自动选择对话选项的功能'
 L['Automatically pay Darkmoon Faire teleporting fees'] = '自动支付暗月马戏团传送费'
