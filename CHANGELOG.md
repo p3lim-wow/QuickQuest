@@ -1,3 +1,8 @@
+### Changes in 80100.39-Release:
+
+- Changed: Added Dark Iron Mole Machine to the blacklist
+- Changed: Update Interface version
+
 ### Changes in 80000.38-Release:
 
 - Added: Tezran to the ignore list
