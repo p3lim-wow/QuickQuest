@@ -1,3 +1,8 @@
+### Changes in 80200.40-Release:
+
+- Changed: Update Interface version
+- Fixed: Picking up quests in combat
+
 ### Changes in 80100.39-Release:
 
 - Changed: Added Dark Iron Mole Machine to the blacklist
