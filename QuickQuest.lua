@@ -258,12 +258,13 @@ QuickQuest:Register('GOSSIP_CONFIRM', function(index)
 	end
 end)
 
-QuestFrame:UnregisterEvent('QUEST_DETAIL')
-QuickQuest:Register('QUEST_DETAIL', function(...)
-	if(not QuestGetAutoAccept() and not QuestIsFromAreaTrigger() and not QuickQuestBlacklistDB[GetQuestID()]) then
-		QuestFrame_OnEvent(QuestFrame, 'QUEST_DETAIL', ...)
-	end
-end, true)
+-- FIXME: 8.2 broke this logic, Show|HideUIPanel is now protected
+-- QuestFrame:UnregisterEvent('QUEST_DETAIL')
+-- QuickQuest:Register('QUEST_DETAIL', function(...)
+-- 	if(not QuestGetAutoAccept() and not QuestIsFromAreaTrigger() and not QuickQuestBlacklistDB[GetQuestID()]) then
+-- 		QuestFrame_OnEvent(QuestFrame, 'QUEST_DETAIL', ...)
+-- 	end
+-- end, true)
 
 QuickQuest:Register('QUEST_DETAIL', function(questStartItemID)
 	if(QuestGetAutoAccept() or (questStartItemID ~= nil and questStartItemID ~= 0)) then
