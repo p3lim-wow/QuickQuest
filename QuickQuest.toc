@@ -3,8 +3,8 @@
 ## Version: @project-version@
 ## Title: QuickQuest
 ## Notes: Quest automation wizardry
-## OptionalDeps: LibGossipQuestInfo, Wasabi
 ## SavedVariables: QuickQuestDB, QuickQuestBlacklistDB
+## OptionalDeps: LibStub, CallbackHandler-1.0, LibGossipQuestInfo, Wasabi
 
 ## X-Curse-Project-ID: 36494
 ## X-WoWI-ID: 20838
