@@ -45,7 +45,9 @@ function EventHandler:Trigger(event, ...)
 			if type(func) == 'string' then
 				self:Trigger(func, ...)
 			else
-				func(...)
+				if func(...) then
+					self:Unregister(event, func)
+				end
 			end
 		end
 	end
