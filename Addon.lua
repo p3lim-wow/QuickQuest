@@ -170,10 +170,10 @@ EventHandler:Register('QUEST_COMPLETE', function()
 		return
 	end
 
-	--[[
-		TODO:
-		- complete quest when there are 1 or less items rewarded
-	--]]
+	if GetNumQuestChoices() <= 1 then
+		-- complete the quest by accepting the first item
+		GetQuestReward(1)
+	end
 end)
 
 EventHandler:Register('QUEST_COMPLETE', function()
