@@ -32,5 +32,6 @@ Utils.lua
 Config.lua
 QuickQuest.lua
 
+SavedVariables.lua
 Options.lua
 Addon.lua
