@@ -144,8 +144,7 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 				ns.db.profile.general.pausekeyreverse = QuickQuestDB.reverse
 			end
 
-			-- TODO: empty old db:
-			-- QuickQuestDB = nil
+			QuickQuestDB = nil
 		end
 		if(QuickQuestBlacklistDB and QuickQuestBlacklistDB.items) then
 			for key, value in next, QuickQuestBlacklistDB.items do
@@ -154,8 +153,7 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 				end
 			end
 
-			-- TODO: empty old db:
-			-- QuickQuestBlacklistDB = nil
+			QuickQuestBlacklistDB = nil
 		end
 
 		return true -- unregister
