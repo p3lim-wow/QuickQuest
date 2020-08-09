@@ -6,6 +6,8 @@ end
 local EventHandler = ns.EventHandler
 local paused
 
+local ignoredQuests = {}
+
 EventHandler:Register('GOSSIP_CONFIRM', function(index)
 	-- triggered when a gossip confirm prompt is displayed
 	if paused then
@@ -31,15 +33,19 @@ EventHandler:Register('GOSSIP_SHOW', function()
 
 	-- turn in all completed quests
 	for index, info in next, C_GossipInfo.GetActiveQuests() do
-		if info.isComplete and not C_QuestLog.IsWorldQuest(info.questID) then
-			C_GossipInfo.SelectActiveQuest(index)
+		if not ignoredQuests[info.questID] then
+			if info.isComplete and not C_QuestLog.IsWorldQuest(info.questID) then
+				C_GossipInfo.SelectActiveQuest(index)
+			end
 		end
 	end
 
 	-- accept all available quests
 	for index, info in next, C_GossipInfo.GetAvailableQuests() do
-		if not info.isTrivial or ns.ShouldAcceptTrivialQuests() then
-			C_GossipInfo.SelectAvailableQuest(index)
+		if not ignoredQuests[info.questID] then
+			if not info.isTrivial or ns.ShouldAcceptTrivialQuests() then
+				C_GossipInfo.SelectAvailableQuest(index)
+			end
 		end
 	end
 
@@ -65,17 +71,21 @@ EventHandler:Register('QUEST_GREETING', function()
 
 	-- turn in all completed quests
 	for index = 1, GetNumActiveQuests() do
-		local _, isComplete = GetActiveTitle(index)
-		if isComplete and not C_QuestLog.IsWorldQuest(GetActiveQuestID(index)) then
-			SelectActiveQuest(index)
+		if not ignoredQuests[GetActiveQuestID(index)] then
+			local _, isComplete = GetActiveTitle(index)
+			if isComplete and not C_QuestLog.IsWorldQuest(GetActiveQuestID(index)) then
+				SelectActiveQuest(index)
+			end
 		end
 	end
 
 	-- accept all available quests
 	for index = 1, GetNumAvailableQuests() do
-		local isTrivial = GetAvailableQuestInfo(index)
-		if not isTrivial or ns.ShouldAcceptTrivialQuests() then
-			SelectAvailableQuest(index)
+		local isTrivial, _, _, _, questID = GetAvailableQuestInfo(index)
+		if not ignoredQuests[questID] then
+			if not isTrivial or ns.ShouldAcceptTrivialQuests() then
+				SelectAvailableQuest(index)
+			end
 		end
 	end
 end)
@@ -94,7 +104,11 @@ EventHandler:Register('QUEST_DETAIL', function(questItemID)
 		-- this type of quest is automatically accepted, but the dialogue persists
 		AcknowledgeAutoAcceptQuest()
 	elseif not C_QuestLog.IsQuestTrivial(GetQuestID()) or ns.ShouldAcceptTrivialQuests() then
-		AcceptQuest()
+		if ignoredQuests[GetQuestID()] then
+			CloseQuest()
+		else
+			AcceptQuest()
+		end
 	end
 end)
 
@@ -113,9 +127,30 @@ EventHandler:Register('QUEST_PROGRESS', function()
 		return
 	end
 
+	-- iterate through the items part of the quest
+	for index = 1, GetNumQuestItems() do
+		local itemLink = GetQuestItemLink('required', index)
+		if itemLink then
+			-- check to see if the item is blocked
+			local questItemID = GetItemInfoFromHyperlink(itemLink)
+			for _, itemID in next, ns.db.profile.blocklist.items do
+				if itemID == questItemID then
+					-- item is blocked, prevent this quest from opening again and close it
+					ignoredQuests[GetQuestID()] = true
+					CloseQuest()
+					return
+				end
+			end
+		else
+			-- item is not cached yet, trigger the item and wait for the cache to populate
+			EventHandler:Register('QUEST_ITEM_UPDATE', 'QUEST_PROGRESS')
+			GetQuestItemInfo('required', index)
+			return
+		end
+	end
+
 	--[[
 		TODO:
-		- stop if the quest has an item that is blocked
 		- complete quest
 	--]]
 end)
