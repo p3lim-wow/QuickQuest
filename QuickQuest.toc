@@ -27,3 +27,4 @@ locale\zhTW.lua
 Utils.lua
 Config.lua
 QuickQuest.lua
+Addon.lua
