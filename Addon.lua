@@ -234,10 +234,7 @@ EventHandler:Register('QUEST_ACCEPT_CONFIRM', function()
 		return
 	end
 
-	--[[
-		TODO:
-		- accept quest, easy enoogh
-	--]]
+	AcceptQuest()
 end)
 
 EventHandler:Register('MODIFIER_STATE_CHANGED', function(key, state)
