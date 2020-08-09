@@ -29,11 +29,22 @@ EventHandler:Register('GOSSIP_SHOW', function()
 		return
 	end
 
+	-- turn in all completed quests
+	for index, info in next, C_GossipInfo.GetActiveQuests() do
+		if info.isComplete and not C_QuestLog.IsWorldQuest(info.questID) then
+			C_GossipInfo.SelectActiveQuest(index)
+		end
+	end
+
+	-- accept all available quests
+	for index, info in next, C_GossipInfo.GetAvailableQuests() do
+		if not info.isTrivial or ns.ShouldAcceptTrivialQuests() then
+			C_GossipInfo.SelectAvailableQuest(index)
+		end
+	end
+
 	--[[
 		TODO:
-		- iterate through active quests
-		- iterate through available quests
-		- handle trivial quests
 		- handle gossip when there's no active/available quests
 		- handle gossip for rogue doors in dalaran
 		- handle gossip for darkmoon faire teleports
@@ -52,12 +63,21 @@ EventHandler:Register('QUEST_GREETING', function()
 		return
 	end
 
-	--[[
-		TODO:
-		- iterate through active quests
-		- iterate through available quests
-		- handle trivial quests
-	--]]
+	-- turn in all completed quests
+	for index = 1, GetNumActiveQuests() do
+		local _, isComplete = GetActiveTitle(index)
+		if isComplete and not C_QuestLog.IsWorldQuest(GetActiveQuestID(index)) then
+			SelectActiveQuest(index)
+		end
+	end
+
+	-- accept all available quests
+	for index = 1, GetNumAvailableQuests() do
+		local isTrivial = GetAvailableQuestInfo(index)
+		if not isTrivial or ns.ShouldAcceptTrivialQuests() then
+			SelectAvailableQuest(index)
+		end
+	end
 end)
 
 EventHandler:Register('QUEST_DETAIL', function(questItemID)
