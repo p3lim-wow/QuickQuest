@@ -99,8 +99,18 @@ local function CreateItemBlocklistOptions()
 			UpdateTexture(button)
 			pool:Reposition()
 
-			-- inject into db
-			ns.db.profile.blocklist.items['custom_' .. itemID] = itemID
+			-- check if the item is already blocked
+			local exists = false
+			for _, existingItemID in next, ns.db.profile.blocklist.items do
+				if existingItemID == itemID then
+					exists = true
+				end
+			end
+
+			if not exists then
+				-- inject into db
+				ns.db.profile.blocklist.items['custom_' .. itemID] = itemID
+			end
 		else
 			print(addonName .. ': Invalid item ID')
 		end
