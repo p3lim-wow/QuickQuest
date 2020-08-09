@@ -24,5 +24,6 @@ locale\ruRU.lua
 locale\zhCN.lua
 locale\zhTW.lua
 
+Utils.lua
 Config.lua
 QuickQuest.lua
