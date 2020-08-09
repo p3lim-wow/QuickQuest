@@ -118,7 +118,11 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 		-- migrate old dbs
 		if(QuickQuestDB) then
 			if(QuickQuestDB.itemBlacklist) then
-				ns.db.profile.blacklist = QuickQuestDB.itemBlacklist
+				for key, value in next, QuickQuestDB.itemBlacklist do
+					if not ns.db.profile.blocklist.items[key] then
+						ns.db.profile.blocklist.items[key] = value
+					end
+				end
 			end
 
 			if(QuickQuestDB.share ~= nil) then
