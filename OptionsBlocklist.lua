@@ -112,7 +112,10 @@ local function CreateItemBlocklistOptions()
 	end
 
 	panel.button:SetScript('OnClick', function()
-		-- TODO: display popup to block more
+		StaticPopup_Show(addonName .. 'ItemBlocklistPopup', nil, nil, {
+			callback = AddButton,
+			pool = itemPool,
+		})
 	end)
 end
 
@@ -178,7 +181,10 @@ local function CreateNPCBlocklistOptions()
 	end
 
 	panel.button:SetScript('OnClick', function()
-		-- TODO: display popup to block more
+		StaticPopup_Show(addonName .. 'NPCBlocklistPopup', nil, nil, {
+			callback = AddButton,
+			pool = npcPool,
+		})
 	end)
 end
 

@@ -37,4 +37,5 @@ ButtonPoolMixin.lua
 SavedVariables.lua
 Options.lua
 OptionsBlocklist.lua
+OptionsPopups.lua
 Addon.lua

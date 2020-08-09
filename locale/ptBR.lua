@@ -15,6 +15,9 @@ L['Reverse the behaviour of the modifier key'] = 'Inverter o comportamento da te
 -- L['Quests containing items in this list will not be automated.'] = '' -- MISSING!
 -- L['Quests and dialogue from NPCs in this list will not be automated.'] = '' -- MISSING!
 
+-- L['Block a new item by ID'] = '' -- MISSING!
+-- L['Block a new NPC by ID'] = '' -- MISSING!
+
 L['ALT key'] = ALT_KEY
 L['CTRL key'] = CTRL_KEY
 L['SHIFT key'] = SHIFT_KEY
@@ -22,3 +25,8 @@ L['SHIFT key'] = SHIFT_KEY
 L['Never'] = NEVER
 L['Always'] = ALWAYS
 -- L['Soloing'] = '' -- MISSING!
+
+L['Accept'] = ACCEPT
+L['Cancel'] = CANCEL
+L['Target'] = TARGET
+L['Invalid Item'] = ERR_SOULBIND_INVALID_CONDUIT_ITEM
