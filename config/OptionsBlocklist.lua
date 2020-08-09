@@ -1,9 +1,12 @@
 local addonName, ns = ...
 local L = ns.L
 
--- TODO: scrollframes
+local BACKDROP = {
+	bgFile = [[Interface\ChatFrame\ChatFrameBackground]], tile = true, tileSize = 16,
+	edgeFile = [[Interface\Tooltips\UI-Tooltip-Border]], edgeSize = 16,
+	insets = {left = 4, right = 4, top = 4, bottom = 4}
+}
 
-local BACKDROP = GameTooltip:GetBackdrop()
 local function CreateOptionsPanel(name, localizedName, description, buttonLocalizedText)
 	local panel = CreateFrame('Frame', addonName .. name, InterfaceOptionsFramePanelContainer)
 	panel.name = localizedName
@@ -13,20 +16,32 @@ local function CreateOptionsPanel(name, localizedName, description, buttonLocali
 	title:SetPoint('TOPLEFT', 15, -15)
 	title:SetText(panel.name)
 
-	local desc = panel:CreateFontString(nil, 'ARTWORK', 'GameFontHighlight')
+	local desc = panel:CreateFontString('$parentDescription', 'ARTWORK', 'GameFontHighlight')
 	desc:SetPoint('TOPLEFT', title, 'BOTTOMLEFT', 0, -8)
 	desc:SetText(description)
 
-	local container = CreateFrame('Frame', '$parentContainer', panel, BackdropTemplateMixin and 'BackdropTemplate')
-	container:SetBackdrop(BACKDROP)
-	container:SetBackdropColor(0, 0, 0, 0.5)
-	container:SetBackdropBorderColor(0.5, 0.5, 0.5)
-	container:SetPoint('TOPLEFT', 15, -60)
-	container:SetPoint('BOTTOMRIGHT', -15, 15)
-	panel.container = container
+	local bounds = CreateFrame('Frame', '$parentBounds', panel, BackdropTemplateMixin and 'BackdropTemplate')
+	bounds:SetPoint('TOPLEFT', 15, -60)
+	bounds:SetPoint('BOTTOMRIGHT', -15, 15)
+	bounds:SetBackdrop(BACKDROP)
+	bounds:SetBackdropColor(0, 0, 0, 0.5)
+	bounds:SetBackdropBorderColor(0.5, 0.5, 0.5)
+
+	local scrollchild = CreateFrame('Frame', '$parentScrollChild', panel)
+	scrollchild:SetHeight(1) -- it needs something
+	panel.container = scrollchild
+
+	local scrollframe = CreateFrame('ScrollFrame', '$parentContainer', bounds, 'UIPanelScrollFrameTemplate')
+	scrollframe:SetPoint('TOPLEFT', 4, -4)
+	scrollframe:SetPoint('BOTTOMRIGHT', -4, 4)
+	scrollframe:SetScrollChild(scrollchild)
+
+	scrollframe.ScrollBar:ClearAllPoints()
+	scrollframe.ScrollBar:SetPoint('TOPRIGHT', bounds, -6, -22)
+	scrollframe.ScrollBar:SetPoint('BOTTOMRIGHT', bounds, -6, 22)
 
 	local button = CreateFrame('Button', '$parentButton', panel, 'UIPanelButtonTemplate')
-	button:SetPoint('BOTTOMRIGHT', container, 'TOPRIGHT', 0, 5)
+	button:SetPoint('BOTTOMRIGHT', bounds, 'TOPRIGHT', 0, 5)
 	button:SetText(buttonLocalizedText)
 	button:SetWidth(button:GetTextWidth() * 1.5)
 	button:SetHeight(button:GetTextHeight() * 2)
@@ -113,7 +128,7 @@ local function CreateItemBlocklistOptions()
 		end
 	end
 
-	local itemPool = ns.CreateButtonPool(panel.container, 15, 33, 33, 5)
+	local itemPool = ns.CreateButtonPool(panel.container, 16, 33, 33, 4)
 	for _, itemID in next, ns.db.profile.blocklist.items do
 		AddButton(itemPool, itemID)
 	end
@@ -158,19 +173,25 @@ local function CreateNPCBlocklistOptions()
 	local function AddButton(pool, npcID)
 		if npcID then
 			local button = pool:CreateButton()
-			button:SetBackdrop(BACKDROP)
-			button:SetBackdropColor(0, 0, 0, 0.5)
-			button:SetBackdropBorderColor(0.5, 0.5, 0.5)
 			button.npcID = npcID
 			button.OnEnter = OnEnter
 			button.OnLeave = GameTooltip_Hide
 			button.OnRemove = OnRemove
 
 			local model = CreateFrame('PlayerModel', nil, button)
-			model:SetAllPoints()
+			model:SetPoint('TOPLEFT', 2, -2)
+			model:SetPoint('BOTTOMRIGHT', -2, 2)
 			model:SetCamDistanceScale(0.8)
 			model:SetModel([[Interface\Buttons\TalkToMeQuestionMark.m2]])
 			button.model = model
+
+			local frame = CreateFrame('Frame', nil, button, BackdropTemplateMixin and 'BackdropTemplate')
+			frame:SetPoint('TOPLEFT', -2, 2)
+			frame:SetPoint('BOTTOMRIGHT', 2, -2)
+			frame:SetBackdrop(BACKDROP)
+			frame:SetBackdropColor(0, 0, 0, 0)
+			frame:SetBackdropBorderColor(0.5, 0.5, 0.5)
+			frame:SetFrameLevel(model:GetFrameLevel() + 1)
 
 			UpdateModel(button)
 			pool:Reposition()
@@ -182,7 +203,7 @@ local function CreateNPCBlocklistOptions()
 		end
 	end
 
-	local npcPool = ns.CreateButtonPool(panel.container, 15, 66, 80, 5)
+	local npcPool = ns.CreateButtonPool(panel.container, 16, 66, 80, 4)
 	for npcID in next, ns.db.profile.blocklist.npcs do
 		AddButton(npcPool, npcID)
 	end

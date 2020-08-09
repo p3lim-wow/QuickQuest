@@ -2,7 +2,7 @@ local addonName, ns = ...
 
 local ButtonPoolMixin = {}
 function ButtonPoolMixin.Reposition(pool)
-	if pool.parent:GetWidth() == 0 then
+	if pool.parent:GetParent():GetWidth() == 0 then
 		-- until the frame is visible the width is 0
 		C_Timer.After(0.5, function()
 			pool:Reposition()
@@ -11,21 +11,24 @@ function ButtonPoolMixin.Reposition(pool)
 		return
 	end
 
-	local cols = math.floor((pool.parent:GetWidth() - pool.offset) / (pool.buttonWidth + pool.buttonSpacing))
+	local cols = math.floor((pool.parent:GetParent():GetWidth() - pool.offset) / (pool.buttonWidth + pool.buttonSpacing))
 
 	local index = 1
 	for button in pool:EnumerateActive() do
 		local col = (index - 1) % cols
 		local row = math.floor((index - 1) / cols)
 
-		local x = pool.offset + (col * (pool.buttonWidth + pool.buttonSpacing))
-		local y = pool.offset + (row * (pool.buttonHeight + pool.buttonSpacing))
+		local x = (pool.offset / 4) + (col * (pool.buttonWidth + pool.buttonSpacing))
+		local y = (pool.offset / 4) + (row * (pool.buttonHeight + pool.buttonSpacing))
 
 		button:ClearAllPoints()
 		button:SetPoint('TOPLEFT', x, -y)
 
 		index = index + 1
 	end
+
+	-- update the width of the parent so the buttons can be displayed properly
+	pool.parent:SetWidth(pool.parent:GetParent():GetWidth())
 end
 
 local function ReleaseButton(pool, button)
