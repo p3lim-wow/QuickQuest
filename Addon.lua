@@ -25,6 +25,12 @@ local darkmoonNPCs = {
 	[55382] = true, -- Darkmoon Faire Mystic Mage (Horde)
 	[54334] = true, -- Darkmoon Faire Mystic Mage (Alliance)
 }
+local rogueNPCs = {
+	-- Rogue class hall doors
+	[97004] = true, -- "Red" Jack Findle
+	[96782] = true, -- Lucian Trias
+	[93188] = true, -- Mongar
+}
 
 EventHandler:Register('GOSSIP_CONFIRM', function(index)
 	-- triggered when a gossip confirm prompt is displayed
@@ -38,6 +44,35 @@ EventHandler:Register('GOSSIP_CONFIRM', function(index)
 		-- this is considered an intrusive action, as we're modifying the UI
 		StaticPopup_Hide('GOSSIP_CONFIRM')
 	end
+end)
+
+EventHandler:Register('GOSSIP_SHOW', function()
+	-- triggered when the player interacts with an NPC that presents dialogue
+	if paused then
+		return
+	end
+
+	local npcID = ns.GetNPCID()
+	if ns.db.profile.blocklist.npcs[npcID] then
+		return
+	end
+
+	if C_GossipInfo.GetNumActiveQuests() > 0 or C_GossipInfo.GetNumAvailableQuests() > 0 then
+		-- bail if there is more than just dialogue
+		return
+	end
+
+	if rogueNPCs[npcID] then
+		-- automatically open doors to the rogue class hall in Dalaran
+		C_GossipInfo.SelectOption(1)
+		return
+	end
+
+	--[[
+		TODO:
+		- handle gossip for darkmoon faire teleports
+		- handle single gossip options (with restrictions)
+	--]]
 end)
 
 EventHandler:Register('GOSSIP_SHOW', function()
@@ -67,14 +102,6 @@ EventHandler:Register('GOSSIP_SHOW', function()
 			end
 		end
 	end
-
-	--[[
-		TODO:
-		- handle gossip when there's no active/available quests
-		- handle gossip for rogue doors in dalaran
-		- handle gossip for darkmoon faire teleports
-		- handle single gossip options (with restrictions)
-	--]]
 end)
 
 EventHandler:Register('QUEST_GREETING', function()
