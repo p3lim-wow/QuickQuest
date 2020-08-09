@@ -1,3 +1,7 @@
+if select(4, GetBuildInfo()) >= 90000 then
+	return
+end
+
 local QuickQuest = CreateFrame('Frame')
 QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
