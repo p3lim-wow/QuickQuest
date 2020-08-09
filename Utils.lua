@@ -52,3 +52,20 @@ function EventHandler:Trigger(event, ...)
 end
 
 ns.EventHandler = EventHandler
+
+local NPC_ID_PATTERN = '%w+%-.-%-.-%-.-%-.-%-(.-)%-'
+function ns.GetNPCID(unit)
+	local npcGUID = UnitGUID(unit or 'npc')
+	if npcGUID then
+		return tonumber(npcGUID:match(NPC_ID_PATTERN))
+	end
+end
+
+function ns.ShouldAcceptTrivialQuests()
+	for index = 1, GetNumTrackingTypes() do
+		local name, _, isActive = GetTrackingInfo(index)
+		if name == MINIMAP_TRACKING_TRIVIAL_QUESTS then
+			return isActive
+		end
+	end
+end
