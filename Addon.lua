@@ -38,8 +38,7 @@ EventHandler:Register('GOSSIP_SHOW', function()
 		return
 	end
 
-	local npcID = ns.GetNPCID()
-	if ns.db.profile.blocklist.npcs[npcID] then
+	if ns.db.profile.blocklist.npcs[ns.GetNPCID()] then
 		return
 	end
 
@@ -76,8 +75,7 @@ EventHandler:Register('QUEST_GREETING', function()
 		return
 	end
 
-	local npcID = ns.GetNPCID()
-	if ns.db.profile.blocklist.npcs[npcID] then
+	if ns.db.profile.blocklist.npcs[ns.GetNPCID()] then
 		return
 	end
 
@@ -130,8 +128,7 @@ EventHandler:Register('QUEST_PROGRESS', function()
 		return
 	end
 
-	local npcID = ns.GetNPCID()
-	if ns.db.profile.blocklist.npcs[npcID] then
+	if ns.db.profile.blocklist.npcs[ns.GetNPCID()] then
 		return
 	end
 
@@ -162,6 +159,7 @@ EventHandler:Register('QUEST_PROGRESS', function()
 	end
 
 	CompleteQuest()
+	EventHandler:Unregister('QUEST_ITEM_UPDATE', 'QUEST_PROGRESS')
 end)
 
 EventHandler:Register('QUEST_COMPLETE', function()
@@ -214,6 +212,8 @@ EventHandler:Register('QUEST_COMPLETE', function()
 		-- this is considered an intrusive action, as we're modifying the UI
 		QuestInfoItem_OnClick(QuestInfoRewardsFrame.RewardButtons[highestItemValueIndex])
 	end
+
+	EventHandler:Unregister('QUEST_ITEM_UPDATE', 'QUEST_COMPLETE')
 end)
 
 EventHandler:Register('QUEST_LOG_UPDATE', function()
