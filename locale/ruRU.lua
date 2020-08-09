@@ -1,4 +1,4 @@
-local L = select(2, ...)('ruRU')
+local L = select(2, ...).L('ruRU')
 
 -- Config
 -- L['Automatically share quests when picked up'] = '' -- MISSING!

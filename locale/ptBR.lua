@@ -1,4 +1,4 @@
-local L = select(2, ...)('ptBR')
+local L = select(2, ...).L('ptBR')
 
 -- Config
 L['Automatically share quests when picked up'] = 'Compartilhar missões automaticamente quando pegá-las'

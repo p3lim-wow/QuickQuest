@@ -1,9 +1,10 @@
-local _, L = ...
+local _, ns = ...
+ns.L = {}
 
 local localizations = {}
 local locale = GetLocale()
 
-setmetatable(L, {
+setmetatable(ns.L, {
 	__call = function(_, newLocale)
 		localizations[newLocale] = {}
 		return localizations[newLocale]

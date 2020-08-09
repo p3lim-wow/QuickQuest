@@ -1,7 +1,7 @@
 local QuickQuest = CreateFrame('Frame')
 QuickQuest:SetScript('OnEvent', function(self, event, ...) self[event](...) end)
 
-local L = select(2, ...)
+local L = select(2, ...).L
 
 local metatable = {
 	__call = function(methods, ...)

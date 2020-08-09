@@ -1,4 +1,4 @@
-local L = select(2, ...)('zhCN')
+local L = select(2, ...).L('zhCN')
 
 -- Config
 L['Automatically share quests when picked up'] = '接受任务后自动分享'

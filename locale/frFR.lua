@@ -1,4 +1,4 @@
-local L = select(2, ...)('frFR')
+local L = select(2, ...).L('frFR')
 
 -- Config
 L['Automatically share quests when picked up'] = 'Partage automatique des quêtes lorsqu\'elles sont acceptées'

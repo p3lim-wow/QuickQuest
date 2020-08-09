@@ -1,4 +1,6 @@
-local addonName, L = ...
+local addonName, ns = ...
+local L = ns.L
+
 local defaults = {
 	items = true,
 	faireport = true,
