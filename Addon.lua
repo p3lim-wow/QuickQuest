@@ -87,10 +87,21 @@ EventHandler:Register('GOSSIP_SHOW', function()
 		return
 	end
 
-	--[[
-		TODO:
-		- handle single gossip options (with restrictions)
-	--]]
+	if C_GossipInfo.GetNumOptions() == 1 then
+		-- automatically skip single dialogue under certain conditions
+		local _, instanceType = GetInstanceInfo()
+		if instanceType == 'raid' and ns.db.profile.general.skipgossipwhen > 0 then
+			if GetNumGroupMembers() == 0 or ns.db.profile.general.skipgossipwhen == 2 then
+				-- select dialogue if alone or when configured to "Always" while in a raid
+				C_GossipInfo.SelectOption(1)
+				return
+			end
+		elseif instanceType ~= 'raid' then
+			-- always select single dialogue while outside a raid
+			C_GossipInfo.SelectOption(1)
+			return
+		end
+	end
 end)
 
 EventHandler:Register('GOSSIP_SHOW', function()
