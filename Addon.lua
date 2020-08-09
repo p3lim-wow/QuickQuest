@@ -86,13 +86,16 @@ EventHandler:Register('QUEST_DETAIL', function(questItemID)
 		return
 	end
 
-	--[[
-		TODO:
-		- handle area quests
-		- handle automatic quests
-		- handle trivial quests
-		- accept quest
-	--]]
+	if QuestIsFromAreaTrigger() then
+		-- this type of quest is automatically accepted, but the dialogue is presented in a way that
+		-- the player seems to have a choice to decline it, which they don't, so just accept it
+		AcceptQuest()
+	elseif QuestGetAutoAccept() then
+		-- this type of quest is automatically accepted, but the dialogue persists
+		AcknowledgeAutoAcceptQuest()
+	elseif not C_QuestLog.IsQuestTrivial(GetQuestID()) or ns.ShouldAcceptTrivialQuests() then
+		AcceptQuest()
+	end
 end)
 
 EventHandler:Register('QUEST_PROGRESS', function()
