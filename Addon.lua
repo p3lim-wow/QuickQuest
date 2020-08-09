@@ -62,7 +62,7 @@ EventHandler:Register('GOSSIP_SHOW', function()
 
 	if C_Map.GetBestMapForUnit('player') == DARKMOON_ISLE_MAP_ID then
 		-- we want to auto-accept the dialogues from Darkmoon Faire NPCs
-		for index, info = next, C_GossipInfo.GetOptions() do
+		for index, info in next, C_GossipInfo.GetOptions() do
 			if info.name:find('FF008E8') then
 				-- TODO: see if there is something else than the color we can easily match with
 				C_GossipInfo.SelectOption(index)
