@@ -7,6 +7,18 @@ local EventHandler = ns.EventHandler
 local paused
 
 local ignoredQuests = {}
+local cashRewards = {
+	[45724] = 1e5, -- Champion's Purse, 10 gold
+	[64491] = 2e6, -- Royal Reward, 200 gold
+
+	-- items from the Sixtrigger brothers quest chain in Stormheim
+	[138127] = 15, -- Mysterious Coin, 15 copper
+	[138129] = 11, -- Swatch of Priceless Silk, 11 copper
+	[138131] = 24, -- Magical Sprouting Beans, 24 copper
+	[138123] = 15, -- Shiny Gold Nugget, 15 copper
+	[138125] = 16, -- Crystal Clear Gemstone, 16 copper
+	[138133] = 27, -- Elixir of Endless Wonder, 27 copper
+}
 
 EventHandler:Register('GOSSIP_CONFIRM', function(index)
 	-- triggered when a gossip confirm prompt is displayed
@@ -160,10 +172,48 @@ EventHandler:Register('QUEST_COMPLETE', function()
 
 	--[[
 		TODO:
-		- highlight most valuable reward if there are multiple rewards
-			- regardless of modifier
 		- complete quest when there are 1 or less items rewarded
 	--]]
+end)
+
+EventHandler:Register('QUEST_COMPLETE', function()
+	-- triggered when an active quest is ready to be completed
+	local numItemRewards = GetNumQuestChoices()
+	if numItemRewards <= 1 then
+		-- no point iterating over a single item or none at all
+		return
+	end
+
+	local highestItemValue, highestItemValueIndex = 0
+
+	-- iterate through the item rewards and automatically select the one worth the most
+	for index = 1, numItemRewards do
+		local itemLink = GetQuestItemLink('choice', index)
+		if itemLink then
+			-- check the value on the item and compare it to the others
+			local _, _, _, _, _, _, _, _, _, _, itemValue = GetItemInfo(itemLink)
+			local itemID = GetItemInfoFromHyperlink(itemLink)
+
+			-- some items are containers that contains currencies of worth
+			itemValue = cashRewards[itemID] or itemValue
+
+			-- compare the values
+			if itemValue > highestItemValue then
+				highestItemValue = itemValue
+				highestItemValueIndex = index
+			end
+		else
+			-- item is not cached yet, trigger the item and wait for the cache to populate
+			EventHandler:Register('QUEST_ITEM_UPDATE', 'QUEST_COMPLETE')
+			GetQuestItemInfo('choice', index)
+			return
+		end
+	end
+
+	if highestItemValueIndex then
+		-- this is considered an intrusive action, as we're modifying the UI
+		QuestInfoItem_OnClick(QuestInfoRewardsFrame.RewardButtons[highestItemValueIndex])
+	end
 end)
 
 EventHandler:Register('QUEST_LOG_UPDATE', function()
