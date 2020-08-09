@@ -28,14 +28,16 @@ locale\ruRU.lua
 locale\zhCN.lua
 locale\zhTW.lua
 
+C_GossipInfo.lua
+
+Utils.lua
+Addon.lua
+
 config\ButtonPoolMixin.lua
 config\SavedVariables.lua
 config\Options.lua
 config\OptionsBlocklist.lua
 config\OptionsPopups.lua
-
-Utils.lua
-Addon.lua
 
 Config.lua
 QuickQuest.lua
