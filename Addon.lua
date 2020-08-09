@@ -6,6 +6,8 @@ end
 local EventHandler = ns.EventHandler
 local paused
 
+local DARKMOON_ISLE_MAP_ID = 0 -- TODO: figure out the correct map ID
+
 local ignoredQuests = {}
 local cashRewards = {
 	[45724] = 1e5, -- Champion's Purse, 10 gold
@@ -57,6 +59,17 @@ EventHandler:Register('GOSSIP_SHOW', function()
 		return
 	end
 
+	if C_Map.GetBestMapForUnit('player') == DARKMOON_ISLE_MAP_ID then
+		-- we want to auto-accept the dialogues from Darkmoon Faire NPCs
+		for index, info = next, C_GossipInfo.GetOptions() do
+			if info.name:find('FF008E8') then
+				-- TODO: see if there is something else than the color we can easily match with
+				C_GossipInfo.SelectOption(index)
+				return
+			end
+		end
+	end
+
 	if C_GossipInfo.GetNumActiveQuests() > 0 or C_GossipInfo.GetNumAvailableQuests() > 0 then
 		-- bail if there is more than just dialogue
 		return
@@ -70,7 +83,6 @@ EventHandler:Register('GOSSIP_SHOW', function()
 
 	--[[
 		TODO:
-		- handle gossip for darkmoon faire teleports
 		- handle single gossip options (with restrictions)
 	--]]
 end)
