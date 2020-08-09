@@ -227,3 +227,12 @@ InterfaceOptionsFrameAddOns:HookScript('OnShow', function()
 	-- we load too late, so we have to manually refresh the list
 	InterfaceAddOnsList_Update()
 end)
+
+_G['SLASH_' .. addonName .. '1'] = '/quickquest'
+_G['SLASH_' .. addonName .. '2'] = '/qq'
+SlashCmdList[addonName] = function()
+	CreateOptions() -- LoD
+
+	InterfaceOptionsFrame_OpenToCategory(addonName)
+	InterfaceOptionsFrame_OpenToCategory(addonName) -- load twice due to an old bug
+end
