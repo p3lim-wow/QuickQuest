@@ -1,7 +1,4 @@
 local addonName, ns = ...
-if select(4, GetBuildInfo()) < 90000 then
-	return
-end
 local L = ns.L
 
 -- TODO: scrollframes
@@ -20,7 +17,7 @@ local function CreateOptionsPanel(name, localizedName, description, buttonLocali
 	desc:SetPoint('TOPLEFT', title, 'BOTTOMLEFT', 0, -8)
 	desc:SetText(description)
 
-	local container = CreateFrame('Frame', '$parentContainer', panel, 'BackdropTemplate')
+	local container = CreateFrame('Frame', '$parentContainer', panel, BackdropTemplateMixin and 'BackdropTemplate')
 	container:SetBackdrop(BACKDROP)
 	container:SetBackdropColor(0, 0, 0, 0.5)
 	container:SetBackdropBorderColor(0.5, 0.5, 0.5)

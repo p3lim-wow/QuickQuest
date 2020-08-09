@@ -1,7 +1,4 @@
 local _, ns = ...
-if select(4, GetBuildInfo()) < 90000 then
-	return
-end
 
 local EventHandler = CreateFrame('Frame')
 EventHandler.events = {}

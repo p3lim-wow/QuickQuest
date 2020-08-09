@@ -1,7 +1,4 @@
 local addonName, ns = ...
-if select(4, GetBuildInfo()) < 90000 then
-	return
-end
 local L = ns.L
 
 local function CreateOptions()
