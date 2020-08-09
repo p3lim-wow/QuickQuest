@@ -3,13 +3,15 @@
 ## Version: @project-version@
 ## Title: QuickQuest
 ## Notes: Quest automation wizardry
-## OptionalDeps: LibStub, CallbackHandler-1.0, LibGossipQuestInfo, Wasabi
+## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3, LibGossipQuestInfo, Wasabi
 ## SavedVariables: QuickQuestDB, QuickQuestBlacklistDB, QuickQuestDB2
 
 ## X-Curse-Project-ID: 36494
 ## X-WoWI-ID: 20838
 
 libs\LibStub\LibStub.lua
+libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
+libs\AceDB-3.0\AceDB-3.0.xml
 libs\Wasabi\embed.xml
 
 locale\initialize.lua
@@ -27,4 +29,6 @@ locale\zhTW.lua
 Utils.lua
 Config.lua
 QuickQuest.lua
+
+Options.lua
 Addon.lua
