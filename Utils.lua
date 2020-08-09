@@ -78,3 +78,11 @@ function ns.ShouldAcceptTrivialQuests()
 		end
 	end
 end
+
+function ns.tLength(t)
+	local count = 0
+	for _ in next, t do
+		count = count + 1
+	end
+	return count
+end

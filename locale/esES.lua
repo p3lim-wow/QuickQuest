@@ -6,12 +6,14 @@ L['Automatically select single gossip options'] = 'Seleccionar automáticamente 
 L['When to select gossip while in a raid'] = 'Cuando seleccionar diálogos mientras se está en banda'
 L['Automatically pay Darkmoon Faire teleporting fees'] = 'Pagar automáticamente las tarifas de teletransporte de la Feria de la Luna Negra'
 L['Reverse the behaviour of the modifier key'] = 'Revertir el funcionamiento de la tecla modificada'
-L['Disable while doing the withered training scenario in Suramar'] = 'Desactivar mientras se hace el escenario de los marchitos en Suramar'
 -- L['Hold this key to to temporarily pause automation'] = '' -- MISSING!
-L['Always accept and complete Nomi\'s daily quest, despite being low-level'] = 'Aceptar y completar siempre misiones diarias de Nomi, aunque sean de nivel bajo'
-L['Quests starting with and/or containing these items will not be automated.'] = 'Las misiones que comiencen con y/o contengan esos objetos no será automático'
-L['Drag items into the window below to add more.'] = 'Arrastra objetos en la ventana de abajo para añadir más.'
-L['Right-click to remove item'] = 'Click derecho para quitar el objeto'
+
+-- L['Item Blocklist'] = '' -- MISSING!
+-- L['NPC Blocklist'] = '' -- MISSING!
+-- L['Block Item'] = '' -- MISSING!
+-- L['Block NPC'] = '' -- MISSING!
+-- L['Quests containing items in this list will not be automated.'] = '' -- MISSING!
+-- L['Quests and dialogue from NPCs in this list will not be automated.'] = '' -- MISSING!
 
 L['ALT key'] = ALT_KEY
 L['CTRL key'] = CTRL_KEY

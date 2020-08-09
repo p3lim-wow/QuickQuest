@@ -6,12 +6,14 @@ L['Automatically select single gossip options'] = '自動選擇單一對話選�
 L['When to select gossip while in a raid'] = '當你在團隊中，是否啟用自動選擇對話選項的功能'
 L['Automatically pay Darkmoon Faire teleporting fees'] = '自動支付暗月馬戲團傳送費'
 L['Reverse the behaviour of the modifier key'] = '反轉輔助鍵的行為（勾選後，按下按鍵才啟用自動交接）'
-L['Disable while doing the withered training scenario in Suramar'] = '位於蘇拉瑪爾的凋萎者訓練場時禁用'
 -- L['Hold this key to to temporarily pause automation'] = '' -- MISSING!
-L['Always accept and complete Nomi\'s daily quest, despite being low-level'] = '總是接受並完成糯米的每日任務，儘管是低級別'
-L['Quests starting with and/or containing these items will not be automated.'] = '以這些物品為起始的任務將不會自動接受'
-L['Drag items into the window below to add more.'] = '增加內容清單：將物品拖曳至下面的視窗內'
-L['Right-click to remove item'] = '右鍵點擊將物品從列表移除'
+
+-- L['Item Blocklist'] = '' -- MISSING!
+-- L['NPC Blocklist'] = '' -- MISSING!
+-- L['Block Item'] = '' -- MISSING!
+-- L['Block NPC'] = '' -- MISSING!
+-- L['Quests containing items in this list will not be automated.'] = '' -- MISSING!
+-- L['Quests and dialogue from NPCs in this list will not be automated.'] = '' -- MISSING!
 
 L['ALT key'] = ALT_KEY
 L['CTRL key'] = CTRL_KEY

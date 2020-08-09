@@ -32,6 +32,9 @@ Utils.lua
 Config.lua
 QuickQuest.lua
 
+ButtonPoolMixin.lua
+
 SavedVariables.lua
 Options.lua
+OptionsBlocklist.lua
 Addon.lua
