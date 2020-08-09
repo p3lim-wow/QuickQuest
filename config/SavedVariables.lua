@@ -147,7 +147,12 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 			-- QuickQuestDB = nil
 		end
 		if(QuickQuestBlacklistDB and QuickQuestBlacklistDB.items) then
-			ns.db.profile.blocklist.items = QuickQuestBlacklistDB.items
+			for key, value in next, QuickQuestBlacklistDB.items do
+				if not ns.db.profile.blocklist.items[key] then
+					ns.db.profile.blocklist.items[key] = value
+				end
+			end
+
 			-- TODO: empty old db:
 			-- QuickQuestBlacklistDB = nil
 		end
