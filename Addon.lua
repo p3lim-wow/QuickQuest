@@ -7,6 +7,7 @@ local EventHandler = ns.EventHandler
 local paused
 
 local DARKMOON_ISLE_MAP_ID = 0 -- TODO: figure out the correct map ID
+local DARKMOON_FAIRE_TELEPORT_NPC_ID = 57850 -- Teleportologist Fozlebub
 
 local ignoredQuests = {}
 local cashRewards = {
@@ -77,6 +78,11 @@ EventHandler:Register('GOSSIP_SHOW', function()
 
 	if rogueNPCs[npcID] then
 		-- automatically open doors to the rogue class hall in Dalaran
+		C_GossipInfo.SelectOption(1)
+		return
+	end
+
+	if ns.db.profile.general.paydarkmoonfaire and npcID == DARKMOON_FAIRE_TELEPORT_NPC_ID then
 		C_GossipInfo.SelectOption(1)
 		return
 	end
