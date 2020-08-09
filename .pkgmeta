@@ -8,9 +8,6 @@ externals:
   libs/AceDB-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceDB-3.0
   libs/AceGUI-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceGUI-3.0
   libs/AceConfig-3.0: https://repos.curseforge.com/wow/ace3/trunk/AceConfig-3.0
-  libs/Wasabi:
-    url: git://github.com/p3lim-wow/Wasabi
-    tag: latest
 
 manual-changelog:
   filename: CHANGELOG.md
@@ -18,4 +15,3 @@ manual-changelog:
 
 ignore:
   - README.md
-  - utils
