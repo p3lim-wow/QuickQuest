@@ -19,6 +19,12 @@ local cashRewards = {
 	[138125] = 16, -- Crystal Clear Gemstone, 16 copper
 	[138133] = 27, -- Elixir of Endless Wonder, 27 copper
 }
+local darkmoonNPCs = {
+	-- Darkmoon Faire teleporation NPCs
+	[57850] = true, -- Teleportologist Fozlebub
+	[55382] = true, -- Darkmoon Faire Mystic Mage (Horde)
+	[54334] = true, -- Darkmoon Faire Mystic Mage (Alliance)
+}
 
 EventHandler:Register('GOSSIP_CONFIRM', function(index)
 	-- triggered when a gossip confirm prompt is displayed
@@ -26,10 +32,12 @@ EventHandler:Register('GOSSIP_CONFIRM', function(index)
 		return
 	end
 
-	--[[
-		TODO:
-		- if this is a darkmoon faire teleport prompt, check if the user wants to do this (db) and accept
-	--]]
+	if ns.db.profile.general.paydarkmoonfaire and darkmoonNPCs[ns.GetNPCID()] then
+		C_GossipInfo.SelectOption(index, '', true)
+
+		-- this is considered an intrusive action, as we're modifying the UI
+		StaticPopup_Hide('GOSSIP_CONFIRM')
+	end
 end)
 
 EventHandler:Register('GOSSIP_SHOW', function()
