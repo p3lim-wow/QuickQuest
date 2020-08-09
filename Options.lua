@@ -119,6 +119,38 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 		-- initialize database with defaults
 		ns.db = LibStub('AceDB-3.0'):New('QuickQuestDB2', defaults, true)
 
+		-- migrate old dbs
+		if(QuickQuestDB) then
+			if(QuickQuestDB.itemBlacklist) then
+				ns.db.profile.blacklist = QuickQuestDB.itemBlacklist
+			end
+
+			if(QuickQuestDB.share ~= nil) then
+				ns.db.profile.general.share = QuickQuestDB.share
+			end
+			if(QuickQuestDB.gossip ~= nil) then
+				ns.db.profile.general.skipgossip = QuickQuestDB.gossip
+			end
+			if(QuickQuestDB.gossipraid ~= nil) then
+				ns.db.profile.general.skipgossipwhen = QuickQuestDB.gossipraid
+			end
+			if(QuickQuestDB.faireport ~= nil) then
+				ns.db.profile.general.paydarkmoonfaire = QuickQuestDB.faireport
+			end
+			if(QuickQuestDB.modifier ~= nil) then
+				ns.db.profile.general.pausekey = QuickQuestDB.modifier
+			end
+			if(QuickQuestDB.reverse ~= nil) then
+				ns.db.profile.general.pausekeyreverse = QuickQuestDB.reverse
+			end
+
+			-- QuickQuestDB = nil
+		end
+		if(QuickQuestBlacklistDB and QuickQuestBlacklistDB.items) then
+			ns.db.profile.blocklist.items = QuickQuestBlacklistDB.items
+			-- QuickQuestBlacklistDB = nil
+		end
+
 		return true -- unregister
 	end
 end)
