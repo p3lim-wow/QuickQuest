@@ -193,6 +193,8 @@ local function CreateNPCBlocklistOptions()
 			frame:SetBackdropBorderColor(0.5, 0.5, 0.5)
 			frame:SetFrameLevel(model:GetFrameLevel() + 1)
 
+			button.remove:SetFrameLevel(frame:GetFrameLevel() + 1)
+
 			UpdateModel(button)
 			pool:Reposition()
 
