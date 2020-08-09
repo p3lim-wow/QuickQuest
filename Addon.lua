@@ -109,10 +109,13 @@ EventHandler:Register('QUEST_PROGRESS', function()
 		return
 	end
 
+	if not IsQuestCompletable() then
+		return
+	end
+
 	--[[
 		TODO:
 		- stop if the quest has an item that is blocked
-		- stop if the quest cannot be completed
 		- complete quest
 	--]]
 end)
