@@ -15,6 +15,13 @@ function EventHandler:Register(event, func)
 		self.events[event] = {}
 	end
 
+	for _, f in next, self.events[event] do
+		if f == func then
+			-- avoid the same function being registered multiple times for the same event
+			return
+		end
+	end
+
 	table.insert(self.events[event], func)
 
 	if not registered then
