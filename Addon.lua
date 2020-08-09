@@ -24,9 +24,13 @@ EventHandler:Register('GOSSIP_SHOW', function()
 		return
 	end
 
+	local npcID = ns.GetNPCID()
+	if ns.db.profile.blocklist.npcs[npcID] then
+		return
+	end
+
 	--[[
 		TODO:
-		- stop if the npc should be ignored
 		- iterate through active quests
 		- iterate through available quests
 		- handle trivial quests
@@ -43,9 +47,13 @@ EventHandler:Register('QUEST_GREETING', function()
 		return
 	end
 
+	local npcID = ns.GetNPCID()
+	if ns.db.profile.blocklist.npcs[npcID] then
+		return
+	end
+
 	--[[
 		TODO:
-		- stop if the npc should be ignored
 		- iterate through active quests
 		- iterate through available quests
 		- handle trivial quests
@@ -73,9 +81,13 @@ EventHandler:Register('QUEST_PROGRESS', function()
 		return
 	end
 
+	local npcID = ns.GetNPCID()
+	if ns.db.profile.blocklist.npcs[npcID] then
+		return
+	end
+
 	--[[
 		TODO:
-		- stop if the npc should be ignored
 		- stop if the quest has an item that is blocked
 		- stop if the quest cannot be completed
 		- complete quest
