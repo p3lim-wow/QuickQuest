@@ -24,7 +24,7 @@ end
 
 function EventHandler:Unregister(event, func)
 	local funcs = self.events[event]
-	if funcs and funcs[func] then
+	if funcs then
 		for i, f in next, funcs do
 			if f == func then
 				funcs[i] = nil
