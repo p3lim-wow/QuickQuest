@@ -222,10 +222,22 @@ EventHandler:Register('QUEST_LOG_UPDATE', function()
 		return
 	end
 
-	--[[
-		TODO:
-		- iterate through quest popups (the ones in the watchlist)
-	--]]
+	-- check for quest popups whenever the quest log is updated, which also happens on login, and
+	-- when the player loots an item that starts a quest
+	if GetNumAutoQuestPopUps() > 0 then
+		if UnitIsDeadOrGhost('player') then
+			-- can't accept quests while we're dead
+			EventHandler:Register('PLAYER_REGEN_ENABLED', 'QUEST_LOG_UPDATE')
+			return
+		end
+
+		EventHandler:Unregister('PLAYER_REGEN_ENABLED', 'QUEST_LOG_UPDATE')
+
+		-- this is considered an intrusive action, as we're modifying the UI
+		local questID = GetAutoQuestPopUp(1)
+		local popup = AUTO_QUEST_POPUP_TRACKER_MODULE:GetBlock(questID)
+		AutoQuestPopUpTracker_OnMouseDown(popup)
+	end
 end)
 
 EventHandler:Register('QUEST_ACCEPT_CONFIRM', function()
