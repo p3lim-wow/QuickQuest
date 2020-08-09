@@ -149,10 +149,7 @@ EventHandler:Register('QUEST_PROGRESS', function()
 		end
 	end
 
-	--[[
-		TODO:
-		- complete quest
-	--]]
+	CompleteQuest()
 end)
 
 EventHandler:Register('QUEST_COMPLETE', function()
