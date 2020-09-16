@@ -295,9 +295,12 @@ EventHandler:Register('QUEST_LOG_UPDATE', function()
 		EventHandler:Unregister('PLAYER_REGEN_ENABLED', 'QUEST_LOG_UPDATE')
 
 		-- this is considered an intrusive action, as we're modifying the UI
-		local questID = GetAutoQuestPopUp(1)
-		local popup = AUTO_QUEST_POPUP_TRACKER_MODULE:GetBlock(questID)
-		AutoQuestPopUpTracker_OnMouseDown(popup)
+		local questID, questType = GetAutoQuestPopUp(1)
+		if questType == 'OFFER' then
+			ShowQuestOffer(questID)
+		else
+			ShowQuestComplete(questID)
+		end
 	end
 end)
 
