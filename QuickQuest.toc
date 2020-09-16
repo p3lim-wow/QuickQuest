@@ -27,8 +27,6 @@ locale\ruRU.lua
 locale\zhCN.lua
 locale\zhTW.lua
 
-C_GossipInfo.lua
-
 Utils.lua
 Addon.lua
 
