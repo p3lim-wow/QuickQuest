@@ -23,10 +23,10 @@ StaticPopupDialogs[addonName .. 'ItemBlocklistPopup'] = {
 			self.data = self.data or {}
 			self.data.link = '|Hitem:' .. itemID .. '|h'
 
-			StaticPopupItemFrame_RetrieveInfo(self.ItemFrame, self.data)
-			StaticPopupItemFrame_DisplayInfo(self.ItemFrame, self.data.link, self.data.name, self.data.color, self.data.texture)
+			self.ItemFrame:RetrieveInfo(self.data)
+			self.ItemFrame:DisplayInfo(self.data.link, self.data.name, self.data.color, self.data.texture)
 		else
-			StaticPopupItemFrame_DisplayInfo(self.ItemFrame, nil, L['Invalid Item'], nil, [[Interface\Icons\INV_Misc_QuestionMark]])
+			self.ItemFrame:DisplayInfo(nil, L['Invalid Item'], nil, [[Interface\Icons\INV_Misc_QuestionMark]])
 		end
 	end,
 	OnAccept = function(self)
