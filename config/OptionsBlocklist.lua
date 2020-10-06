@@ -129,6 +129,8 @@ local function CreateItemBlocklistOptions()
 	end
 
 	local itemPool = ns.CreateButtonPool(panel.container, 16, 33, 33, 4)
+	itemPool:SetSortField('itemID')
+
 	for _, itemID in next, ns.db.profile.blocklist.items do
 		AddButton(itemPool, itemID)
 	end
@@ -206,6 +208,8 @@ local function CreateNPCBlocklistOptions()
 	end
 
 	local npcPool = ns.CreateButtonPool(panel.container, 16, 66, 80, 4)
+	npcPool:SetSortField('npcID')
+
 	for npcID in next, ns.db.profile.blocklist.npcs do
 		AddButton(npcPool, npcID)
 	end
