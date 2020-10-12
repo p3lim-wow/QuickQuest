@@ -313,6 +313,16 @@ EventHandler:Register('QUEST_ACCEPT_CONFIRM', function()
 	AcceptQuest()
 end)
 
+EventHandler:Register('QUEST_ACCEPTED', function(questID)
+	-- triggered when a quest has been accepted by the player
+	if ns.db.profile.general.share then
+		local questLogIndex = C_QuestLog.GetLogIndexForQuestID(questID)
+		if questLogIndex then
+			QuestLogPushQuest(questLogIndex)
+		end
+	end
+end)
+
 EventHandler:Register('MODIFIER_STATE_CHANGED', function(key, state)
 	-- triggered when the player clicks any modifier keys on the keyboard
 	if string.sub(key, 2) == ns.db.profile.general.pausekey then
