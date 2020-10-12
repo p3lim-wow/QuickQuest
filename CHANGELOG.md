@@ -1,3 +1,11 @@
+### Changes in 90000.41-Release:
+
+- Added: NPC blocklist config
+- Changed: Replaced custom config with Ace3
+- Changed: Item blocklist is now sorted
+- Changed: Update Interface version
+- Fixed: Shadowlands compatibility
+
 ### Changes in 80200.40-Release:
 
 - Changed: Update Interface version
