@@ -3,7 +3,7 @@ local _, ns = ...
 local EventHandler = ns.EventHandler
 local paused
 
-local DARKMOON_ISLE_MAP_ID = 0 -- TODO: figure out the correct map ID
+local DARKMOON_ISLE_MAP_ID = 407
 local DARKMOON_FAIRE_TELEPORT_NPC_ID = 57850 -- Teleportologist Fozlebub
 
 local ignoredQuests = {}
