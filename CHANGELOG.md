@@ -1,3 +1,7 @@
+### Changes in 90000.42-Release:
+
+- Fixed: Incorrect Interface version
+
 ### Changes in 90000.41-Release:
 
 - Added: NPC blocklist config
