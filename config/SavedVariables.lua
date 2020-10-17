@@ -106,6 +106,7 @@ local defaults = {
 				-- misc
 				[143925] = true, -- Dark Iron Mole Machine (Dark Iron Dwarf racial)
 			},
+			title = {}
 		},
 	},
 }
@@ -154,6 +155,10 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 			end
 
 			QuickQuestBlacklistDB = nil
+		end
+
+		if not ns.db.profile.blocklist.title then
+			ns.db.profile.blocklist.title = {}
 		end
 
 		return true -- unregister

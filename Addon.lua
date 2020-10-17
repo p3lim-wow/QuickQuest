@@ -32,6 +32,22 @@ local rogueNPCs = {
 	[93188] = true, -- Mongar
 }
 
+local function IsQuestIgnored( questID )
+	if ignoredQuests[questID] then
+		return true
+	end
+
+	local title = C_QuestLog.GetTitleForQuestID(questID)
+
+	for _, titleOrQuestID in ipairs(ns.db.profile.blocklist.title) do
+		if titleOrQuestID == tostring(questID) or (title or ""):lower():find(titleOrQuestID:lower()) then
+			return true
+		end
+	end
+
+	return false
+end
+
 EventHandler:Register('GOSSIP_CONFIRM', function(index)
 	-- triggered when a gossip confirm prompt is displayed
 	if paused then
@@ -113,7 +129,7 @@ EventHandler:Register('GOSSIP_SHOW', function()
 
 	-- turn in all completed quests
 	for index, info in next, C_GossipInfo.GetActiveQuests() do
-		if not ignoredQuests[info.questID] then
+		if not IsQuestIgnored(info.questID) then
 			if info.isComplete and not C_QuestLog.IsWorldQuest(info.questID) then
 				C_GossipInfo.SelectActiveQuest(index)
 			end
@@ -122,7 +138,7 @@ EventHandler:Register('GOSSIP_SHOW', function()
 
 	-- accept all available quests
 	for index, info in next, C_GossipInfo.GetAvailableQuests() do
-		if not ignoredQuests[info.questID] then
+		if not IsQuestIgnored(info.questID) then
 			if not info.isTrivial or ns.ShouldAcceptTrivialQuests() then
 				C_GossipInfo.SelectAvailableQuest(index)
 			end
@@ -142,7 +158,7 @@ EventHandler:Register('QUEST_GREETING', function()
 
 	-- turn in all completed quests
 	for index = 1, GetNumActiveQuests() do
-		if not ignoredQuests[GetActiveQuestID(index)] then
+		if not IsQuestIgnored(GetActiveQuestID(index)) then
 			local _, isComplete = GetActiveTitle(index)
 			if isComplete and not C_QuestLog.IsWorldQuest(GetActiveQuestID(index)) then
 				SelectActiveQuest(index)
@@ -153,7 +169,7 @@ EventHandler:Register('QUEST_GREETING', function()
 	-- accept all available quests
 	for index = 1, GetNumAvailableQuests() do
 		local isTrivial, _, _, _, questID = GetAvailableQuestInfo(index)
-		if not ignoredQuests[questID] then
+		if not IsQuestIgnored(questID) then
 			if not isTrivial or ns.ShouldAcceptTrivialQuests() then
 				SelectAvailableQuest(index)
 			end
@@ -175,7 +191,7 @@ EventHandler:Register('QUEST_DETAIL', function(questItemID)
 		-- this type of quest is automatically accepted, but the dialogue persists
 		AcknowledgeAutoAcceptQuest()
 	elseif not C_QuestLog.IsQuestTrivial(GetQuestID()) or ns.ShouldAcceptTrivialQuests() then
-		if ignoredQuests[GetQuestID()] then
+		if IsQuestIgnored(GetQuestID()) then
 			CloseQuest()
 		else
 			AcceptQuest()

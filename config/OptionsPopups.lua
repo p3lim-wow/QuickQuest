@@ -6,8 +6,8 @@ StaticPopupDialogs[addonName .. 'ItemBlocklistPopup'] = {
 	button1 = L['Accept'],
 	button2 = L['Cancel'],
 	hasEditBox = true,
-	EditBoxOnEnterPressed = function(self)
-		self.data.callback(self.data.pool, tonumber(strtrim(self.editBox:GetText())))
+	EditBoxOnEnterPressed = function(self, data)
+		data.callback(data.pool, tonumber(strtrim(self:GetText())))
 		self:GetParent():Hide()
 	end,
 	EditBoxOnEscapePressed = function(self)
@@ -51,8 +51,8 @@ StaticPopupDialogs[addonName .. 'NPCBlocklistPopup'] = {
 	button2 = L['Cancel'],
 	button3 = L['Target'],
 	hasEditBox = true,
-	EditBoxOnEnterPressed = function(self)
-		self.data.callback(self.data.pool, tonumber(strtrim(self.editBox:GetText())))
+	EditBoxOnEnterPressed = function(self, data)
+		data.callback(data.pool, tonumber(strtrim(self:GetText())))
 		self:GetParent():Hide()
 	end,
 	EditBoxOnEscapePressed = function(self)
@@ -63,6 +63,31 @@ StaticPopupDialogs[addonName .. 'NPCBlocklistPopup'] = {
 	end,
 	OnAlt = function(self)
 		self.data.callback(self.data.pool, ns.GetNPCID('target'))
+	end,
+	OnShow = function(self)
+		self.editBox:SetFocus()
+	end,
+	OnHide = function(self)
+		self.editBox:SetText('')
+	end,
+	hideOnEscape = true,
+	timeout = 0,
+}
+
+StaticPopupDialogs[addonName .. 'TitleBlocklistPopup'] = {
+	text = L['Block a quest by title or ID'],
+	button1 = L['Accept'],
+	button2 = L['Cancel'],
+	hasEditBox = true,
+	EditBoxOnEnterPressed = function(self, data)
+		data.callback(data.pool, strtrim(self:GetText()))
+		self:GetParent():Hide()
+	end,
+	EditBoxOnEscapePressed = function(self)
+		self:GetParent():Hide()
+	end,
+	OnAccept = function(self)
+		self.data.callback(self.data.pool, strtrim(self.editBox:GetText()))
 	end,
 	OnShow = function(self)
 		self.editBox:SetFocus()
