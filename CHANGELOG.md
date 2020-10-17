@@ -1,3 +1,7 @@
+### Changes in 90000.43-Release:
+
+- Fixed: Gossip skipped even though turned off
+
 ### Changes in 90000.42-Release:
 
 - Fixed: Incorrect Interface version
