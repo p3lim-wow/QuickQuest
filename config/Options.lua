@@ -34,7 +34,10 @@ local function CreateOptions()
 					[0] = L['Never'],
 					[1] = L['Soloing'],
 					[2] = L['Always']
-				}
+				},
+				disabled = function()
+					return not ns.db.profile.general.skipgossip
+				end,
 			},
 			paydarkmoonfaire = {
 				order = 4,
