@@ -157,10 +157,6 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 			QuickQuestBlacklistDB = nil
 		end
 
-		if not ns.db.profile.blocklist.title then
-			ns.db.profile.blocklist.title = {}
-		end
-
 		return true -- unregister
 	end
 end)

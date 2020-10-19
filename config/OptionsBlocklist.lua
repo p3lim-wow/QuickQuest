@@ -229,14 +229,12 @@ local function CreateTitleBlocklistOptions()
 		L['Block Title'])
 
 	local function OnRemove(self)
-		for i, title in ipairs(ns.db.profile.blocklist.title) do
+		for index, title in next, ns.db.profile.blocklist.title do
 			if title == self.title then
-				tremove(ns.db.profile.blocklist.title, i)
+				tremove(ns.db.profile.blocklist.title, index)
 			end
 		end
 	end
-	
-	local titles = ns.db.profile.blocklist.title
 
 	local function AddButton(pool, title)
 		if title:find("^%s*$") then
@@ -268,8 +266,8 @@ local function CreateTitleBlocklistOptions()
 			pool:Reposition()
 
 			-- inject into db
-			if not tContains(titles, title) then
-				tinsert(titles, title)
+			if not tContains(ns.db.profile.blocklist.title, title) then
+				tinsert(ns.db.profile.blocklist.title, title)
 			end
 		end
 	end
@@ -281,7 +279,7 @@ local function CreateTitleBlocklistOptions()
 	local titlePool = ns.CreateButtonPool(panel.container, offset, width, height, spacing)
 	titlePool:SetSortField('title')
 
-	for _, title in ipairs(titles) do
+	for _, title in next, ns.db.profile.blocklist.title do
 		AddButton(titlePool, title)
 	end
 

@@ -38,8 +38,7 @@ local function IsQuestIgnored( questID )
 	end
 
 	local title = C_QuestLog.GetTitleForQuestID(questID)
-
-	for _, titleOrQuestID in ipairs(ns.db.profile.blocklist.title) do
+	for _, titleOrQuestID in next, ns.db.profile.blocklist.title do
 		if titleOrQuestID == tostring(questID) or (title or ""):lower():find(titleOrQuestID:lower()) then
 			return true
 		end
