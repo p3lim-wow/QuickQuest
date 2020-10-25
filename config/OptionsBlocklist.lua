@@ -222,9 +222,79 @@ local function CreateNPCBlocklistOptions()
 	end)
 end
 
+local function CreateTitleBlocklistOptions()
+	local panel = CreateOptionsPanel('TitleBlocklist',
+		L['Title Blocklist'],
+		L['Quests with titles that partially match or IDs that exactly match entries from this list will not be automated.'],
+		L['Block Title'])
+
+	local function OnRemove(self)
+		for index, title in next, ns.db.profile.blocklist.title do
+			if title == self.title then
+				tremove(ns.db.profile.blocklist.title, index)
+			end
+		end
+	end
+
+	local function AddButton(pool, title)
+		if title:find("^%s*$") then
+			print(addonName .. ': Invalid quest title or ID')
+		else
+			local button = pool:CreateButton()
+			button.title = title
+			button.OnRemove = OnRemove
+
+			if not button.text then
+				local text = button:CreateFontString('$parentText', 'ARTWORK', 'GameFontNormal')
+				text:SetPoint('LEFT', button, 'LEFT', 5, 0)
+				button.text = text
+				
+				local frame = CreateFrame('Frame', nil, button, BackdropTemplateMixin and 'BackdropTemplate')
+				frame:SetPoint('TOPLEFT', -2, 2)
+				frame:SetPoint('BOTTOMRIGHT', 2, -2)
+				frame:SetBackdrop(BACKDROP)
+				frame:SetBackdropColor(0, 0, 0, 0)
+				frame:SetBackdropBorderColor(0.5, 0.5, 0.5)
+				frame:SetFrameLevel(button:GetFrameLevel() + 1)
+				button.frame = frame
+			
+				button.remove:SetFrameLevel(frame:GetFrameLevel() + 1)
+			end
+			
+			button.text:SetText(title)
+			
+			pool:Reposition()
+
+			-- inject into db
+			if not tContains(ns.db.profile.blocklist.title, title) then
+				tinsert(ns.db.profile.blocklist.title, title)
+			end
+		end
+	end
+
+	local offset = 16
+	local spacing = 4
+	local width = 500 -- big enough to only have 1 column
+	local height = 18
+	local titlePool = ns.CreateButtonPool(panel.container, offset, width, height, spacing)
+	titlePool:SetSortField('title')
+
+	for _, title in next, ns.db.profile.blocklist.title do
+		AddButton(titlePool, title)
+	end
+
+	panel.button:SetScript('OnClick', function()
+		StaticPopup_Show(addonName .. 'TitleBlocklistPopup', nil, nil, {
+			callback = AddButton,
+			pool = titlePool,
+		})
+	end)
+end
+
 function ns.CreateBlocklistOptions()
 	ns.CreateBlocklistOptions = nop -- we only want to run this once
 
 	CreateItemBlocklistOptions()
 	CreateNPCBlocklistOptions()
+	CreateTitleBlocklistOptions()
 end

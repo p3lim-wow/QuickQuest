@@ -10,13 +10,16 @@ local L = select(2, ...).L('ruRU')
 
 -- L['Item Blocklist'] = '' -- MISSING!
 -- L['NPC Blocklist'] = '' -- MISSING!
+-- L['Title Blocklist'] = '' -- MISSING
 -- L['Block Item'] = '' -- MISSING!
 -- L['Block NPC'] = '' -- MISSING!
+-- L['Block Title']) = '' --MISSING!
 -- L['Quests containing items in this list will not be automated.'] = '' -- MISSING!
 -- L['Quests and dialogue from NPCs in this list will not be automated.'] = '' -- MISSING!
 
 -- L['Block a new item by ID'] = '' -- MISSING!
 -- L['Block a new NPC by ID'] = '' -- MISSING!
+-- L['Quests with titles that partially match or IDs that exactly match entries from this list will not be automated.'] = '' -- MISSING!
 
 L['ALT key'] = ALT_KEY
 L['CTRL key'] = CTRL_KEY

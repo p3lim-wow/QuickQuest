@@ -106,6 +106,7 @@ local defaults = {
 				-- misc
 				[143925] = true, -- Dark Iron Mole Machine (Dark Iron Dwarf racial)
 			},
+			title = {}
 		},
 	},
 }
