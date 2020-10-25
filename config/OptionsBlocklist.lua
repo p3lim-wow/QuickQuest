@@ -20,7 +20,7 @@ local function CreateOptionsPanel(name, localizedName, description, buttonLocali
 	desc:SetPoint('TOPLEFT', title, 'BOTTOMLEFT', 0, -8)
 	desc:SetText(description)
 
-	local bounds = CreateFrame('Frame', '$parentBounds', panel, BackdropTemplateMixin and 'BackdropTemplate')
+	local bounds = CreateFrame('Frame', '$parentBounds', panel, 'BackdropTemplate')
 	bounds:SetPoint('TOPLEFT', 15, -60)
 	bounds:SetPoint('BOTTOMRIGHT', -15, 15)
 	bounds:SetBackdrop(BACKDROP)
@@ -177,7 +177,7 @@ local function CreateNPCBlocklistOptions()
 			model:SetModel([[Interface\Buttons\TalkToMeQuestionMark.m2]])
 			button.model = model
 
-			local frame = CreateFrame('Frame', nil, button, BackdropTemplateMixin and 'BackdropTemplate')
+			local frame = CreateFrame('Frame', nil, button, 'BackdropTemplate')
 			frame:SetPoint('TOPLEFT', -2, 2)
 			frame:SetPoint('BOTTOMRIGHT', 2, -2)
 			frame:SetBackdrop(BACKDROP)
@@ -256,7 +256,7 @@ local function CreateQuestBlocklistOptions()
 			text:SetPoint('LEFT', button, 'LEFT', 5, 0)
 			button.text = text
 
-			local frame = CreateFrame('Frame', nil, button, BackdropTemplateMixin and 'BackdropTemplate')
+			local frame = CreateFrame('Frame', nil, button, 'BackdropTemplate')
 			frame:SetPoint('TOPLEFT', -2, 2)
 			frame:SetPoint('BOTTOMRIGHT', 2, -2)
 			frame:SetBackdrop(BACKDROP)
