@@ -73,27 +73,17 @@ local function CreateItemBlocklistOptions()
 
 	local queryItems = {}
 	local function UpdateTexture(button)
-		local _, _, _, _, _, _, _, _, _, textureFile = GetItemInfo(button.itemID)
-		if textureFile then
-			button:SetNormalTexture(textureFile)
-		else
-			-- wait for cache and retry
-			queryItems[button.itemID] = button
-			panel.container:RegisterEvent('GET_ITEM_INFO_RECEIVED')
+		local item = Item:CreateFromItemID(button.itemID)
+		local textureFile = item:GetItemIcon()
+		if not textureFile then
+			item:ContinueOnItemLoad(function()
+				UpdateTexture(button)
+			end)
+			return
 		end
+
+		button:SetNormalTexture(textureFile)
 	end
-
-	panel.container:SetScript('OnEvent', function(self, event, itemID)
-		local button = queryItems[itemID]
-		if button then
-			queryItems[itemID] = nil
-			UpdateTexture(button)
-
-			if ns.tLength(queryItems) == 0 then
-				self:UnregisterEvent(event)
-			end
-		end
-	end)
 
 	local function AddButton(pool, itemID)
 		if itemID then
