@@ -32,14 +32,14 @@ local rogueNPCs = {
 	[93188] = true, -- Mongar
 }
 
-local function IsQuestIgnored( questID )
+local function IsQuestIgnored(questID)
 	if ignoredQuests[questID] then
 		return true
 	end
 
-	local title = C_QuestLog.GetTitleForQuestID(questID)
-	for _, titleOrQuestID in next, ns.db.profile.blocklist.title do
-		if titleOrQuestID == tostring(questID) or (title or ""):lower():find(titleOrQuestID:lower()) then
+	local questTitle = tonumber(questID) and C_QuestLog.GetTitleForQuestID(questID) or ''
+	for key in next, ns.db.profile.blocklist.quests do
+		if key == questID or questTitle:lower():find(key:lower()) then
 			return true
 		end
 	end

@@ -74,7 +74,7 @@ StaticPopupDialogs[addonName .. 'NPCBlocklistPopup'] = {
 	timeout = 0,
 }
 
-StaticPopupDialogs[addonName .. 'TitleBlocklistPopup'] = {
+StaticPopupDialogs[addonName .. 'QuestBlocklistPopup'] = {
 	text = L['Block a quest by title or ID'],
 	button1 = L['Accept'],
 	button2 = L['Cancel'],

@@ -67,19 +67,6 @@ local defaults = {
 				[31664] = 88604, -- Nat's Fishing Journal
 			},
 			npcs = {
-				-- seals/coins
-				[88570] = true, -- Fate-Twister Tiklal (6.0 coins, horde)
-				[87391] = true, -- Fate-Twister Seress (6.0 coins, alliance)
-				[111243] = true, -- Archmage Lan'dalock (7.0 coins)
-				[141584] = true, -- Zurvan (8.0 coins, horde)
-				[142063] = true, -- Tezran (8.0 coins, alliance)
-
-				-- valuable resources
-				[119388] = true, -- Chieftain Hatuun (Argus resources)
-				[124312] = true, -- High Exarch Turalyon (Argus resources)
-				[126954] = true, -- High Exarch Turalyon (Argus resources)
-				[127037] = true, -- Nabiru (Argus resources)
-
 				-- misc
 				[103792] = true, -- Griftah (his quests are scams)
 
@@ -106,7 +93,45 @@ local defaults = {
 				-- misc
 				[143925] = true, -- Dark Iron Mole Machine (Dark Iron Dwarf racial)
 			},
-			title = {}
+			quests = {
+				-- 6.0 coins
+				[36055] = true, -- Sealing Fate: Apexis Crystals
+				[36056] = true, -- Sealing Fate: Garrison Resources
+				[36054] = true, -- Sealing Fate: Gold
+				[37452] = true, -- Sealing Fate: Heap of Apexis Crystals
+				[36057] = true, -- Sealing Fate: Honor
+				[37455] = true, -- Sealing Fate: Immense Fortune of Gold
+				[37453] = true, -- Sealing Fate: Mountain of Apexis Crystals
+				[37454] = true, -- Sealing Fate: Piles of Gold
+				[37456] = true, -- Sealing Fate: Stockpiled Garrison Resources
+				[37457] = true, -- Sealing Fate: Tremendous Garrison Resources
+
+				-- 7.0 coins
+				[47864] = true, -- Sealing Fate: Additional Marks of Honor
+				[43894] = true, -- Sealing Fate: Extraneous Order Resources
+				[43895] = true, -- Sealing Fate: Gold
+				[43897] = true, -- Sealing Fate: Immense Fortune of Gold
+				[47851] = true, -- Sealing Fate: Marks of Honor
+				[43892] = true, -- Sealing Fate: Order Resources
+				[43896] = true, -- Sealing Fate: Piles of Gold
+				[47865] = true, -- Sealing Fate: Piles of Marks of Honor
+				[43893] = true, -- Sealing Fate: Stashed Order Resources
+
+				-- 8.0 coins
+				[52839] = true, -- Seal of Wartorn Fate: Additional Marks of Honor
+				[52834] = true, -- Seal of Wartorn Fate: Gold
+				[52835] = true, -- Seal of Wartorn Fate: Marks of Honor
+				[52838] = true, -- Seal of Wartorn Fate: Piles of Gold
+				[52840] = true, -- Seal of Wartorn Fate: Stashed War Resources
+				[52837] = true, -- Seal of Wartorn Fate: War Resources
+
+				-- 7.0 valuable resources
+				[48910] = true, -- Supplying Krokuun
+				[48634] = true, -- Further Supplying Krokuun
+				[48911] = true, -- Void Inoculation
+				[48635] = true, -- More Void Inoculation
+				[48799] = true, -- Fuel for a Doomed World
+			},
 		},
 	},
 }

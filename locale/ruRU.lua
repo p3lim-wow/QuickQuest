@@ -19,7 +19,7 @@ local L = select(2, ...).L('ruRU')
 
 -- L['Block a new item by ID'] = '' -- MISSING!
 -- L['Block a new NPC by ID'] = '' -- MISSING!
--- L['Quests with titles that partially match or IDs that exactly match entries from this list will not be automated.'] = '' -- MISSING!
+-- L['Quests (by partial title or ID) in this list will not be automated.'] = '' -- MISSING!
 
 L['ALT key'] = ALT_KEY
 L['CTRL key'] = CTRL_KEY
