@@ -1,3 +1,9 @@
+### Changes in 90000.44-Release:
+
+- Added: Quest blocklist (thanks @zgavin)
+- Changed: Many blocked NPCs are now blocked quests instead by default
+- Removed: Compatibility code for older game clients
+
 ### Changes in 90000.43-Release:
 
 - Fixed: Gossip skipped even though turned off
