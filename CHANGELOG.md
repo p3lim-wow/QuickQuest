@@ -1,3 +1,7 @@
+### Changes in 90000.45-Release:
+
+- Fixed: Indexing error
+
 ### Changes in 90000.44-Release:
 
 - Added: Quest blocklist (thanks @zgavin)
