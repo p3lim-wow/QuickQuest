@@ -39,7 +39,7 @@ local function IsQuestIgnored(questID)
 
 	local questTitle = tonumber(questID) and C_QuestLog.GetTitleForQuestID(questID) or ''
 	for key in next, ns.db.profile.blocklist.quests do
-		if key == questID or questTitle:lower():find(key:lower()) then
+		if key == questID or questTitle:lower():find(tostring(key):lower()) then
 			return true
 		end
 	end
