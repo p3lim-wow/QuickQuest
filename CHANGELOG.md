@@ -1,3 +1,10 @@
+### Changes in 90000.46-Release:
+
+- Fixed: Blocked quests by ID not being blocked
+- Fixed: Error when adding new quests to blocklist
+- Fixed: Blocklists duplicate entries
+- Fixed: Quest blocklist showing empty names
+
 ### Changes in 90000.45-Release:
 
 - Fixed: Indexing error
