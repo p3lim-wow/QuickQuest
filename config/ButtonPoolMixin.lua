@@ -53,6 +53,16 @@ do
 	end
 end
 
+function ButtonPoolMixin:HasButtonBySortField(qualifier)
+	if self.sortField then
+		for button in self:EnumerateActive() do
+			if button[self.sortField] == qualifier then
+				return true
+			end
+		end
+	end
+end
+
 local function ReleaseButton(pool, button)
 	FramePool_HideAndClearAnchors(pool, button) -- super
 

@@ -86,36 +86,32 @@ local function CreateItemBlocklistOptions()
 	end
 
 	local function AddButton(pool, itemID)
-		if itemID then
-			local button = pool:CreateButton()
-			button.itemID = itemID
-			button.OnEnter = OnEnter
-			button.OnLeave = GameTooltip_Hide
-			button.OnRemove = OnRemove
-
-			local texture = button:CreateTexture(nil, 'OVERLAY')
-			texture:SetPoint('CENTER')
-			texture:SetSize(54, 54)
-			texture:SetTexture([[Interface\Buttons\UI-Quickslot2]])
-
-			UpdateTexture(button)
-			pool:Reposition()
-
-			-- check if the item is already blocked
-			local exists = false
-			for _, existingItemID in next, ns.db.profile.blocklist.items do
-				if existingItemID == itemID then
-					exists = true
-				end
-			end
-
-			if not exists then
-				-- inject into db
-				ns.db.profile.blocklist.items['custom_' .. itemID] = itemID
-			end
-		else
+		if not itemID or not tonumber(itemID) then
 			print(addonName .. ': Invalid item ID')
+			return
 		end
+
+		if pool:HasButtonBySortField(itemID) then
+			print(addonName .. ': Item is already blocked')
+			return
+		end
+
+		local button = pool:CreateButton()
+		button.itemID = itemID
+		button.OnEnter = OnEnter
+		button.OnLeave = GameTooltip_Hide
+		button.OnRemove = OnRemove
+
+		local texture = button:CreateTexture(nil, 'OVERLAY')
+		texture:SetPoint('CENTER')
+		texture:SetSize(54, 54)
+		texture:SetTexture([[Interface\Buttons\UI-Quickslot2]])
+
+		UpdateTexture(button)
+		pool:Reposition()
+
+		-- inject into db
+		ns.db.profile.blocklist.items['custom_' .. itemID] = itemID
 	end
 
 	local itemPool = ns.CreateButtonPool(panel.container, 16, 33, 33, 4)
@@ -163,38 +159,44 @@ local function CreateNPCBlocklistOptions()
 	end
 
 	local function AddButton(pool, npcID)
-		if npcID then
-			local button = pool:CreateButton()
-			button.npcID = npcID
-			button.OnEnter = OnEnter
-			button.OnLeave = GameTooltip_Hide
-			button.OnRemove = OnRemove
-
-			local model = CreateFrame('PlayerModel', nil, button)
-			model:SetPoint('TOPLEFT', 2, -2)
-			model:SetPoint('BOTTOMRIGHT', -2, 2)
-			model:SetCamDistanceScale(0.8)
-			model:SetModel([[Interface\Buttons\TalkToMeQuestionMark.m2]])
-			button.model = model
-
-			local frame = CreateFrame('Frame', nil, button, 'BackdropTemplate')
-			frame:SetPoint('TOPLEFT', -2, 2)
-			frame:SetPoint('BOTTOMRIGHT', 2, -2)
-			frame:SetBackdrop(BACKDROP)
-			frame:SetBackdropColor(0, 0, 0, 0)
-			frame:SetBackdropBorderColor(0.5, 0.5, 0.5)
-			frame:SetFrameLevel(model:GetFrameLevel() + 1)
-
-			button.remove:SetFrameLevel(frame:GetFrameLevel() + 1)
-
-			UpdateModel(button)
-			pool:Reposition()
-
-			-- inject into db
-			ns.db.profile.blocklist.npcs[npcID] = true
-		else
+		if not npcID or not tonumber(npcID) then
 			print(addonName .. ': Invalid NPC ID')
+			return
 		end
+
+		if pool:HasButtonBySortField(npcID) then
+			print(addonName .. ': NPC is already blocked')
+			return
+		end
+
+		local button = pool:CreateButton()
+		button.npcID = npcID
+		button.OnEnter = OnEnter
+		button.OnLeave = GameTooltip_Hide
+		button.OnRemove = OnRemove
+
+		local model = CreateFrame('PlayerModel', nil, button)
+		model:SetPoint('TOPLEFT', 2, -2)
+		model:SetPoint('BOTTOMRIGHT', -2, 2)
+		model:SetCamDistanceScale(0.8)
+		model:SetModel([[Interface\Buttons\TalkToMeQuestionMark.m2]])
+		button.model = model
+
+		local frame = CreateFrame('Frame', nil, button, 'BackdropTemplate')
+		frame:SetPoint('TOPLEFT', -2, 2)
+		frame:SetPoint('BOTTOMRIGHT', 2, -2)
+		frame:SetBackdrop(BACKDROP)
+		frame:SetBackdropColor(0, 0, 0, 0)
+		frame:SetBackdropBorderColor(0.5, 0.5, 0.5)
+		frame:SetFrameLevel(model:GetFrameLevel() + 1)
+
+		button.remove:SetFrameLevel(frame:GetFrameLevel() + 1)
+
+		UpdateModel(button)
+		pool:Reposition()
+
+		-- inject into db
+		ns.db.profile.blocklist.npcs[npcID] = true
 	end
 
 	local npcPool = ns.CreateButtonPool(panel.container, 16, 66, 80, 4)
@@ -249,6 +251,12 @@ local function CreateQuestBlocklistOptions()
 
 		-- try store numbers if we can
 		questID = tonumber(questID) or questID
+
+		-- try not to add duplicates
+		if pool:HasButtonBySortField(questID) then
+			print(addonName .. ': Quest is already blocked')
+			return
+		end
 
 		local button = pool:CreateButton()
 		button.questID = questID
