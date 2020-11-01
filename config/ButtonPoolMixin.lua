@@ -46,7 +46,7 @@ do
 
 		local sortField = self.sortField
 		table.sort(objects, function(a, b)
-			return a[sortField] < b[sortField]
+			return tostring(a[sortField]):lower() < tostring(b[sortField]):lower()
 		end)
 
 		return pairs(objects)
