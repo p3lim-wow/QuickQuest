@@ -237,10 +237,14 @@ local function CreateQuestBlocklistOptions()
 				end)
 				return
 			end
-			button.text:SetFormattedText('%d (%s)', button.questID, questInfo.title)
-		else
-			button.text:SetText(button.questID)
+
+			if questInfo then
+				button.text:SetFormattedText('%d (%s)', button.questID, questInfo.title)
+				return
+			end
 		end
+
+		button.text:SetText(button.questID)
 	end
 
 	local function AddButton(pool, questID)
