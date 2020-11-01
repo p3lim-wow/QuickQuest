@@ -247,8 +247,11 @@ local function CreateQuestBlocklistOptions()
 			return
 		end
 
+		-- try store numbers if we can
+		questID = tonumber(questID) or questID
+
 		local button = pool:CreateButton()
-		button.questID = tonumber(questID) or questID
+		button.questID = questID
 		button.OnRemove = OnRemove
 
 		if not button.text then
