@@ -1,3 +1,8 @@
+### Changes in 90000.47-Release:
+
+- Fixed: Excessive chat spam when opening interface options
+- Fixed: Blocking quests not showing title when added by ID
+
 ### Changes in 90000.46-Release:
 
 - Fixed: Blocked quests by ID not being blocked
