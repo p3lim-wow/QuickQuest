@@ -111,13 +111,13 @@ local function CreateItemBlocklistOptions()
 		pool:Reposition()
 
 		-- inject into db
-		ns.db.profile.blocklist.items['custom_' .. itemID] = itemID
+		ns.db.profile.blocklist.items[itemID] = true
 	end
 
 	local itemPool = ns.CreateButtonPool(panel.container, 16, 33, 33, 4)
 	itemPool:SetSortField('itemID')
 
-	for _, itemID in next, ns.db.profile.blocklist.items do
+	for itemID in next, ns.db.profile.blocklist.items do
 		AddButton(itemPool, itemID)
 	end
 

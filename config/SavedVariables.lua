@@ -13,58 +13,58 @@ local defaults = {
 		blocklist = {
 			items = {
 				-- Inscription weapons
-				[31690] = 79343, -- Inscribed Tiger Staff
-				[31691] = 79340, -- Inscribed Crane Staff
-				[31692] = 79341, -- Inscribed Serpent Staff
+				[79343] = true, -- Inscribed Tiger Staff
+				[79340] = true, -- Inscribed Crane Staff
+				[79341] = true, -- Inscribed Serpent Staff
 
 				-- Darkmoon Faire artifacts
-				[29443] = 71635, -- Imbued Crystal
-				[29444] = 71636, -- Monstrous Egg
-				[29445] = 71637, -- Mysterious Grimoire
-				[29446] = 71638, -- Ornate Weapon
-				[29451] = 71715, -- A Treatise on Strategy
-				[29456] = 71951, -- Banner of the Fallen
-				[29457] = 71952, -- Captured Insignia
-				[29458] = 71953, -- Fallen Adventurer's Journal
-				[29464] = 71716, -- Soothsayer's Runes
+				[71635] = true, -- Imbued Crystal
+				[71636] = true, -- Monstrous Egg
+				[71637] = true, -- Mysterious Grimoire
+				[71638] = true, -- Ornate Weapon
+				[71715] = true, -- A Treatise on Strategy
+				[71951] = true, -- Banner of the Fallen
+				[71952] = true, -- Captured Insignia
+				[71953] = true, -- Fallen Adventurer's Journal
+				[71716] = true, -- Soothsayer's Runes
 
 				-- Tiller Gifts
-				['progress_79264'] = 79264, -- Ruby Shard
-				['progress_79265'] = 79265, -- Blue Feather
-				['progress_79266'] = 79266, -- Jade Cat
-				['progress_79267'] = 79267, -- Lovely Apple
-				['progress_79268'] = 79268, -- Marsh Lily
+				[79264] = true, -- Ruby Shard
+				[79265] = true, -- Blue Feather
+				[79266] = true, -- Jade Cat
+				[79267] = true, -- Lovely Apple
+				[79268] = true, -- Marsh Lily
 
 				-- Garrison scouting missives
-				[38180] = 122424, -- Scouting Missive: Broken Precipice
-				[38193] = 122423, -- Scouting Missive: Broken Precipice
-				[38182] = 122418, -- Scouting Missive: Darktide Roost
-				[38196] = 122417, -- Scouting Missive: Darktide Roost
-				[38179] = 122400, -- Scouting Missive: Everbloom Wilds
-				[38192] = 122404, -- Scouting Missive: Everbloom Wilds
-				[38194] = 122420, -- Scouting Missive: Gorian Proving Grounds
-				[38202] = 122419, -- Scouting Missive: Gorian Proving Grounds
-				[38178] = 122402, -- Scouting Missive: Iron Siegeworks
-				[38191] = 122406, -- Scouting Missive: Iron Siegeworks
-				[38184] = 122413, -- Scouting Missive: Lost Veil Anzu
-				[38198] = 122414, -- Scouting Missive: Lost Veil Anzu
-				[38177] = 122403, -- Scouting Missive: Magnarok
-				[38190] = 122399, -- Scouting Missive: Magnarok
-				[38181] = 122421, -- Scouting Missive: Mok'gol Watchpost
-				[38195] = 122422, -- Scouting Missive: Mok'gol Watchpost
-				[38185] = 122411, -- Scouting Missive: Pillars of Fate
-				[38199] = 122409, -- Scouting Missive: Pillars of Fate
-				[38187] = 122412, -- Scouting Missive: Shattrath Harbor
-				[38201] = 122410, -- Scouting Missive: Shattrath Harbor
-				[38186] = 122408, -- Scouting Missive: Skettis
-				[38200] = 122407, -- Scouting Missive: Skettis
-				[38183] = 122416, -- Scouting Missive: Socrethar's Rise
-				[38197] = 122415, -- Scouting Missive: Socrethar's Rise
-				[38176] = 122405, -- Scouting Missive: Stonefury Cliffs
-				[38189] = 122401, -- Scouting Missive: Stonefury Cliffs
+				[122424] = true, -- Scouting Missive: Broken Precipice
+				[122423] = true, -- Scouting Missive: Broken Precipice
+				[122418] = true, -- Scouting Missive: Darktide Roost
+				[122417] = true, -- Scouting Missive: Darktide Roost
+				[122400] = true, -- Scouting Missive: Everbloom Wilds
+				[122404] = true, -- Scouting Missive: Everbloom Wilds
+				[122420] = true, -- Scouting Missive: Gorian Proving Grounds
+				[122419] = true, -- Scouting Missive: Gorian Proving Grounds
+				[122402] = true, -- Scouting Missive: Iron Siegeworks
+				[122406] = true, -- Scouting Missive: Iron Siegeworks
+				[122413] = true, -- Scouting Missive: Lost Veil Anzu
+				[122414] = true, -- Scouting Missive: Lost Veil Anzu
+				[122403] = true, -- Scouting Missive: Magnarok
+				[122399] = true, -- Scouting Missive: Magnarok
+				[122421] = true, -- Scouting Missive: Mok'gol Watchpost
+				[122422] = true, -- Scouting Missive: Mok'gol Watchpost
+				[122411] = true, -- Scouting Missive: Pillars of Fate
+				[122409] = true, -- Scouting Missive: Pillars of Fate
+				[122412] = true, -- Scouting Missive: Shattrath Harbor
+				[122410] = true, -- Scouting Missive: Shattrath Harbor
+				[122408] = true, -- Scouting Missive: Skettis
+				[122407] = true, -- Scouting Missive: Skettis
+				[122416] = true, -- Scouting Missive: Socrethar's Rise
+				[122415] = true, -- Scouting Missive: Socrethar's Rise
+				[122405] = true, -- Scouting Missive: Stonefury Cliffs
+				[122401] = true, -- Scouting Missive: Stonefury Cliffs
 
 				-- Misc
-				[31664] = 88604, -- Nat's Fishing Journal
+				[88604] = true, -- Nat's Fishing Journal
 			},
 			npcs = {
 				-- misc

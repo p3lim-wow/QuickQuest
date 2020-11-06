@@ -218,7 +218,7 @@ EventHandler:Register('QUEST_PROGRESS', function()
 		if itemLink then
 			-- check to see if the item is blocked
 			local questItemID = GetItemInfoFromHyperlink(itemLink)
-			for _, itemID in next, ns.db.profile.blocklist.items do
+			for itemID in next, ns.db.profile.blocklist.items do
 				if itemID == questItemID then
 					-- item is blocked, prevent this quest from opening again and close it
 					ignoredQuests[GetQuestID()] = true
