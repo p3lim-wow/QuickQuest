@@ -92,7 +92,7 @@ local function CreateItemBlocklistOptions()
 		end
 
 		if pool:HasButtonBySortField(itemID) then
-			print(addonName .. ': Item is already blocked')
+			print(addonName .. ': Item', itemID, 'is already blocked')
 			return
 		end
 
