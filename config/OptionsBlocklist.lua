@@ -231,14 +231,13 @@ local function CreateQuestBlocklistOptions()
 	local function UpdateTitle(button)
 		if tonumber(button.questID) then
 			local questInfo = QuestCache:Get(button.questID)
-			if not questInfo.title then
+			if questInfo.title == "" then
 				QuestEventListener:AddCallback(button.questID, function()
 					UpdateTitle(button)
 				end)
-				return
 			end
 
-			if questInfo then
+			if questInfo.title ~= "" then
 				button.text:SetFormattedText('%d (%s)', button.questID, questInfo.title)
 				return
 			end
