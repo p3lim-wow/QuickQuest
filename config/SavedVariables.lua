@@ -180,6 +180,25 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 
 			QuickQuestBlacklistDB = nil
 		end
+		for key, value in next, ns.db.profile.blocklist.items do
+			if type(key) == 'string' then
+				-- remove the tracking of quests for existing blocked items
+				if not defaults.profile.blocklist.items[value] then
+					ns.db.profile.blocklist.items[value] = true
+				end
+				ns.db.profile.blocklist.items[key] = nil
+			elseif not defaults.profile.blocklist.items[value] and type(value) ~= 'boolean' then
+				-- add any non-default items back to blocklist
+				ns.db.profile.blocklist.items[value] = true
+			end
+		end
+		for key, value in next, ns.db.profile.blocklist.quests do
+			if type(key) == 'string' and tonumber(key) then
+				-- convert any incorrectly added quests by ID as numbers again
+				ns.db.profile.blocklist.quests[tonumber(key)] = true
+				ns.db.profile.blocklist.quests[key] = nil
+			end
+		end
 
 		return true -- unregister
 	end
