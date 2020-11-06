@@ -141,15 +141,42 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 		ns.db = LibStub('AceDB-3.0'):New('QuickQuestDB2', defaults, true)
 
 		-- migrate old dbs
-		if(QuickQuestDB) then
-			if(QuickQuestDB.itemBlacklist) then
-				for key, value in next, QuickQuestDB.itemBlacklist do
-					if not ns.db.profile.blocklist.items[key] then
-						ns.db.profile.blocklist.items[key] = value
-					end
+		if(QuickQuestDB and QuickQuestDB.itemBlacklist) then
+			for key, value in next, QuickQuestDB.itemBlacklist do
+				if not ns.db.profile.blocklist.items[value] and not defaults.profile.blocklist.items[value] then
+					ns.db.profile.blocklist.items[value] = true
+				end
+			end
+		elseif(QuickQuestBlacklistDB and QuickQuestBlacklistDB.items) then
+			for key, value in next, QuickQuestBlacklistDB.items do
+				if not ns.db.profile.blocklist.items[value] and not defaults.profile.blocklist.items[value] then
+					ns.db.profile.blocklist.items[value] = true
 				end
 			end
 
+			QuickQuestBlacklistDB = nil
+		else
+			for key, value in next, ns.db.profile.blocklist.items do
+				if type(key) == 'string' then
+					-- remove the tracking of quests for existing blocked items
+					if not defaults.profile.blocklist.items[value] then
+						ns.db.profile.blocklist.items[value] = true
+					end
+					ns.db.profile.blocklist.items[key] = nil
+				elseif not defaults.profile.blocklist.items[value] and type(value) ~= 'boolean' then
+					-- add any non-default items back to blocklist
+					ns.db.profile.blocklist.items[value] = true
+				end
+			end
+			for key, value in next, ns.db.profile.blocklist.quests do
+				if type(key) == 'string' and tonumber(key) then
+					-- convert any incorrectly added quests by ID as numbers again
+					ns.db.profile.blocklist.quests[tonumber(key)] = true
+					ns.db.profile.blocklist.quests[key] = nil
+				end
+			end
+		end
+		if(QuickQuestDB) then
 			if(QuickQuestDB.share ~= nil) then
 				ns.db.profile.general.share = QuickQuestDB.share
 			end
@@ -170,34 +197,6 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 			end
 
 			QuickQuestDB = nil
-		end
-		if(QuickQuestBlacklistDB and QuickQuestBlacklistDB.items) then
-			for key, value in next, QuickQuestBlacklistDB.items do
-				if not ns.db.profile.blocklist.items[key] then
-					ns.db.profile.blocklist.items[key] = value
-				end
-			end
-
-			QuickQuestBlacklistDB = nil
-		end
-		for key, value in next, ns.db.profile.blocklist.items do
-			if type(key) == 'string' then
-				-- remove the tracking of quests for existing blocked items
-				if not defaults.profile.blocklist.items[value] then
-					ns.db.profile.blocklist.items[value] = true
-				end
-				ns.db.profile.blocklist.items[key] = nil
-			elseif not defaults.profile.blocklist.items[value] and type(value) ~= 'boolean' then
-				-- add any non-default items back to blocklist
-				ns.db.profile.blocklist.items[value] = true
-			end
-		end
-		for key, value in next, ns.db.profile.blocklist.quests do
-			if type(key) == 'string' and tonumber(key) then
-				-- convert any incorrectly added quests by ID as numbers again
-				ns.db.profile.blocklist.quests[tonumber(key)] = true
-				ns.db.profile.blocklist.quests[key] = nil
-			end
 		end
 
 		return true -- unregister
