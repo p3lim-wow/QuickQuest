@@ -1,6 +1,6 @@
 ### Changes in 90000.48-Release:
 
-- Fixed: World map behind "disabled" when a popup quest was active
+- Fixed: World map being "disabled" when a popup quest was active
 - Fixed: Popup quests staying behind after quest was accepted/completed from it
 
 ### Changes in 90000.47-Release:
