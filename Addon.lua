@@ -292,7 +292,7 @@ EventHandler:Register('QUEST_COMPLETE', function()
 	EventHandler:Unregister('QUEST_ITEM_UPDATE', 'QUEST_COMPLETE')
 end)
 
-EventHandler:Register('QUEST_LOG_UPDATE', function()
+EventHandler:Register('QUEST_WATCH_LIST_CHANGED', function()
 	-- triggered when the player's quest log has been altered
 	if paused then
 		return
@@ -303,11 +303,11 @@ EventHandler:Register('QUEST_LOG_UPDATE', function()
 	if GetNumAutoQuestPopUps() > 0 then
 		if UnitIsDeadOrGhost('player') then
 			-- can't accept quests while we're dead
-			EventHandler:Register('PLAYER_REGEN_ENABLED', 'QUEST_LOG_UPDATE')
+			EventHandler:Register('PLAYER_REGEN_ENABLED', 'QUEST_WATCH_LIST_CHANGED')
 			return
 		end
 
-		EventHandler:Unregister('PLAYER_REGEN_ENABLED', 'QUEST_LOG_UPDATE')
+		EventHandler:Unregister('PLAYER_REGEN_ENABLED', 'QUEST_WATCH_LIST_CHANGED')
 
 		-- this is considered an intrusive action, as we're modifying the UI
 		local questID, questType = GetAutoQuestPopUp(1)
@@ -316,6 +316,10 @@ EventHandler:Register('QUEST_LOG_UPDATE', function()
 		else
 			ShowQuestComplete(questID)
 		end
+
+		-- remove the popup once accepted/completed, the game logic doesn't handle this,
+		-- but this calls FrameXML API which might cause taints, we'll see
+		AutoQuestPopupTracker_RemovePopUp(questID)
 	end
 end)
 
