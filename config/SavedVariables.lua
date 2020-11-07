@@ -130,6 +130,21 @@ local defaults = {
 				[48911] = true, -- Void Inoculation
 				[48635] = true, -- More Void Inoculation
 				[48799] = true, -- Fuel for a Doomed World
+
+				-- 8.0 emissaries
+				[54451] = true, -- Baubles from the Seekers
+				[53982] = true, -- Supplies From The Unshackled
+				[54453] = true, -- Supplies from Magni
+				[54454] = true, -- Supplies from 7th Legion
+				[54455] = true, -- Supplies from Honorbound
+				[54456] = true, -- Supplies from Order of Embers
+				[54457] = true, -- Supplies from Storm Wake
+				[54458] = true, -- Supplies from Proudmoore Admiralty
+				[54460] = true, -- Supplies from Talanji's Expedition
+				[54461] = true, -- Supplies from Voldunai Supplies
+				[54462] = true, -- Supplies from Zandalari Empire
+				[55348] = true, -- Supplies from the Rustbolt Resistance
+				[55976] = true, -- Supplies From the Waveblade Ankoan
 			},
 		},
 	},
