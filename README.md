@@ -31,7 +31,7 @@ Access the options with `/quickquest` or `/qq` to change the following:
 
 ## Translating
 
-If you'd like to help translate this project, please see the [Contributing Guidelines](https://github.com/p3lim-wow/QuickQuest/blob/master/.github/CONTRIBUTING).
+If you'd like to help translate this project, please see the [Contributing Guidelines](https://github.com/p3lim-wow/QuickQuest/blob/master/.github/CONTRIBUTING.md).
 
 ## Feedback
 
