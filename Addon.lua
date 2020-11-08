@@ -292,9 +292,9 @@ EventHandler:Register('QUEST_COMPLETE', function()
 	EventHandler:Unregister('QUEST_ITEM_UPDATE', 'QUEST_COMPLETE')
 end)
 
-EventHandler:Register('QUEST_WATCH_LIST_CHANGED', function()
+EventHandler:Register('QUEST_LOG_UPDATE', function()
 	-- triggered when the player's quest log has been altered
-	if paused then
+	if paused or WorldMapFrame:IsShown() then -- see #45
 		return
 	end
 
@@ -303,17 +303,17 @@ EventHandler:Register('QUEST_WATCH_LIST_CHANGED', function()
 	if GetNumAutoQuestPopUps() > 0 then
 		if UnitIsDeadOrGhost('player') then
 			-- can't accept quests while we're dead
-			EventHandler:Register('PLAYER_REGEN_ENABLED', 'QUEST_WATCH_LIST_CHANGED')
+			EventHandler:Register('PLAYER_REGEN_ENABLED', 'QUEST_LOG_UPDATE')
 			return
 		end
 
-		EventHandler:Unregister('PLAYER_REGEN_ENABLED', 'QUEST_WATCH_LIST_CHANGED')
+		EventHandler:Unregister('PLAYER_REGEN_ENABLED', 'QUEST_LOG_UPDATE')
 
 		-- this is considered an intrusive action, as we're modifying the UI
 		local questID, questType = GetAutoQuestPopUp(1)
 		if questType == 'OFFER' then
 			ShowQuestOffer(questID)
-		else
+		elseif questType == 'COMPLETE' then
 			ShowQuestComplete(questID)
 		end
 
