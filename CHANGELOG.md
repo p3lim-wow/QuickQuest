@@ -1,3 +1,8 @@
+### Changes in 90000.49-Release:
+
+- Changed: Update Interface version
+- Fixed: Completed quest popups not being automatically completed
+
 ### Changes in 90000.48-Release:
 
 - Fixed: World map being "disabled" when a popup quest was active
