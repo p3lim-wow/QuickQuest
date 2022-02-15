@@ -1,7 +1,12 @@
 # QuickQuest
 
 This is an addon for the popular MMORPG "World of Warcraft".  
-It can be downloaded at [CurseForge](https://www.curseforge.com/wow/addons/quickquest), at [WoWInterface](https://wowinterface.com/downloads/info20838), or from [GitHub Releases](https://github.com/p3lim-wow/QuickQuest/releases).
+It can be downloaded at one of the following sites:
+
+- [Curse](https://www.curseforge.com/wow/addons/quickquest)
+- [WoWInterface](https://wowinterface.com/downloads/info20838)
+- [Wago](https://addons.wago.io/addons/quickquest)
+- [GitHub](https://github.com/p3lim-wow/QuickQuest/releases)
 
 ## Description
 
