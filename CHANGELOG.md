@@ -1,3 +1,7 @@
+### Changes in 90200.52-Release:
+
+- Changed: Update Interface version
+
 ### Changes in 90100.51-Release:
 
 - Added: Ve'nari repeatable to default blocklist
