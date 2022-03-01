@@ -1,3 +1,7 @@
+### Changes in 90200.53-Release:
+
+- Added: Options for turning off auto-accepting/completing quests
+
 ### Changes in 90200.52-Release:
 
 - Changed: Update Interface version
