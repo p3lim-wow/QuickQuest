@@ -1,6 +1,8 @@
 local L = select(2, ...).L('frFR')
 
 -- Config
+-- L['Automatically accept quests'] = '' -- MISSING!
+-- L['Automatically complete quests'] = '' -- MISSING!
 L['Automatically share quests when picked up'] = 'Partage automatique des quêtes lorsqu\'elles sont acceptées'
 -- L['Automatically select single gossip options'] = '' -- MISSING!
 L['When to select gossip while in a raid'] = 'Quand sélectionner les dialogues lors d\'un raid'

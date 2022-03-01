@@ -127,19 +127,23 @@ EventHandler:Register('GOSSIP_SHOW', function()
 	end
 
 	-- turn in all completed quests
-	for index, info in next, C_GossipInfo.GetActiveQuests() do
-		if not IsQuestIgnored(info.questID) then
-			if info.isComplete and not C_QuestLog.IsWorldQuest(info.questID) then
-				C_GossipInfo.SelectActiveQuest(index)
+	if ns.db.profile.general.complete then
+		for index, info in next, C_GossipInfo.GetActiveQuests() do
+			if not IsQuestIgnored(info.questID) then
+				if info.isComplete and not C_QuestLog.IsWorldQuest(info.questID) then
+					C_GossipInfo.SelectActiveQuest(index)
+				end
 			end
 		end
 	end
 
 	-- accept all available quests
-	for index, info in next, C_GossipInfo.GetAvailableQuests() do
-		if not IsQuestIgnored(info.questID) then
-			if not info.isTrivial or ns.ShouldAcceptTrivialQuests() then
-				C_GossipInfo.SelectAvailableQuest(index)
+	if ns.db.profile.general.accept then
+		for index, info in next, C_GossipInfo.GetAvailableQuests() do
+			if not IsQuestIgnored(info.questID) then
+				if not info.isTrivial or ns.ShouldAcceptTrivialQuests() then
+					C_GossipInfo.SelectAvailableQuest(index)
+				end
 			end
 		end
 	end
@@ -156,21 +160,25 @@ EventHandler:Register('QUEST_GREETING', function()
 	end
 
 	-- turn in all completed quests
-	for index = 1, GetNumActiveQuests() do
-		if not IsQuestIgnored(GetActiveQuestID(index)) then
-			local _, isComplete = GetActiveTitle(index)
-			if isComplete and not C_QuestLog.IsWorldQuest(GetActiveQuestID(index)) then
-				SelectActiveQuest(index)
+	if ns.db.profile.general.complete then
+		for index = 1, GetNumActiveQuests() do
+			if not IsQuestIgnored(GetActiveQuestID(index)) then
+				local _, isComplete = GetActiveTitle(index)
+				if isComplete and not C_QuestLog.IsWorldQuest(GetActiveQuestID(index)) then
+					SelectActiveQuest(index)
+				end
 			end
 		end
 	end
 
 	-- accept all available quests
-	for index = 1, GetNumAvailableQuests() do
-		local isTrivial, _, _, _, questID = GetAvailableQuestInfo(index)
-		if not IsQuestIgnored(questID) then
-			if not isTrivial or ns.ShouldAcceptTrivialQuests() then
-				SelectAvailableQuest(index)
+	if ns.db.profile.general.accept then
+		for index = 1, GetNumAvailableQuests() do
+			local isTrivial, _, _, _, questID = GetAvailableQuestInfo(index)
+			if not IsQuestIgnored(questID) then
+				if not isTrivial or ns.ShouldAcceptTrivialQuests() then
+					SelectAvailableQuest(index)
+				end
 			end
 		end
 	end
@@ -182,18 +190,20 @@ EventHandler:Register('QUEST_DETAIL', function(questItemID)
 		return
 	end
 
-	if QuestIsFromAreaTrigger() then
-		-- this type of quest is automatically accepted, but the dialogue is presented in a way that
-		-- the player seems to have a choice to decline it, which they don't, so just accept it
-		AcceptQuest()
-	elseif QuestGetAutoAccept() then
-		-- this type of quest is automatically accepted, but the dialogue persists
-		AcknowledgeAutoAcceptQuest()
-	elseif not C_QuestLog.IsQuestTrivial(GetQuestID()) or ns.ShouldAcceptTrivialQuests() then
-		if IsQuestIgnored(GetQuestID()) then
-			CloseQuest()
-		else
+	if ns.db.profile.general.accept then
+		if QuestIsFromAreaTrigger() then
+			-- this type of quest is automatically accepted, but the dialogue is presented in a way that
+			-- the player seems to have a choice to decline it, which they don't, so just accept it
 			AcceptQuest()
+		elseif QuestGetAutoAccept() then
+			-- this type of quest is automatically accepted, but the dialogue persists
+			AcknowledgeAutoAcceptQuest()
+		elseif not C_QuestLog.IsQuestTrivial(GetQuestID()) or ns.ShouldAcceptTrivialQuests() then
+			if IsQuestIgnored(GetQuestID()) then
+				CloseQuest()
+			else
+				AcceptQuest()
+			end
 		end
 	end
 end)
@@ -234,7 +244,10 @@ EventHandler:Register('QUEST_PROGRESS', function()
 		end
 	end
 
-	CompleteQuest()
+	if ns.db.profile.general.complete then
+		CompleteQuest()
+	end
+
 	EventHandler:Unregister('QUEST_ITEM_UPDATE', 'QUEST_PROGRESS')
 end)
 
@@ -244,9 +257,11 @@ EventHandler:Register('QUEST_COMPLETE', function()
 		return
 	end
 
-	if GetNumQuestChoices() <= 1 then
-		-- complete the quest by accepting the first item
-		GetQuestReward(1)
+	if ns.db.profile.general.complete then
+		if GetNumQuestChoices() <= 1 then
+			-- complete the quest by accepting the first item
+			GetQuestReward(1)
+		end
 	end
 end)
 
@@ -312,9 +327,13 @@ EventHandler:Register('QUEST_LOG_UPDATE', function()
 		-- this is considered an intrusive action, as we're modifying the UI
 		local questID, questType = GetAutoQuestPopUp(1)
 		if questType == 'OFFER' then
-			ShowQuestOffer(questID)
+			if ns.db.profile.general.accept then
+				ShowQuestOffer(questID)
+			end
 		elseif questType == 'COMPLETE' then
-			ShowQuestComplete(questID)
+			if ns.db.profile.general.complete then
+				ShowQuestComplete(questID)
+			end
 		end
 
 		-- remove the popup once accepted/completed, the game logic doesn't handle this,
@@ -329,7 +348,9 @@ EventHandler:Register('QUEST_ACCEPT_CONFIRM', function()
 		return
 	end
 
-	AcceptQuest()
+	if ns.db.profile.general.accept then
+		AcceptQuest()
+	end
 end)
 
 EventHandler:Register('QUEST_ACCEPTED', function(questID)

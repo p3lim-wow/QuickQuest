@@ -1,6 +1,8 @@
 local L = select(2, ...).L('koKR')
 
 -- Config
+-- L['Automatically accept quests'] = '' -- MISSING!
+-- L['Automatically complete quests'] = '' -- MISSING!
 L['Automatically share quests when picked up'] = '자동으로 퀘스트 공유'
 -- L['Automatically select single gossip options'] = '' -- MISSING!
 L['When to select gossip while in a raid'] = '공격대 상태에서 대화 자동 선택'

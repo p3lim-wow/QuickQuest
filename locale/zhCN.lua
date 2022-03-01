@@ -1,6 +1,8 @@
 local L = select(2, ...).L('zhCN')
 
 -- Config
+-- L['Automatically accept quests'] = '' -- MISSING!
+-- L['Automatically complete quests'] = '' -- MISSING!
 L['Automatically share quests when picked up'] = '接受任务后自动分享'
 L['Automatically select single gossip options'] = '自动选择单一对话选项'
 L['When to select gossip while in a raid'] = '当你在团队中，是否启用自动选择对话选项的功能'

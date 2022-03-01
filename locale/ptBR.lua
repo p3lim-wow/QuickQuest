@@ -1,6 +1,8 @@
 local L = select(2, ...).L('ptBR')
 
 -- Config
+-- L['Automatically accept quests'] = '' -- MISSING!
+-- L['Automatically complete quests'] = '' -- MISSING!
 L['Automatically share quests when picked up'] = 'Compartilhar missões automaticamente quando pegá-las'
 L['Automatically select single gossip options'] = 'Selecionar automaticamente opções simples de conversas fúteis'
 L['When to select gossip while in a raid'] = 'Quando selecionar conversas fúteis durante uma raid'

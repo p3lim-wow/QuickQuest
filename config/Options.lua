@@ -13,20 +13,32 @@ local function CreateOptions()
 			ns.db.profile.general[info[#info]] = value
 		end,
 		args = {
-			share = {
+			accept = {
 				order = 1,
+				name = L['Automatically accept quests'],
+				type = 'toggle',
+				width = 'double',
+			},
+			complete = {
+				order = 2,
+				name = L['Automatically complete quests'],
+				type = 'toggle',
+				width = 'double',
+			},
+			share = {
+				order = 3,
 				name = L['Automatically share quests when picked up'],
 				type = 'toggle',
 				width = 'double',
 			},
 			skipgossip = {
-				order = 2,
+				order = 4,
 				name = L['Automatically select single gossip options'],
 				type = 'toggle',
 				width = 'double',
 			},
 			skipgossipwhen = {
-				order = 3,
+				order = 5,
 				name = L['When to select gossip while in a raid'],
 				type = 'select',
 				width = 'double',
@@ -40,13 +52,13 @@ local function CreateOptions()
 				end,
 			},
 			paydarkmoonfaire = {
-				order = 4,
+				order = 6,
 				name = L['Automatically pay Darkmoon Faire teleporting fees'],
 				type = 'toggle',
 				width = 'double',
 			},
 			pausekey = {
-				order = 5,
+				order = 7,
 				name = L['Hold this key to to temporarily pause automation'],
 				type = 'select',
 				width = 'double',
@@ -57,7 +69,7 @@ local function CreateOptions()
 				}
 			},
 			pausekeyreverse = {
-				order = 6,
+				order = 8,
 				name = L['Reverse the behaviour of the modifier key'],
 				type = 'toggle',
 				width = 'double',

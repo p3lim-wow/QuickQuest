@@ -1,6 +1,8 @@
 local L = select(2, ...).L('deDE')
 
 -- Config
+-- L['Automatically accept quests'] = '' -- MISSING!
+-- L['Automatically complete quests'] = '' -- MISSING!
 L['Automatically share quests when picked up'] = 'Quests beim Annehmen automatisch teilen'
 L['Automatically select single gossip options'] = 'Einzeloptionen in Dialogen automatisch auswählen'
 -- L['When to select gossip while in a raid'] = '' -- MISSING!
