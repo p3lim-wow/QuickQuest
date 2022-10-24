@@ -1,0 +1,135 @@
+name: Translation
+description: Provide a translation for in-game strings.
+title: 'Translation: '
+labels:
+  - enhancement
+  - translation
+assignees:
+  - p3lim
+body:
+  - type: dropdown
+    id: locale
+    attributes:
+      label: Which locale are these translations for?
+      options:
+        - deDE (German)
+        - esES (Spanish, Spain)
+        - esMX (Spanish, Mexico)
+        - frFR (French)
+        - itIT (Italian)
+        - koKR (Korean)
+        - ptBR (Portuguese, Brazil)
+        - ruRU (Russian)
+        - zhCN (Chinese, Simplified, PRC)
+        - zhTW (Chinese, Traditional, Taiwan)
+    validations:
+      required: true
+  - type: markdown
+    attributes:
+      value: |
+        Please translate each sentence below into the fields next to them.  
+        It is not required to translate all of them.
+
+        ---
+# the rest is a list of strings to translate
+  - type: input
+    attributes:
+      label: '"Automatically accept quests"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Automatically complete quests"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Automatically share quests when picked up"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Automatically select single gossip options"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"When to select gossip while in a raid"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Automatically pay Darkmoon Faire teleporting fees"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Reverse the behaviour of the modifier key"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Hold this key to to temporarily pause automation"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Item Blocklist"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"NPC Blocklist"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Title Blocklist"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Block Item"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Block NPC"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Block Title"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Quests containing items in this list will not be automated."'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Quests and dialogue from NPCs in this list will not be automated."'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Block a new item by ID"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Block a new NPC by ID"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Quests (by partial title or ID) in this list will not be automated."'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Soloing"'
+      description: Used in the settings
+      placeholder: Translation here
+
