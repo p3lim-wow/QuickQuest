@@ -25,12 +25,6 @@ local darkmoonNPCs = {
 	[55382] = true, -- Darkmoon Faire Mystic Mage (Horde)
 	[54334] = true, -- Darkmoon Faire Mystic Mage (Alliance)
 }
-local rogueNPCs = {
-	-- Rogue class hall doors
-	[97004] = true, -- "Red" Jack Findle
-	[96782] = true, -- Lucian Trias
-	[93188] = true, -- Mongar
-}
 
 local function IsQuestIgnored(questID)
 	if ignoredQuests[questID] then
@@ -85,12 +79,6 @@ EventHandler:Register('GOSSIP_SHOW', function()
 
 	if C_GossipInfo.GetNumActiveQuests() > 0 or C_GossipInfo.GetNumAvailableQuests() > 0 then
 		-- bail if there is more than just dialogue
-		return
-	end
-
-	if rogueNPCs[npcID] then
-		-- automatically open doors to the rogue class hall in Dalaran
-		C_GossipInfo.SelectOption(1)
 		return
 	end
 
