@@ -71,7 +71,6 @@ local function CreateItemBlocklistOptions()
 		end
 	end
 
-	local queryItems = {}
 	local function UpdateTexture(button)
 		local item = Item:CreateFromItemID(button.itemID)
 		local textureFile = item:GetItemIcon()

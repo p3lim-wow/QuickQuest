@@ -162,13 +162,13 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 
 		-- migrate old dbs
 		if(QuickQuestDB and QuickQuestDB.itemBlacklist) then
-			for key, value in next, QuickQuestDB.itemBlacklist do
+			for _, value in next, QuickQuestDB.itemBlacklist do
 				if not ns.db.profile.blocklist.items[value] and not defaults.profile.blocklist.items[value] then
 					ns.db.profile.blocklist.items[value] = true
 				end
 			end
 		elseif(QuickQuestBlacklistDB and QuickQuestBlacklistDB.items) then
-			for key, value in next, QuickQuestBlacklistDB.items do
+			for _, value in next, QuickQuestBlacklistDB.items do
 				if not ns.db.profile.blocklist.items[value] and not defaults.profile.blocklist.items[value] then
 					ns.db.profile.blocklist.items[value] = true
 				end
@@ -188,7 +188,7 @@ ns.EventHandler:Register('ADDON_LOADED', function(...)
 					ns.db.profile.blocklist.items[value] = true
 				end
 			end
-			for key, value in next, ns.db.profile.blocklist.quests do
+			for key in next, ns.db.profile.blocklist.quests do
 				if type(key) == 'string' and tonumber(key) then
 					-- convert any incorrectly added quests by ID as numbers again
 					ns.db.profile.blocklist.quests[tonumber(key)] = true

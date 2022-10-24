@@ -7,7 +7,7 @@ StaticPopupDialogs[addonName .. 'ItemBlocklistPopup'] = {
 	button2 = L['Cancel'],
 	hasEditBox = true,
 	EditBoxOnEnterPressed = function(self, data)
-		data.callback(data.pool, tonumber(strtrim(self:GetText())))
+		data.callback(data.pool, tonumber(self:GetText():trim()))
 		self:GetParent():Hide()
 	end,
 	EditBoxOnEscapePressed = function(self)
@@ -15,10 +15,10 @@ StaticPopupDialogs[addonName .. 'ItemBlocklistPopup'] = {
 	end,
 	EditBoxOnTextChanged = function(editBox)
 		local self = editBox:GetParent()
-		local text = strtrim(editBox:GetText()):match('[0-9]+')
+		local text = editBox:GetText():trim():match('[0-9]+')
 		editBox:SetText(text or '')
 
-		local itemID, _, _, _, texture = GetItemInfoInstant(tonumber(text) or '')
+		local itemID = GetItemInfoInstant(tonumber(text) or '')
 		if itemID then
 			self.data = self.data or {}
 			self.data.link = '|Hitem:' .. itemID .. '|h'
@@ -30,7 +30,7 @@ StaticPopupDialogs[addonName .. 'ItemBlocklistPopup'] = {
 		end
 	end,
 	OnAccept = function(self)
-		self.data.callback(self.data.pool, tonumber(strtrim(self.editBox:GetText())))
+		self.data.callback(self.data.pool, tonumber(self.editBox:GetText():trim()))
 	end,
 	OnShow = function(self)
 		self.editBox:SetFocus()
@@ -52,14 +52,14 @@ StaticPopupDialogs[addonName .. 'NPCBlocklistPopup'] = {
 	button3 = L['Target'],
 	hasEditBox = true,
 	EditBoxOnEnterPressed = function(self, data)
-		data.callback(data.pool, tonumber(strtrim(self:GetText())))
+		data.callback(data.pool, tonumber(self:GetText():trim()))
 		self:GetParent():Hide()
 	end,
 	EditBoxOnEscapePressed = function(self)
 		self:GetParent():Hide()
 	end,
 	OnAccept = function(self)
-		self.data.callback(self.data.pool, tonumber(strtrim(self.editBox:GetText())))
+		self.data.callback(self.data.pool, tonumber(self.editBox:GetText():trim()))
 	end,
 	OnAlt = function(self)
 		self.data.callback(self.data.pool, ns.GetNPCID('target'))
@@ -80,14 +80,14 @@ StaticPopupDialogs[addonName .. 'QuestBlocklistPopup'] = {
 	button2 = L['Cancel'],
 	hasEditBox = true,
 	EditBoxOnEnterPressed = function(self, data)
-		data.callback(data.pool, strtrim(self:GetText()))
+		data.callback(data.pool, self:GetText():trim())
 		self:GetParent():Hide()
 	end,
 	EditBoxOnEscapePressed = function(self)
 		self:GetParent():Hide()
 	end,
 	OnAccept = function(self)
-		self.data.callback(self.data.pool, strtrim(self.editBox:GetText()))
+		self.data.callback(self.data.pool, self.editBox:GetText():trim())
 	end,
 	OnShow = function(self)
 		self.editBox:SetFocus()

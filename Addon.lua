@@ -172,7 +172,7 @@ EventHandler:Register('QUEST_GREETING', function()
 	end
 end)
 
-EventHandler:Register('QUEST_DETAIL', function(questItemID)
+EventHandler:Register('QUEST_DETAIL', function()
 	-- triggered when the information about an available quest is available
 	if paused then
 		return
