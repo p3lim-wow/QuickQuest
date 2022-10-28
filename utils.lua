@@ -68,8 +68,8 @@ function ns.GetNPCID(unit)
 end
 
 function ns.ShouldAcceptTrivialQuests()
-	for index = 1, GetNumTrackingTypes() do
-		local name, _, isActive = GetTrackingInfo(index)
+	for index = 1, C_Minimap.GetNumTrackingTypes() do
+		local name, _, isActive = C_Minimap.GetTrackingInfo(index)
 		if name == MINIMAP_TRACKING_TRIVIAL_QUESTS then
 			return isActive
 		end
