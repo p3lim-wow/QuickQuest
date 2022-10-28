@@ -1,3 +1,10 @@
+### Changes in 100000.54-Release:
+
+- Changed: Update Interface version
+- Fixed: Dragonflight compat
+- Removed: Darkmoon Faire teleport, will return once we have gossip data
+- Removed: Rogue class hall auto gossip
+
 ### Changes in 90200.53-Release:
 
 - Added: Options for turning off auto-accepting/completing quests
