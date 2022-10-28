@@ -81,6 +81,7 @@ read_globals = {
 	'C_GossipInfo',
 	'C_QuestLog',
 	'C_Timer',
+	'C_Minimap',
 
 	-- API
 	'AcceptQuest',
