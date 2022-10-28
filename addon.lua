@@ -41,19 +41,19 @@ local function IsQuestIgnored(questID)
 	return false
 end
 
-EventHandler:Register('GOSSIP_CONFIRM', function(index)
-	-- triggered when a gossip confirm prompt is displayed
-	if paused then
-		return
-	end
+-- EventHandler:Register('GOSSIP_CONFIRM', function(index)
+-- 	-- triggered when a gossip confirm prompt is displayed
+-- 	if paused then
+-- 		return
+-- 	end
 
-	if ns.db.profile.general.paydarkmoonfaire and darkmoonNPCs[ns.GetNPCID()] then
-		C_GossipInfo.SelectOption(index, '', true)
+-- 	if ns.db.profile.general.paydarkmoonfaire and darkmoonNPCs[ns.GetNPCID()] then
+-- 		C_GossipInfo.SelectOption(index, '', true)
 
-		-- this is considered an intrusive action, as we're modifying the UI
-		StaticPopup_Hide('GOSSIP_CONFIRM')
-	end
-end)
+-- 		-- this is considered an intrusive action, as we're modifying the UI
+-- 		StaticPopup_Hide('GOSSIP_CONFIRM')
+-- 	end
+-- end)
 
 EventHandler:Register('GOSSIP_SHOW', function()
 	-- triggered when the player interacts with an NPC that presents dialogue
@@ -66,16 +66,16 @@ EventHandler:Register('GOSSIP_SHOW', function()
 		return
 	end
 
-	if C_Map.GetBestMapForUnit('player') == DARKMOON_ISLE_MAP_ID then
-		-- we want to auto-accept the dialogues from Darkmoon Faire NPCs
-		for index, info in next, C_GossipInfo.GetOptions() do
-			if info.name:find('FF008E8') then
-				-- TODO: see if there is something else than the color we can easily match with
-				C_GossipInfo.SelectOption(index)
-				return
-			end
-		end
-	end
+	-- if C_Map.GetBestMapForUnit('player') == DARKMOON_ISLE_MAP_ID then
+	-- 	-- we want to auto-accept the dialogues from Darkmoon Faire NPCs
+	-- 	for index, info in next, C_GossipInfo.GetOptions() do
+	-- 		if info.name:find('FF008E8') then
+	-- 			-- TODO: see if there is something else than the color we can easily match with
+	-- 			C_GossipInfo.SelectOption(index)
+	-- 			return
+	-- 		end
+	-- 	end
+	-- end
 
 	if C_GossipInfo.GetNumActiveQuests() > 0 or C_GossipInfo.GetNumAvailableQuests() > 0 then
 		-- bail if there is more than just dialogue
@@ -83,7 +83,8 @@ EventHandler:Register('GOSSIP_SHOW', function()
 	end
 
 	if ns.db.profile.general.paydarkmoonfaire and npcID == DARKMOON_FAIRE_TELEPORT_NPC_ID then
-		C_GossipInfo.SelectOption(1)
+		print('QuickQuest: Darkmoon Faire auto-teleport will be back soon.')
+		-- C_GossipInfo.SelectOption(1)
 		return
 	end
 
