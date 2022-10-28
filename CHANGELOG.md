@@ -1,3 +1,7 @@
+### Changes in 100000.55-Release:
+
+- Fixed: Gossip quests not being picked up
+
 ### Changes in 100000.54-Release:
 
 - Changed: Update Interface version
