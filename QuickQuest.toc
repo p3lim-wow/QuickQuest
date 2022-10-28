@@ -30,8 +30,8 @@ locale\ruRU.lua
 locale\zhCN.lua
 locale\zhTW.lua
 
-Utils.lua
-Addon.lua
+utils.lua
+addon.lua
 
 config\ButtonPoolMixin.lua
 config\SavedVariables.lua
