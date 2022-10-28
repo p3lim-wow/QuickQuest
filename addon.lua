@@ -131,7 +131,7 @@ EventHandler:Register('GOSSIP_SHOW', function()
 		for index, info in next, C_GossipInfo.GetAvailableQuests() do
 			if not IsQuestIgnored(info.questID) then
 				if not info.isTrivial or ns.ShouldAcceptTrivialQuests() then
-					C_GossipInfo.SelectAvailableQuest(index)
+					C_GossipInfo.SelectAvailableQuest(info.questID)
 				end
 			end
 		end
