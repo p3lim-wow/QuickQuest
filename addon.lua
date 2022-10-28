@@ -94,7 +94,7 @@ EventHandler:Register('GOSSIP_SHOW', function()
 		if instanceType == 'raid' and ns.db.profile.general.skipgossipwhen > 0 then
 			if GetNumGroupMembers() == 0 or ns.db.profile.general.skipgossipwhen == 2 then
 				-- select dialogue if alone or when configured to "Always" while in a raid
-				C_GossipInfo.SelectOption(1)
+				C_GossipInfo.SelectOption(C_GossipInfo.GetOptions()[1].gossipOptionID)
 				return
 			end
 		elseif instanceType ~= 'raid' then
