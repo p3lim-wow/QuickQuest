@@ -80,12 +80,9 @@ local function CreateOptions()
 	LibStub('AceConfigDialog-3.0'):AddToBlizOptions(addonName)
 end
 
-InterfaceOptionsFrameAddOns:HookScript('OnShow', function()
+SettingsPanel:HookScript('OnShow', function()
 	CreateOptions() -- LoD
 	ns.CreateBlocklistOptions() -- LoD
-
-	-- we load too late, so we have to manually refresh the list
-	InterfaceAddOnsList_Update()
 end)
 
 _G['SLASH_' .. addonName .. '1'] = '/quickquest'
@@ -94,6 +91,5 @@ SlashCmdList[addonName] = function()
 	CreateOptions() -- LoD
 	ns.CreateBlocklistOptions() -- LoD
 
-	InterfaceOptionsFrame_OpenToCategory(addonName)
-	InterfaceOptionsFrame_OpenToCategory(addonName) -- load twice due to an old bug
+	Settings.OpenToCategory(addonName)
 end
