@@ -1,3 +1,7 @@
+### Changes in 100000.56-Release:
+
+- Fixed: Quests not auto-completing
+
 ### Changes in 100000.55-Release:
 
 - Fixed: Gossip quests not being picked up
