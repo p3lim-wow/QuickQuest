@@ -120,7 +120,7 @@ EventHandler:Register('GOSSIP_SHOW', function()
 		for index, info in next, C_GossipInfo.GetActiveQuests() do
 			if not IsQuestIgnored(info.questID) then
 				if info.isComplete and not C_QuestLog.IsWorldQuest(info.questID) then
-					C_GossipInfo.SelectActiveQuest(index)
+					C_GossipInfo.SelectActiveQuest(info.questID)
 				end
 			end
 		end
