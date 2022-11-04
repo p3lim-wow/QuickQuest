@@ -325,9 +325,8 @@ EventHandler:Register('QUEST_LOG_UPDATE', function()
 			end
 		end
 
-		-- remove the popup once accepted/completed, the game logic doesn't handle this,
-		-- but this calls FrameXML API which might cause taints, we'll see
-		AutoQuestPopupTracker_RemovePopUp(questID)
+		-- remove the popup once accepted/completed, the game logic doesn't handle this
+		RemoveAutoQuestPopUp(questID)
 	end
 end)
 
