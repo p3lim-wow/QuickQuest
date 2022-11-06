@@ -47,7 +47,6 @@ read_globals = {
 	'GameTooltip_Hide', -- FrameXML/GameTooltip.lua
 	'StaticPopup_Show', -- FrameXML/StaticPopup.lua
 	'StaticPopup_Hide', -- FrameXML/StaticPopup.lua
-	'AutoQuestPopupTracker_RemovePopUp', -- AddOns/Blizzard_ObjectiveTracker/Blizzard_AutoQuestPopUpTracker.lua
 	'QuestInfoItem_OnClick', -- FrameXML/QuestInfo.lua
 
 	'InterfaceOptions_AddCategory', -- OLD
@@ -114,6 +113,7 @@ read_globals = {
 	'QuestGetAutoAccept',
 	'QuestIsFromAreaTrigger',
 	'QuestLogPushQuest',
+	'RemoveAutoQuestPopUp',
 	'SelectActiveQuest',
 	'SelectAvailableQuest',
 	'ShowQuestComplete',

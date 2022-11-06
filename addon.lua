@@ -117,7 +117,7 @@ EventHandler:Register('GOSSIP_SHOW', function()
 
 	-- turn in all completed quests
 	if ns.db.profile.general.complete then
-		for index, info in next, C_GossipInfo.GetActiveQuests() do
+		for _, info in next, C_GossipInfo.GetActiveQuests() do
 			if not IsQuestIgnored(info.questID) then
 				if info.isComplete and not C_QuestLog.IsWorldQuest(info.questID) then
 					C_GossipInfo.SelectActiveQuest(info.questID)
@@ -128,7 +128,7 @@ EventHandler:Register('GOSSIP_SHOW', function()
 
 	-- accept all available quests
 	if ns.db.profile.general.accept then
-		for index, info in next, C_GossipInfo.GetAvailableQuests() do
+		for _, info in next, C_GossipInfo.GetAvailableQuests() do
 			if not IsQuestIgnored(info.questID) then
 				if not info.isTrivial or ns.ShouldAcceptTrivialQuests() then
 					C_GossipInfo.SelectAvailableQuest(info.questID)
