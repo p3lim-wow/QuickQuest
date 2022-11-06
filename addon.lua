@@ -3,9 +3,6 @@ local _, ns = ...
 local EventHandler = ns.EventHandler
 local paused
 
-local DARKMOON_ISLE_MAP_ID = 407
-local DARKMOON_FAIRE_TELEPORT_NPC_ID = 57850 -- Teleportologist Fozlebub
-
 local ignoredQuests = {}
 local cashRewards = {
 	[45724] = 1e5, -- Champion's Purse, 10 gold
@@ -19,11 +16,19 @@ local cashRewards = {
 	[138125] = 16, -- Crystal Clear Gemstone, 16 copper
 	[138133] = 27, -- Elixir of Endless Wonder, 27 copper
 }
-local darkmoonNPCs = {
-	-- Darkmoon Faire teleporation NPCs
-	[57850] = true, -- Teleportologist Fozlebub
-	[55382] = true, -- Darkmoon Faire Mystic Mage (Horde)
-	[54334] = true, -- Darkmoon Faire Mystic Mage (Alliance)
+local darkmoonFaireOptions = {
+	[40563] = true, -- whack
+	[28701] = true, -- cannon
+	[31202] = true, -- shoot
+	[39245] = true, -- tonk
+	[40224] = true, -- ring toss
+	[43060] = true, -- firebird
+	[52651] = true, -- dance
+	[41759] = true, -- pet battle 1
+	[42668] = true, -- pet battle 2
+	[40872] = true, -- cannon return (Teleportologist Fozlebub)
+	[40007] = true, -- Darkmoon Faire Mystic Mage (Horde)
+	[40457] = true, -- Darkmoon Faire Mystic Mage (Alliance)
 }
 
 local function IsQuestIgnored(questID)
@@ -41,20 +46,6 @@ local function IsQuestIgnored(questID)
 	return false
 end
 
--- EventHandler:Register('GOSSIP_CONFIRM', function(index)
--- 	-- triggered when a gossip confirm prompt is displayed
--- 	if paused then
--- 		return
--- 	end
-
--- 	if ns.db.profile.general.paydarkmoonfaire and darkmoonNPCs[ns.GetNPCID()] then
--- 		C_GossipInfo.SelectOption(index, '', true)
-
--- 		-- this is considered an intrusive action, as we're modifying the UI
--- 		StaticPopup_Hide('GOSSIP_CONFIRM')
--- 	end
--- end)
-
 EventHandler:Register('GOSSIP_SHOW', function()
 	-- triggered when the player interacts with an NPC that presents dialogue
 	if paused then
@@ -66,25 +57,16 @@ EventHandler:Register('GOSSIP_SHOW', function()
 		return
 	end
 
-	-- if C_Map.GetBestMapForUnit('player') == DARKMOON_ISLE_MAP_ID then
-	-- 	-- we want to auto-accept the dialogues from Darkmoon Faire NPCs
-	-- 	for index, info in next, C_GossipInfo.GetOptions() do
-	-- 		if info.name:find('FF008E8') then
-	-- 			-- TODO: see if there is something else than the color we can easily match with
-	-- 			C_GossipInfo.SelectOption(index)
-	-- 			return
-	-- 		end
-	-- 	end
-	-- end
+	-- we want to auto-accept the dialogues from Darkmoon Faire NPCs
+	for _, info in next, C_GossipInfo.GetOptions() do
+		if darkmoonFaireOptions[info.gossipOptionID] and ns.db.profile.general.paydarkmoonfaire then
+			C_GossipInfo.SelectOption(info.gossipOptionID, '', true)
+			return
+		end
+	end
 
 	if C_GossipInfo.GetNumActiveQuests() > 0 or C_GossipInfo.GetNumAvailableQuests() > 0 then
 		-- bail if there is more than just dialogue
-		return
-	end
-
-	if ns.db.profile.general.paydarkmoonfaire and npcID == DARKMOON_FAIRE_TELEPORT_NPC_ID then
-		print('QuickQuest: Darkmoon Faire auto-teleport will be back soon.')
-		-- C_GossipInfo.SelectOption(1)
 		return
 	end
 
