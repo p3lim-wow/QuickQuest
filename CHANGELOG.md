@@ -1,3 +1,7 @@
+### Changes in 100002.58-Release:
+
+- Changed: Update Interface version
+
 ### Changes in 100000.57-Release:
 
 - Added: Darkmoon Faire auto-teleportation is back!
