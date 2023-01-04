@@ -1,3 +1,7 @@
+### Changes in 100002.59-Release:
+
+- Changed: Block Dragon Shard of Knowledge being turned in
+
 ### Changes in 100002.58-Release:
 
 - Changed: Update Interface version
