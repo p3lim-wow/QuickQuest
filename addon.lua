@@ -1,6 +1,5 @@
-local _, ns = ...
+local _, addon = ...
 
-local EventHandler = ns.EventHandler
 local paused
 
 local ignoredQuests = {}
@@ -31,13 +30,13 @@ local darkmoonFaireOptions = {
 	[40457] = true, -- Darkmoon Faire Mystic Mage (Alliance)
 }
 
-local function IsQuestIgnored(questID)
+local function isQuestIgnored(questID)
 	if ignoredQuests[questID] then
 		return true
 	end
 
 	local questTitle = tonumber(questID) and C_QuestLog.GetTitleForQuestID(questID) or ''
-	for key in next, ns.db.profile.blocklist.quests do
+	for key in next, addon.db.profile.blocklist.quests do
 		if key == questID or questTitle:lower():find(tostring(key):lower()) then
 			return true
 		end
@@ -46,20 +45,29 @@ local function IsQuestIgnored(questID)
 	return false
 end
 
-EventHandler:Register('GOSSIP_SHOW', function()
+local function isTrackingTrivialQuests()
+	for index = 1, C_Minimap.GetNumTrackingTypes() do
+		local name, _, isActive = C_Minimap.GetTrackingInfo(index)
+		if name == MINIMAP_TRACKING_TRIVIAL_QUESTS then
+			return isActive
+		end
+	end
+end
+
+function addon:GOSSIP_SHOW()
 	-- triggered when the player interacts with an NPC that presents dialogue
 	if paused then
 		return
 	end
 
-	local npcID = ns.GetNPCID()
-	if ns.db.profile.blocklist.npcs[npcID] then
+	local npcID = addon:GetNPCID()
+	if addon.db.profile.blocklist.npcs[npcID] then
 		return
 	end
 
 	-- we want to auto-accept the dialogues from Darkmoon Faire NPCs
 	for _, info in next, C_GossipInfo.GetOptions() do
-		if darkmoonFaireOptions[info.gossipOptionID] and ns.db.profile.general.paydarkmoonfaire then
+		if darkmoonFaireOptions[info.gossipOptionID] and addon.db.profile.general.paydarkmoonfaire then
 			C_GossipInfo.SelectOption(info.gossipOptionID, '', true)
 			return
 		end
@@ -70,11 +78,11 @@ EventHandler:Register('GOSSIP_SHOW', function()
 		return
 	end
 
-	if #C_GossipInfo.GetOptions() == 1 and ns.db.profile.general.skipgossip then
+	if #C_GossipInfo.GetOptions() == 1 and addon.db.profile.general.skipgossip then
 		-- automatically skip single dialogue under certain conditions
 		local _, instanceType = GetInstanceInfo()
-		if instanceType == 'raid' and ns.db.profile.general.skipgossipwhen > 0 then
-			if GetNumGroupMembers() == 0 or ns.db.profile.general.skipgossipwhen == 2 then
+		if instanceType == 'raid' and addon.db.profile.general.skipgossipwhen > 0 then
+			if GetNumGroupMembers() == 0 or addon.db.profile.general.skipgossipwhen == 2 then
 				-- select dialogue if alone or when configured to "Always" while in a raid
 				C_GossipInfo.SelectOption(C_GossipInfo.GetOptions()[1].gossipOptionID)
 				return
@@ -85,22 +93,22 @@ EventHandler:Register('GOSSIP_SHOW', function()
 			return
 		end
 	end
-end)
+end
 
-EventHandler:Register('GOSSIP_SHOW', function()
+function addon:GOSSIP_SHOW()
 	-- triggered when the player interacts with an NPC that presents dialogue
 	if paused then
 		return
 	end
 
-	if ns.db.profile.blocklist.npcs[ns.GetNPCID()] then
+	if addon.db.profile.blocklist.npcs[addon:GetNPCID()] then
 		return
 	end
 
 	-- turn in all completed quests
-	if ns.db.profile.general.complete then
+	if addon.db.profile.general.complete then
 		for _, info in next, C_GossipInfo.GetActiveQuests() do
-			if not IsQuestIgnored(info.questID) then
+			if not isQuestIgnored(info.questID) then
 				if info.isComplete and not C_QuestLog.IsWorldQuest(info.questID) then
 					C_GossipInfo.SelectActiveQuest(info.questID)
 				end
@@ -109,31 +117,31 @@ EventHandler:Register('GOSSIP_SHOW', function()
 	end
 
 	-- accept all available quests
-	if ns.db.profile.general.accept then
+	if addon.db.profile.general.accept then
 		for _, info in next, C_GossipInfo.GetAvailableQuests() do
-			if not IsQuestIgnored(info.questID) then
-				if not info.isTrivial or ns.ShouldAcceptTrivialQuests() then
+			if not isQuestIgnored(info.questID) then
+				if not info.isTrivial or isTrackingTrivialQuests() then
 					C_GossipInfo.SelectAvailableQuest(info.questID)
 				end
 			end
 		end
 	end
-end)
+end
 
-EventHandler:Register('QUEST_GREETING', function()
+function addon:QUEST_GREETING()
 	-- triggered when the player interacts with an NPC that hands in/out quests
 	if paused then
 		return
 	end
 
-	if ns.db.profile.blocklist.npcs[ns.GetNPCID()] then
+	if addon.db.profile.blocklist.npcs[addon:GetNPCID()] then
 		return
 	end
 
 	-- turn in all completed quests
-	if ns.db.profile.general.complete then
+	if addon.db.profile.general.complete then
 		for index = 1, GetNumActiveQuests() do
-			if not IsQuestIgnored(GetActiveQuestID(index)) then
+			if not isQuestIgnored(GetActiveQuestID(index)) then
 				local _, isComplete = GetActiveTitle(index)
 				if isComplete and not C_QuestLog.IsWorldQuest(GetActiveQuestID(index)) then
 					SelectActiveQuest(index)
@@ -143,25 +151,25 @@ EventHandler:Register('QUEST_GREETING', function()
 	end
 
 	-- accept all available quests
-	if ns.db.profile.general.accept then
+	if addon.db.profile.general.accept then
 		for index = 1, GetNumAvailableQuests() do
 			local isTrivial, _, _, _, questID = GetAvailableQuestInfo(index)
-			if not IsQuestIgnored(questID) then
-				if not isTrivial or ns.ShouldAcceptTrivialQuests() then
+			if not isQuestIgnored(questID) then
+				if not isTrivial or isTrackingTrivialQuests() then
 					SelectAvailableQuest(index)
 				end
 			end
 		end
 	end
-end)
+end
 
-EventHandler:Register('QUEST_DETAIL', function()
+function addon:QUEST_DETAIL()
 	-- triggered when the information about an available quest is available
 	if paused then
 		return
 	end
 
-	if ns.db.profile.general.accept then
+	if addon.db.profile.general.accept then
 		if QuestIsFromAreaTrigger() then
 			-- this type of quest is automatically accepted, but the dialogue is presented in a way that
 			-- the player seems to have a choice to decline it, which they don't, so just accept it
@@ -169,23 +177,32 @@ EventHandler:Register('QUEST_DETAIL', function()
 		elseif QuestGetAutoAccept() then
 			-- this type of quest is automatically accepted, but the dialogue persists
 			AcknowledgeAutoAcceptQuest()
-		elseif not C_QuestLog.IsQuestTrivial(GetQuestID()) or ns.ShouldAcceptTrivialQuests() then
-			if IsQuestIgnored(GetQuestID()) then
+		elseif not C_QuestLog.IsQuestTrivial(GetQuestID()) or isTrackingTrivialQuests() then
+			if isQuestIgnored(GetQuestID()) then
 				CloseQuest()
 			else
 				AcceptQuest()
 			end
 		end
 	end
-end)
+end
 
-EventHandler:Register('QUEST_PROGRESS', function()
+local itemCacheQueue = {}
+function addon:QUEST_ITEM_UPDATE()
+	local i, event = next(itemCacheQueue)
+	if i then
+		table.remove(itemCacheQueue, i)
+		addon[event]()
+	end
+end
+
+function addon:QUEST_PROGRESS()
 	-- triggered when an active quest is selected during turn-in
 	if paused then
 		return
 	end
 
-	if ns.db.profile.blocklist.npcs[ns.GetNPCID()] then
+	if addon.db.profile.blocklist.npcs[addon:GetNPCID()] then
 		return
 	end
 
@@ -199,7 +216,7 @@ EventHandler:Register('QUEST_PROGRESS', function()
 		if itemLink then
 			-- check to see if the item is blocked
 			local questItemID = GetItemInfoFromHyperlink(itemLink)
-			for itemID in next, ns.db.profile.blocklist.items do
+			for itemID in next, addon.db.profile.blocklist.items do
 				if itemID == questItemID then
 					-- item is blocked, prevent this quest from opening again and close it
 					ignoredQuests[GetQuestID()] = true
@@ -209,35 +226,33 @@ EventHandler:Register('QUEST_PROGRESS', function()
 			end
 		else
 			-- item is not cached yet, trigger the item and wait for the cache to populate
-			EventHandler:Register('QUEST_ITEM_UPDATE', 'QUEST_PROGRESS')
+			table.insert(itemCacheQueue, 'QUEST_PROGRESS')
 			GetQuestItemInfo('required', index)
 			return
 		end
 	end
 
-	if ns.db.profile.general.complete then
+	if addon.db.profile.general.complete then
 		CompleteQuest()
 	end
+end
 
-	EventHandler:Unregister('QUEST_ITEM_UPDATE', 'QUEST_PROGRESS')
-end)
-
-EventHandler:Register('QUEST_COMPLETE', function()
+function addon:QUEST_COMPLETE()
 	-- triggered when an active quest is ready to be completed
 	if paused then
 		return
 	end
 
-	if ns.db.profile.general.complete then
+	if addon.db.profile.general.complete then
 		if GetNumQuestChoices() <= 1 then
 			-- complete the quest by accepting the first item
 			GetQuestReward(1)
 		end
 	end
-end)
+end
 
-EventHandler:Register('QUEST_COMPLETE', function()
-	if not ns.db.profile.general.selectreward then
+function addon:QUEST_COMPLETE()
+	if not addon.db.profile.general.selectreward then
 		return
 	end
 
@@ -268,7 +283,7 @@ EventHandler:Register('QUEST_COMPLETE', function()
 			end
 		else
 			-- item is not cached yet, trigger the item and wait for the cache to populate
-			EventHandler:Register('QUEST_ITEM_UPDATE', 'QUEST_COMPLETE')
+			table.insert(itemCacheQueue, 'QUEST_COMPLETE')
 			GetQuestItemInfo('choice', index)
 			return
 		end
@@ -278,11 +293,9 @@ EventHandler:Register('QUEST_COMPLETE', function()
 		-- this is considered an intrusive action, as we're modifying the UI
 		QuestInfoItem_OnClick(QuestInfoRewardsFrame.RewardButtons[highestItemValueIndex])
 	end
+end
 
-	EventHandler:Unregister('QUEST_ITEM_UPDATE', 'QUEST_COMPLETE')
-end)
-
-EventHandler:Register('QUEST_LOG_UPDATE', function()
+function addon:QUEST_LOG_UPDATE()
 	-- triggered when the player's quest log has been altered
 	if paused or WorldMapFrame:IsShown() then -- see #45
 		return
@@ -293,20 +306,18 @@ EventHandler:Register('QUEST_LOG_UPDATE', function()
 	if GetNumAutoQuestPopUps() > 0 then
 		if UnitIsDeadOrGhost('player') then
 			-- can't accept quests while we're dead
-			EventHandler:Register('PLAYER_REGEN_ENABLED', 'QUEST_LOG_UPDATE')
+			addon:Defer(addon, 'QUEST_LOG_UPDATE')
 			return
 		end
-
-		EventHandler:Unregister('PLAYER_REGEN_ENABLED', 'QUEST_LOG_UPDATE')
 
 		-- this is considered an intrusive action, as we're modifying the UI
 		local questID, questType = GetAutoQuestPopUp(1)
 		if questType == 'OFFER' then
-			if ns.db.profile.general.accept then
+			if addon.db.profile.general.accept then
 				ShowQuestOffer(questID)
 			end
 		elseif questType == 'COMPLETE' then
-			if ns.db.profile.general.complete then
+			if addon.db.profile.general.complete then
 				ShowQuestComplete(questID)
 			end
 		end
@@ -314,45 +325,45 @@ EventHandler:Register('QUEST_LOG_UPDATE', function()
 		-- remove the popup once accepted/completed, the game logic doesn't handle this
 		RemoveAutoQuestPopUp(questID)
 	end
-end)
+end
 
-EventHandler:Register('QUEST_ACCEPT_CONFIRM', function()
+function addon:QUEST_ACCEPT_CONFIRM()
 	-- triggered when a quest is shared in the party, but requires confirmation (like escorts)
 	if paused then
 		return
 	end
 
-	if ns.db.profile.general.accept then
+	if addon.db.profile.general.accept then
 		AcceptQuest()
 	end
-end)
+end
 
-EventHandler:Register('QUEST_ACCEPTED', function(questID)
+function addon:QUEST_ACCEPTED(questID)
 	-- triggered when a quest has been accepted by the player
-	if ns.db.profile.general.share then
+	if addon.db.profile.general.share then
 		local questLogIndex = C_QuestLog.GetLogIndexForQuestID(questID)
 		if questLogIndex then
 			QuestLogPushQuest(questLogIndex)
 		end
 	end
-end)
+end
 
-EventHandler:Register('MODIFIER_STATE_CHANGED', function(key, state)
+function addon:MODIFIER_STATE_CHANGED(key, state)
 	-- triggered when the player clicks any modifier keys on the keyboard
-	if string.sub(key, 2) == ns.db.profile.general.pausekey then
+	if string.sub(key, 2) == addon.db.profile.general.pausekey then
 		-- change the paused state
-		if ns.db.profile.general.pausekeyreverse then
+		if addon.db.profile.general.pausekeyreverse then
 			paused = state ~= 1
 		else
 			paused = state == 1
 		end
 	end
-end)
+end
 
-EventHandler:Register('PLAYER_LOGIN', function()
+function addon:PLAYER_LOGIN()
 	-- triggered when the game has completed the login process
-	if ns.db.profile.general.pausekeyreverse then
+	if addon.db.profile.general.pausekeyreverse then
 		-- default to a paused state
 		paused = true
 	end
-end)
+end

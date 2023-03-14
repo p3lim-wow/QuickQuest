@@ -1,4 +1,4 @@
-local addonName, ns = ...
+local addonName, addon = ...
 
 local defaults = {
 	profile = {
@@ -168,11 +168,11 @@ local defaults = {
 	},
 }
 
-ns.EventHandler:Register('ADDON_LOADED', function(...)
-	if(... == addonName) then
+function addon:ADDON_LOADED(name)
+	if name == addonName then
 		-- initialize database with defaults
-		ns.db = LibStub('AceDB-3.0'):New('QuickQuestDB2', defaults, true)
+		addon.db = LibStub('AceDB-3.0'):New('QuickQuestDB2', defaults, true)
 
-		return true -- unregister
+		return true -- unregister self
 	end
-end)
+end

@@ -11,14 +11,17 @@
 ## X-Wago-ID: Qb6meD6P
 
 #@non-debug@
+# libs\Dashi\embed.xml
 # libs\LibStub\LibStub.lua
 # libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
 # libs\AceDB-3.0\AceDB-3.0.xml
 # libs\AceGUI-3.0\AceGUI-3.0.xml
 # libs\AceConfig-3.0\AceConfig-3.0.xml
 #@end-non-debug@
+#@debug@
+..\Dashi\embed.xml
+#@end-debug@
 
-locale\initialize.lua
 locale\deDE.lua
 locale\esES.lua
 locale\esMX.lua
@@ -30,7 +33,6 @@ locale\ruRU.lua
 locale\zhCN.lua
 locale\zhTW.lua
 
-utils.lua
 addon.lua
 
 config\ButtonPoolMixin.lua

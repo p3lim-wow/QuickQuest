@@ -1,4 +1,4 @@
-local _, ns = ...
+local _, addon = ...
 
 local ButtonPoolMixin = {}
 function ButtonPoolMixin.Reposition(pool)
@@ -130,7 +130,7 @@ function ButtonPoolMixin.CreateButton(pool)
 	return button
 end
 
-function ns.CreateButtonPool(parent, offset, buttonWidth, buttonHeight, buttonSpacing)
+function addon:CreateButtonPool(parent, offset, buttonWidth, buttonHeight, buttonSpacing)
 	local pool = CreateFramePool('Button', parent, 'BackdropTemplate', ReleaseButton)
 	pool:ReleaseAll()
 

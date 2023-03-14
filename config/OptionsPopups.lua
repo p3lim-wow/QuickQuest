@@ -1,5 +1,5 @@
-local addonName, ns = ...
-local L = ns.L
+local addonName, addon = ...
+local L = addon.L
 
 StaticPopupDialogs[addonName .. 'ItemBlocklistPopup'] = {
 	text = L['Block a new item by ID'],
@@ -62,7 +62,7 @@ StaticPopupDialogs[addonName .. 'NPCBlocklistPopup'] = {
 		self.data.callback(self.data.pool, tonumber(self.editBox:GetText():trim()))
 	end,
 	OnAlt = function(self)
-		self.data.callback(self.data.pool, ns.GetNPCID('target'))
+		self.data.callback(self.data.pool, addon:GetNPCID('target'))
 	end,
 	OnShow = function(self)
 		self.editBox:SetFocus()

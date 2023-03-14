@@ -1,5 +1,5 @@
-local addonName, ns = ...
-local L = ns.L
+local addonName, addon = ...
+local L = addon.L
 
 local function CreateOptions()
 	CreateOptions = nop -- we only want to load this once
@@ -7,10 +7,10 @@ local function CreateOptions()
 	LibStub('AceConfig-3.0'):RegisterOptionsTable(addonName, {
 		type = 'group',
 		get = function(info)
-			return ns.db.profile.general[info[#info]]
+			return addon.db.profile.general[info[#info]]
 		end,
 		set = function(info, value)
-			ns.db.profile.general[info[#info]] = value
+			addon.db.profile.general[info[#info]] = value
 		end,
 		args = {
 			accept = {
@@ -48,7 +48,7 @@ local function CreateOptions()
 					[2] = L['Always']
 				},
 				disabled = function()
-					return not ns.db.profile.general.skipgossip
+					return not addon.db.profile.general.skipgossip
 				end,
 			},
 			paydarkmoonfaire = {
@@ -88,14 +88,12 @@ end
 
 SettingsPanel:HookScript('OnShow', function()
 	CreateOptions() -- LoD
-	ns.CreateBlocklistOptions() -- LoD
+	addon.CreateBlocklistOptions() -- LoD
 end)
 
-_G['SLASH_' .. addonName .. '1'] = '/quickquest'
-_G['SLASH_' .. addonName .. '2'] = '/qq'
-SlashCmdList[addonName] = function()
+addon:RegisterSlash('/quickquest', '/qq', function()
 	CreateOptions() -- LoD
-	ns.CreateBlocklistOptions() -- LoD
+	addon.CreateBlocklistOptions() -- LoD
 
 	Settings.OpenToCategory(addonName)
-end
+end)

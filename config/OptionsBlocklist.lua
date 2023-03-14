@@ -1,5 +1,5 @@
-local addonName, ns = ...
-local L = ns.L
+local addonName, addon = ...
+local L = addon.L
 
 local BACKDROP = {
 	bgFile = [[Interface\ChatFrame\ChatFrameBackground]], tile = true, tileSize = 16,
@@ -64,9 +64,9 @@ local function CreateItemBlocklistOptions()
 	end
 
 	local function OnRemove(self)
-		for itemID in next, ns.db.profile.blocklist.items do
+		for itemID in next, addon.db.profile.blocklist.items do
 			if itemID == self.itemID then
-				ns.db.profile.blocklist.items[itemID] = false
+				addon.db.profile.blocklist.items[itemID] = false
 			end
 		end
 	end
@@ -110,13 +110,13 @@ local function CreateItemBlocklistOptions()
 		pool:Reposition()
 
 		-- inject into db
-		ns.db.profile.blocklist.items[itemID] = true
+		addon.db.profile.blocklist.items[itemID] = true
 	end
 
-	local itemPool = ns.CreateButtonPool(panel.container, 16, 33, 33, 4)
+	local itemPool = addon:CreateButtonPool(panel.container, 16, 33, 33, 4)
 	itemPool:SetSortField('itemID')
 
-	for itemID, value in next, ns.db.profile.blocklist.items do
+	for itemID, value in next, addon.db.profile.blocklist.items do
 		if value then
 			AddButton(itemPool, itemID)
 		end
@@ -144,7 +144,7 @@ local function CreateNPCBlocklistOptions()
 	end
 
 	local function OnRemove(self)
-		ns.db.profile.blocklist.npcs[self.npcID] = false
+		addon.db.profile.blocklist.npcs[self.npcID] = false
 	end
 
 	local function UpdateModel(button)
@@ -197,13 +197,13 @@ local function CreateNPCBlocklistOptions()
 		pool:Reposition()
 
 		-- inject into db
-		ns.db.profile.blocklist.npcs[npcID] = true
+		addon.db.profile.blocklist.npcs[npcID] = true
 	end
 
-	local npcPool = ns.CreateButtonPool(panel.container, 16, 66, 80, 4)
+	local npcPool = addon:CreateButtonPool(panel.container, 16, 66, 80, 4)
 	npcPool:SetSortField('npcID')
 
-	for npcID, value in next, ns.db.profile.blocklist.npcs do
+	for npcID, value in next, addon.db.profile.blocklist.npcs do
 		if value then
 			AddButton(npcPool, npcID)
 		end
@@ -224,9 +224,9 @@ local function CreateQuestBlocklistOptions()
 		L['Block Quest'])
 
 	local function OnRemove(self)
-		for questID in next, ns.db.profile.blocklist.quests do
+		for questID in next, addon.db.profile.blocklist.quests do
 			if questID == self.questID then
-				ns.db.profile.blocklist.quests[questID] = false
+				addon.db.profile.blocklist.quests[questID] = false
 			end
 		end
 	end
@@ -289,14 +289,14 @@ local function CreateQuestBlocklistOptions()
 		pool:Reposition()
 
 		-- inject into db
-		ns.db.profile.blocklist.quests[questID] = true
+		addon.db.profile.blocklist.quests[questID] = true
 	end
 
 	-- TODO: tweak width
-	local questPool = ns.CreateButtonPool(panel.container, 16, 500, 20, 4)
+	local questPool = addon:CreateButtonPool(panel.container, 16, 500, 20, 4)
 	questPool:SetSortField('questID')
 
-	for questID, value in next, ns.db.profile.blocklist.quests do
+	for questID, value in next, addon.db.profile.blocklist.quests do
 		if value then
 			AddButton(questPool, questID)
 		end
@@ -310,8 +310,8 @@ local function CreateQuestBlocklistOptions()
 	end)
 end
 
-function ns.CreateBlocklistOptions()
-	ns.CreateBlocklistOptions = nop -- we only want to run this once
+function addon.CreateBlocklistOptions()
+	addon.CreateBlocklistOptions = nop -- we only want to run this once
 
 	CreateItemBlocklistOptions()
 	CreateNPCBlocklistOptions()
