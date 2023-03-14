@@ -64,9 +64,9 @@ local function CreateItemBlocklistOptions()
 	end
 
 	local function OnRemove(self)
-		for index, itemID in next, ns.db.profile.blocklist.items do
+		for itemID in next, ns.db.profile.blocklist.items do
 			if itemID == self.itemID then
-				ns.db.profile.blocklist.items[index] = nil
+				ns.db.profile.blocklist.items[itemID] = false
 			end
 		end
 	end
@@ -116,8 +116,10 @@ local function CreateItemBlocklistOptions()
 	local itemPool = ns.CreateButtonPool(panel.container, 16, 33, 33, 4)
 	itemPool:SetSortField('itemID')
 
-	for itemID in next, ns.db.profile.blocklist.items do
-		AddButton(itemPool, itemID)
+	for itemID, value in next, ns.db.profile.blocklist.items do
+		if value then
+			AddButton(itemPool, itemID)
+		end
 	end
 
 	panel.button:SetScript('OnClick', function()
@@ -142,7 +144,7 @@ local function CreateNPCBlocklistOptions()
 	end
 
 	local function OnRemove(self)
-		ns.db.profile.blocklist.npcs[self.npcID] = nil
+		ns.db.profile.blocklist.npcs[self.npcID] = false
 	end
 
 	local function UpdateModel(button)
@@ -201,8 +203,10 @@ local function CreateNPCBlocklistOptions()
 	local npcPool = ns.CreateButtonPool(panel.container, 16, 66, 80, 4)
 	npcPool:SetSortField('npcID')
 
-	for npcID in next, ns.db.profile.blocklist.npcs do
-		AddButton(npcPool, npcID)
+	for npcID, value in next, ns.db.profile.blocklist.npcs do
+		if value then
+			AddButton(npcPool, npcID)
+		end
 	end
 
 	panel.button:SetScript('OnClick', function()
@@ -222,7 +226,7 @@ local function CreateQuestBlocklistOptions()
 	local function OnRemove(self)
 		for questID in next, ns.db.profile.blocklist.quests do
 			if questID == self.questID then
-				ns.db.profile.blocklist.quests[questID] = nil
+				ns.db.profile.blocklist.quests[questID] = false
 			end
 		end
 	end
@@ -292,8 +296,10 @@ local function CreateQuestBlocklistOptions()
 	local questPool = ns.CreateButtonPool(panel.container, 16, 500, 20, 4)
 	questPool:SetSortField('questID')
 
-	for questID in next, ns.db.profile.blocklist.quests do
-		AddButton(questPool, questID)
+	for questID, value in next, ns.db.profile.blocklist.quests do
+		if value then
+			AddButton(questPool, questID)
+		end
 	end
 
 	panel.button:SetScript('OnClick', function()
