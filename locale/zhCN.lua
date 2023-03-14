@@ -9,6 +9,7 @@ L['When to select gossip while in a raid'] = '当你在团队中，是否启用�
 L['Automatically pay Darkmoon Faire teleporting fees'] = '自动支付暗月马戏团传送费'
 L['Reverse the behaviour of the modifier key'] = '反转辅助键的行为（勾选后，按下按键才启用自动交接）'
 -- L['Hold this key to to temporarily pause automation'] = '' -- MISSING!
+-- L['Automatically pick the reward that\'s worth the most'] = '' -- MISSING!
 
 -- L['Item Blocklist'] = '' -- MISSING!
 -- L['NPC Blocklist'] = '' -- MISSING!

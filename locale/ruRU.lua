@@ -9,6 +9,7 @@ local L = select(2, ...).L('ruRU')
 -- L['Automatically pay Darkmoon Faire teleporting fees'] = '' -- MISSING!
 -- L['Reverse the behaviour of the modifier key'] = '' -- MISSING!
 -- L['Hold this key to to temporarily pause automation'] = '' -- MISSING!
+-- L['Automatically pick the reward that\'s worth the most'] = '' -- MISSING!
 
 -- L['Item Blocklist'] = '' -- MISSING!
 -- L['NPC Blocklist'] = '' -- MISSING!

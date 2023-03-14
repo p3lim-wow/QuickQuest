@@ -11,6 +11,7 @@ local defaults = {
 			paydarkmoonfaire = true,
 			pausekey = 'SHIFT',
 			pausekeyreverse = false,
+			selectreward = true,
 		},
 		blocklist = {
 			items = {

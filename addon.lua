@@ -237,6 +237,10 @@ EventHandler:Register('QUEST_COMPLETE', function()
 end)
 
 EventHandler:Register('QUEST_COMPLETE', function()
+	if not ns.db.profile.general.selectreward then
+		return
+	end
+
 	-- triggered when an active quest is ready to be completed
 	local numItemRewards = GetNumQuestChoices()
 	if numItemRewards <= 1 then

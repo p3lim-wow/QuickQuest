@@ -74,6 +74,12 @@ local function CreateOptions()
 				type = 'toggle',
 				width = 'double',
 			},
+			selectreward = {
+				order = 9,
+				name = L['Automatically pick the reward that\'s worth the most'],
+				type = 'toggle',
+				width = 'double',
+			},
 		},
 	})
 
