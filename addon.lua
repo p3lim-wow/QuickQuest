@@ -36,9 +36,9 @@ local function isQuestIgnored(questID)
 	end
 
 	local questTitle = tonumber(questID) and C_QuestLog.GetTitleForQuestID(questID) or ''
-	for key in next, addon.db.profile.blocklist.quests do
+	for key, value in next, addon.db.profile.blocklist.quests do
 		if key == questID or questTitle:lower():find(tostring(key):lower()) then
-			return true
+			return value
 		end
 	end
 
@@ -216,13 +216,11 @@ function addon:QUEST_PROGRESS()
 		if itemLink then
 			-- check to see if the item is blocked
 			local questItemID = GetItemInfoFromHyperlink(itemLink)
-			for itemID in next, addon.db.profile.blocklist.items do
-				if itemID == questItemID then
-					-- item is blocked, prevent this quest from opening again and close it
-					ignoredQuests[GetQuestID()] = true
-					CloseQuest()
-					return
-				end
+			if addon.db.profile.blocklist.items[questItemID] then
+				-- item is blocked, prevent this quest from opening again and close it
+				ignoredQuests[GetQuestID()] = true
+				CloseQuest()
+				return
 			end
 		else
 			-- item is not cached yet, trigger the item and wait for the cache to populate
