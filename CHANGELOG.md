@@ -1,3 +1,10 @@
+### Changes in 100007.60-Release:
+
+- Added: Primal Foci delivery quests to blocklist
+- Added: Option for selecting best quest reward
+- Changed: Update Interface version
+- Fixed: Removing entries from blocklist should now persist
+
 ### Changes in 100002.59-Release:
 
 - Changed: Block Dragon Shard of Knowledge being turned in
