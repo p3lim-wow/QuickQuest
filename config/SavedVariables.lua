@@ -163,6 +163,10 @@ local defaults = {
 				[70192] = true, -- Specialized Secrets: Mining (Khadin)
 				[70193] = true, -- Specialized Secrets: Skinning (Khadin)
 				[70194] = true, -- Specialized Secrets: Tailoring (Khadin)
+				[75164] = true, -- In Need of Primal Foci
+				[75165] = true, -- In Need of Concentrated Primal Foci
+				[75166] = true, -- In Need of Many Primal Foci
+				[75167] = true, -- In Need of Many Concentrated Primal Foci
 			},
 		},
 	},
