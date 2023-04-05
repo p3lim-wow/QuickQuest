@@ -146,7 +146,7 @@ local function scanNpcName(npcID)
 		end
 	end
 
-	return _G.UNKNOWN -- globalstrings
+	return UNKNOWN -- globalstrings
 end
 
 local function CreateNPCBlocklistOptions()

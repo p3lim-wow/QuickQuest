@@ -56,6 +56,7 @@ read_globals = {
 	-- SharedXML objects
 	'Settings', -- SharedXML/Settings/Blizzard_Settings.lua
 	'SettingsPanel', -- SharedXML/Settings/Blizzard_SettingsPanel.xml
+	'TooltipUtil', -- SharedXML/Tooltip/TooltipUtil.lua
 
 	-- SharedXML functions
 	'Mixin', -- SharedXML/Mixin.lua
@@ -64,23 +65,25 @@ read_globals = {
 	'GetItemInfoFromHyperlink', -- SharedXML/LinkUtil.lua
 
 	-- GlobalStrings
-	'ALT_KEY',
-	'CTRL_KEY',
-	'SHIFT_KEY',
-	'NEVER',
-	'ALWAYS',
 	'ACCEPT',
+	'ALT_KEY',
+	'ALWAYS',
 	'CANCEL',
-	'TARGET',
+	'CTRL_KEY',
 	'ERR_SOULBIND_INVALID_CONDUIT_ITEM',
 	'MINIMAP_TRACKING_TRIVIAL_QUESTS',
+	'NEVER',
+	'SHIFT_KEY',
+	'TARGET',
+	'UNKNOWN',
 
 	-- namespaces
-	'C_Map',
 	'C_GossipInfo',
+	'C_Map',
+	'C_Minimap',
 	'C_QuestLog',
 	'C_Timer',
-	'C_Minimap',
+	'C_TooltipInfo',
 
 	-- API
 	'AcceptQuest',
