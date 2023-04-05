@@ -10,7 +10,8 @@ L['When to select gossip while in a raid'] = 'Quand sélectionner les dialogues 
 L['Automatically pay Darkmoon Faire teleporting fees'] = 'Payer automatiquement les frais de téléportation pour la foire de Sombrelune'
 L['Reverse the behaviour of the modifier key'] = 'Inverser le comportement de la touche de modification'
 -- L['Hold this key to to temporarily pause automation'] = '' -- MISSING!
--- L['Automatically pick the reward that\'s worth the most'] = '' -- MISSING!
+-- L['Automatically select the reward that\'s worth the most'] = '' -- MISSING!
+-- L['Automatically deliver repeatable delivery quests'] = '' -- MISSING!
 
 -- L['Item Blocklist'] = '' -- MISSING!
 -- L['NPC Blocklist'] = '' -- MISSING!

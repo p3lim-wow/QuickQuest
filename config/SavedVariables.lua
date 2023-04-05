@@ -12,6 +12,7 @@ local defaults = {
 			pausekey = 'SHIFT',
 			pausekeyreverse = false,
 			selectreward = true,
+			acceptRepeatables = true,
 		},
 		blocklist = {
 			items = {

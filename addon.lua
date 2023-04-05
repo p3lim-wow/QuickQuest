@@ -120,7 +120,7 @@ function addon:GOSSIP_SHOW()
 	if addon.db.profile.general.accept then
 		for _, info in next, C_GossipInfo.GetAvailableQuests() do
 			if not isQuestIgnored(info.questID) then
-				if not info.isTrivial or isTrackingTrivialQuests() then
+				if (not info.isTrivial or isTrackingTrivialQuests()) and (not info.repeatable or addon.db.profile.general.acceptRepeatables) then
 					C_GossipInfo.SelectAvailableQuest(info.questID)
 				end
 			end
@@ -153,9 +153,9 @@ function addon:QUEST_GREETING()
 	-- accept all available quests
 	if addon.db.profile.general.accept then
 		for index = 1, GetNumAvailableQuests() do
-			local isTrivial, _, _, _, questID = GetAvailableQuestInfo(index)
+			local isTrivial, _, isRepeatable, _, questID = GetAvailableQuestInfo(index)
 			if not isQuestIgnored(questID) then
-				if not isTrivial or isTrackingTrivialQuests() then
+				if (not isTrivial or isTrackingTrivialQuests()) and (not isRepeatable or addon.db.profile.general.acceptRepeatables) then
 					SelectAvailableQuest(index)
 				end
 			end

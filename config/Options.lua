@@ -25,20 +25,32 @@ local function CreateOptions()
 				type = 'toggle',
 				width = 'double',
 			},
-			share = {
+			selectreward = {
 				order = 3,
+				name = L['Automatically select the reward that\'s worth the most'],
+				type = 'toggle',
+				width = 'double',
+			},
+			acceptRepeatables = {
+				order = 4,
+				name = L['Automatically deliver repeatable delivery quests'],
+				type = 'toggle',
+				width = 'double',
+			},
+			share = {
+				order = 5,
 				name = L['Automatically share quests when picked up'],
 				type = 'toggle',
 				width = 'double',
 			},
 			skipgossip = {
-				order = 4,
+				order = 6,
 				name = L['Automatically select single gossip options'],
 				type = 'toggle',
 				width = 'double',
 			},
 			skipgossipwhen = {
-				order = 5,
+				order = 7,
 				name = L['When to select gossip while in a raid'],
 				type = 'select',
 				width = 'double',
@@ -52,13 +64,13 @@ local function CreateOptions()
 				end,
 			},
 			paydarkmoonfaire = {
-				order = 6,
+				order = 8,
 				name = L['Automatically pay Darkmoon Faire teleporting fees'],
 				type = 'toggle',
 				width = 'double',
 			},
 			pausekey = {
-				order = 7,
+				order = 9,
 				name = L['Hold this key to to temporarily pause automation'],
 				type = 'select',
 				width = 'double',
@@ -69,17 +81,11 @@ local function CreateOptions()
 				}
 			},
 			pausekeyreverse = {
-				order = 8,
+				order = 10,
 				name = L['Reverse the behaviour of the modifier key'],
 				type = 'toggle',
 				width = 'double',
-			},
-			selectreward = {
-				order = 9,
-				name = L['Automatically pick the reward that\'s worth the most'],
-				type = 'toggle',
-				width = 'double',
-			},
+			},s
 		},
 	})
 
