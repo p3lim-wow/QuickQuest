@@ -44,6 +44,14 @@ body:
       placeholder: Translation here
   - type: input
     attributes:
+      label '"Automatically select the reward that's worth the most"'
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label '"Automatically deliver repeatable delivery quests"'
+      placeholder: Translation here
+  - type: input
+    attributes:
       label: '"Automatically share quests when picked up"'
       description: Used in the settings
       placeholder: Translation here
