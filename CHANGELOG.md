@@ -1,4 +1,4 @@
-### Changes in 100007.61-Release:
+### Changes in 100007.62-Release:
 
 - Added: Option to not auto-deliver repeatable quests
 - Changed: Some option strings
