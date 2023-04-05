@@ -60,7 +60,7 @@ function addon:GOSSIP_SHOW()
 		return
 	end
 
-	local npcID = addon:GetNPCID()
+	local npcID = addon:GetNPCID('npc')
 	if addon.db.profile.blocklist.npcs[npcID] then
 		return
 	end
@@ -101,7 +101,7 @@ function addon:GOSSIP_SHOW()
 		return
 	end
 
-	if addon.db.profile.blocklist.npcs[addon:GetNPCID()] then
+	if addon.db.profile.blocklist.npcs[addon:GetNPCID('npc')] then
 		return
 	end
 
@@ -134,7 +134,7 @@ function addon:QUEST_GREETING()
 		return
 	end
 
-	if addon.db.profile.blocklist.npcs[addon:GetNPCID()] then
+	if addon.db.profile.blocklist.npcs[addon:GetNPCID('npc')] then
 		return
 	end
 
@@ -202,7 +202,7 @@ function addon:QUEST_PROGRESS()
 		return
 	end
 
-	if addon.db.profile.blocklist.npcs[addon:GetNPCID()] then
+	if addon.db.profile.blocklist.npcs[addon:GetNPCID('npc')] then
 		return
 	end
 
