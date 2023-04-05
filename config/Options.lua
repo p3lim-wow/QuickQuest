@@ -85,7 +85,7 @@ local function CreateOptions()
 				name = L['Reverse the behaviour of the modifier key'],
 				type = 'toggle',
 				width = 'double',
-			},s
+			},
 		},
 	})
 
