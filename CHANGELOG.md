@@ -1,3 +1,10 @@
+### Changes in 100007.61-Release:
+
+- Added: Option to not auto-deliver repeatable quests
+- Changed: Some option strings
+- Fixed: NPC blocklist not having an effect
+- Fixed: NPC names in blocklist
+
 ### Changes in 100007.60-Release:
 
 - Added: Primal Foci delivery quests to blocklist
