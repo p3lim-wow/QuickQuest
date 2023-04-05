@@ -130,6 +130,25 @@ local function CreateItemBlocklistOptions()
 	end)
 end
 
+local function scanNpcName(npcID)
+	local tooltipData = C_TooltipInfo.GetHyperlink('unit:Creature-0-0-0-0-' .. npcID .. '-0')
+	if tooltipData then
+		TooltipUtil.SurfaceArgs(tooltipData) -- TODO: remove this in 10.1
+
+		if tooltipData.lines then
+			for _, line in next, tooltipData.lines do
+				TooltipUtil.SurfaceArgs(line) -- TODO: remove this in 10.1
+			end
+
+			if tooltipData.lines[1] and tooltipData.lines[1].leftText then
+				return tooltipData.lines[1].leftText
+			end
+		end
+	end
+
+	return _G.UNKNOWN -- globalstrings
+end
+
 local function CreateNPCBlocklistOptions()
 	local panel = CreateOptionsPanel('NPCBlocklist',
 		L['NPC Blocklist'],
@@ -138,7 +157,7 @@ local function CreateNPCBlocklistOptions()
 
 	local function OnEnter(self)
 		GameTooltip:SetOwner(self, 'ANCHOR_TOPLEFT')
-		GameTooltip:AddLine('<NYI> (npc name)') -- TODO: can we even get the names?
+		GameTooltip:AddLine(scanNpcName(self.npcID), 1, 1, 1)
 		GameTooltip:AddDoubleLine('NPC ID', self.npcID)
 		GameTooltip:Show()
 	end
