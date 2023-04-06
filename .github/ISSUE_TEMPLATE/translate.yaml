@@ -44,7 +44,7 @@ body:
       placeholder: Translation here
   - type: input
     attributes:
-      label: '"Automatically select the most valuable item"'
+      label: '"Automatically select the most valuable reward"'
       description: Used in settings
       placeholder: Translation here
   - type: input

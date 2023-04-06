@@ -10,8 +10,8 @@ L['Automatically select single gossip options'] = 'Einzeloptionen in Dialogen au
 L['Automatically pay Darkmoon Faire teleporting fees'] = 'Dunkelmond-Jahrmarkt Teleport-Gebühr automatisch bezahlen'
 L['Reverse the behaviour of the modifier key'] = 'Verhalten der Moditfikatortaste umkehren'
 -- L['Hold this key to to temporarily pause automation'] = '' -- MISSING!
--- L['Automatically select the reward that\'s worth the most'] = '' -- MISSING!
--- L['Don\'t accept repeatable delivery quests'] = '' -- MISSING!
+-- L['Automatically select the most valuable reward'] = '' -- MISSING!
+-- L['Automatically deliver repeatable delivery quests'] = '' -- MISSING!
 
 -- L['Item Blocklist'] = '' -- MISSING!
 -- L['NPC Blocklist'] = '' -- MISSING!

@@ -10,7 +10,7 @@ local L = select(2, ...).L('esMX')
 -- L['Automatically pay Darkmoon Faire teleporting fees'] = '' -- MISSING!
 -- L['Reverse the behaviour of the modifier key'] = '' -- MISSING!
 -- L['Hold this key to to temporarily pause automation'] = '' -- MISSING!
--- L['Automatically select the reward that\'s worth the most'] = '' -- MISSING!
+-- L['Automatically select the most valuable reward'] = '' -- MISSING!
 -- L['Automatically deliver repeatable delivery quests'] = '' -- MISSING!
 
 -- L['Item Blocklist'] = '' -- MISSING!

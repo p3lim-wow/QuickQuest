@@ -10,7 +10,7 @@ L['When to select gossip while in a raid'] = '공격대 상태에서 대화 자�
 L['Automatically pay Darkmoon Faire teleporting fees'] = '다크문 축제 순간이동 비용을 자동으로 지불'
 -- L['Reverse the behaviour of the modifier key'] = '' -- MISSING!
 -- L['Hold this key to to temporarily pause automation'] = '' -- MISSING!
--- L['Automatically select the reward that\'s worth the most'] = '' -- MISSING!
+-- L['Automatically select the most valuable reward'] = '' -- MISSING!
 -- L['Automatically deliver repeatable delivery quests'] = '' -- MISSING!
 
 -- L['Item Blocklist'] = '' -- MISSING!
