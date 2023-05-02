@@ -82,7 +82,7 @@ function addon:GOSSIP_SHOW()
 		-- automatically skip single dialogue under certain conditions
 		local _, instanceType = GetInstanceInfo()
 		if instanceType == 'raid' and addon.db.profile.general.skipgossipwhen > 0 then
-			if GetNumGroupMembers() == 0 or addon.db.profile.general.skipgossipwhen == 2 then
+			if GetNumGroupMembers() <= 1 or addon.db.profile.general.skipgossipwhen == 2 then
 				-- select dialogue if alone or when configured to "Always" while in a raid
 				C_GossipInfo.SelectOption(C_GossipInfo.GetOptions()[1].gossipOptionID)
 				return
