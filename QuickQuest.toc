@@ -3,6 +3,7 @@
 ## Version: @project-version@
 ## Title: QuickQuest
 ## Notes: Quest automation wizardry
+## IconTexture: Interface\Icons\spell_nature_timestop
 ## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3
 ## SavedVariables: QuickQuestDB, QuickQuestBlacklistDB, QuickQuestDB2
 
