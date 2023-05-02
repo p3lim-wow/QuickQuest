@@ -173,11 +173,7 @@ local defaults = {
 	},
 }
 
-function addon:ADDON_LOADED(name)
-	if name == addonName then
-		-- initialize database with defaults
-		addon.db = LibStub('AceDB-3.0'):New('QuickQuestDB2', defaults, true)
-
-		return true -- unregister self
-	end
-end
+addon:HookAddOn(addonName, function()
+	-- initialize database with defaults
+	addon.db = LibStub('AceDB-3.0'):New('QuickQuestDB2', defaults, true)
+end)
