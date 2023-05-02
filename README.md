@@ -12,7 +12,7 @@ It can be downloaded at one of the following sites:
 
 QuickQuest will automate quest-related tasks such as accepting and delivering quests for you, saving you time while leveling or doing daily/weekly objectives.
 
-The complete list of features:
+List of features:
 
 - Automatically pick up any quest
 - Automatically deliver any quest
@@ -26,13 +26,7 @@ The complete list of features:
 - Optionally shares all quests accepted with party members
 - Holding Shift will pause the automation
 
-Access the options with `/quickquest` or `/qq` to change the following:
-
-- Automation pause modifier
-- Any optional feature
-- Add/remove items that are blocked from starting/finishing a quest
-- Add/remove NPCs that won't be automated
-- Add/remove quests that won't be automated
+Access the options with `/quickquest` or `/qq`.
 
 ## Translations
 
