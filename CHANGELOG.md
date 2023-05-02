@@ -1,3 +1,9 @@
+### Changes in 100100.63-Release:
+
+- Changed: zhTW translations
+- Changed: Update Interface version
+- Fixed: Gossip skip in LFR
+
 ### Changes in 100007.62-Release:
 
 - Added: Option to not auto-deliver repeatable quests
