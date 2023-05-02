@@ -3,7 +3,7 @@
 This is an addon for the popular MMORPG "World of Warcraft".  
 It can be downloaded at one of the following sites:
 
-- [Curse](https://www.curseforge.com/wow/addons/quickquest)
+- [CurseForge](https://www.curseforge.com/wow/addons/quickquest)
 - [WoWInterface](https://wowinterface.com/downloads/info20838)
 - [Wago](https://addons.wago.io/addons/quickquest)
 - [GitHub](https://github.com/p3lim-wow/QuickQuest/releases)
@@ -34,14 +34,16 @@ Access the options with `/quickquest` or `/qq` to change the following:
 - Add/remove NPCs that won't be automated
 - Add/remove quests that won't be automated
 
-## Translating
+## Translations
 
-If you'd like to help translate this project, please see the [Contributing Guidelines](https://github.com/p3lim-wow/QuickQuest/blob/master/.github/CONTRIBUTING.md).
+If you want to help translate QuickQuest, please use this form on GitHub:  
+[https://github.com/p3lim-wow/QuickQuest/issues/new?template=translate.yaml](https://github.com/p3lim-wow/QuickQuest/issues/new?assignees=p3lim&labels=enhancement%2Ctranslation&template=translate.yaml&title=Translation%3A+)
 
-## Feedback
+## Feedback & issues
 
-If you have a question, please use the comments section on Curse/WoWInterface.  
-If you would like to report a bug or contribute to the project, please follow [this link](https//github.com/p3lim-wow/QuickQuest/issues?q=) to get started.
+If you have a question, please use the [discussion section on GitHub](https://github.com/p3lim-wow/QuickQuest/discussions).  
+If you would like to report a bug or contribute to the project, please visit GitHub:  
+<https://github.com/p3lim-wow/QuickQuest/issues/new/choose>
 
 ## Legal
 
