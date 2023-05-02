@@ -304,7 +304,7 @@ function addon:QUEST_LOG_UPDATE()
 	if GetNumAutoQuestPopUps() > 0 then
 		if UnitIsDeadOrGhost('player') then
 			-- can't accept quests while we're dead
-			addon:Defer(addon, 'QUEST_LOG_UPDATE')
+			addon:Defer(addon, 'QUEST_LOG_UPDATE', addon)
 			return
 		end
 
