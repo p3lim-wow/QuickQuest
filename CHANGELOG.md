@@ -1,3 +1,7 @@
+### Changes in 100100.64-Release:
+
+- Fixed: Settings load loading properlyu
+
 ### Changes in 100100.63-Release:
 
 - Changed: zhTW translations
