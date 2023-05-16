@@ -1,6 +1,6 @@
 ### Changes in 100100.64-Release:
 
-- Fixed: Settings load loading properlyu
+- Fixed: Settings not loading properly
 
 ### Changes in 100100.63-Release:
 
