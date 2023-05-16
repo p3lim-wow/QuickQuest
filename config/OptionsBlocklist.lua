@@ -31,14 +31,14 @@ local function CreateOptionsPanel(name, localizedName, description, buttonLocali
 	scrollchild:SetHeight(1) -- it needs something
 	panel.container = scrollchild
 
-	local scrollframe = CreateFrame('ScrollFrame', '$parentContainer', bounds, 'UIPanelScrollFrameTemplate')
+	local scrollframe = CreateFrame('ScrollFrame', '$parentContainer', bounds, 'ScrollFrameTemplate')
 	scrollframe:SetPoint('TOPLEFT', 4, -4)
 	scrollframe:SetPoint('BOTTOMRIGHT', -4, 4)
 	scrollframe:SetScrollChild(scrollchild)
 
 	scrollframe.ScrollBar:ClearAllPoints()
-	scrollframe.ScrollBar:SetPoint('TOPRIGHT', bounds, -6, -22)
-	scrollframe.ScrollBar:SetPoint('BOTTOMRIGHT', bounds, -6, 22)
+	scrollframe.ScrollBar:SetPoint('TOPRIGHT', bounds, -12, -8)
+	scrollframe.ScrollBar:SetPoint('BOTTOMRIGHT', bounds, -12, 8)
 
 	local button = CreateFrame('Button', '$parentButton', panel, 'UIPanelButtonTemplate')
 	button:SetPoint('BOTTOMRIGHT', bounds, 'TOPRIGHT', 0, 5)
