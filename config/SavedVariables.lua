@@ -94,6 +94,11 @@ local defaults = {
 				[95146] = true,
 				[95200] = true,
 				[95201] = true,
+
+				-- Manapoof
+				[121602] = true, -- Dalaran
+				[147666] = true, -- Boralus
+				[147642] = true, -- Dazar'alor
 			},
 			quests = {
 				-- 6.0 coins
