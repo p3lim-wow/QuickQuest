@@ -1,3 +1,10 @@
+### Changes in 100105.65-Release:
+
+- Added: Manapoof to blocklist
+- Changed: Use new scroll templates for options panel
+- Changed: Update Interface version
+- Fixed: Errors in Court of Stars
+
 ### Changes in 100100.64-Release:
 
 - Fixed: Settings not loading properly
