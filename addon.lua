@@ -78,18 +78,19 @@ function addon:GOSSIP_SHOW()
 		return
 	end
 
-	if #C_GossipInfo.GetOptions() == 1 and addon.db.profile.general.skipgossip then
+	local gossipOptions = C_GossipInfo.GetOptions()
+	if #gossipOptions == 1 and addon.db.profile.general.skipgossip and gossipOptions[1].gossipOptionID then
 		-- automatically skip single dialogue under certain conditions
 		local _, instanceType = GetInstanceInfo()
 		if instanceType == 'raid' and addon.db.profile.general.skipgossipwhen > 0 then
 			if GetNumGroupMembers() <= 1 or addon.db.profile.general.skipgossipwhen == 2 then
 				-- select dialogue if alone or when configured to "Always" while in a raid
-				C_GossipInfo.SelectOption(C_GossipInfo.GetOptions()[1].gossipOptionID)
+				C_GossipInfo.SelectOption(gossipOptions[1].gossipOptionID)
 				return
 			end
 		elseif instanceType ~= 'raid' then
 			-- always select single dialogue while outside a raid
-			C_GossipInfo.SelectOption(C_GossipInfo.GetOptions()[1].gossipOptionID)
+			C_GossipInfo.SelectOption(gossipOptions[1].gossipOptionID)
 			return
 		end
 	end
