@@ -1,3 +1,7 @@
+### Changes in 100200.66-Release:
+
+- Changed: Update Interface version
+
 ### Changes in 100105.65-Release:
 
 - Added: Manapoof to blocklist
