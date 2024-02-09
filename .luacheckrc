@@ -54,6 +54,7 @@ read_globals = {
 	'InterfaceOptionsFrame_OpenToCategory', -- OLD
 
 	-- SharedXML objects
+	'FlagsUtil', -- SharedXML/Flags.lua
 	'Settings', -- SharedXML/Settings/Blizzard_Settings.lua
 	'SettingsPanel', -- SharedXML/Settings/Blizzard_SettingsPanel.xml
 	'TooltipUtil', -- SharedXML/Tooltip/TooltipUtil.lua
@@ -84,6 +85,7 @@ read_globals = {
 	'C_QuestLog',
 	'C_Timer',
 	'C_TooltipInfo',
+	'Enum',
 
 	-- API
 	'AcceptQuest',
