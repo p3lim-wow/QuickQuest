@@ -1,3 +1,9 @@
+### Changes in 100205.67-Release:
+
+- Added: Option to auto-select quest gossip (enabled by default)
+- Added: Auto-selecting event gossip (just Big Dig event for now)
+- Changed: Update Interface version
+
 ### Changes in 100200.66-Release:
 
 - Changed: Update Interface version
