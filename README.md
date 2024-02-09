@@ -17,7 +17,8 @@ List of features:
 - Automatically pick up any quest
 - Automatically deliver any quest
 - Automatically accept pop-up quests
-- Automatically skip talking to NPCs with only one option
+- Automatically talk to NPCs with only one option
+- Automatically talk to NPCs with a quest option
 - Automatically pick up trivial (low level) quests
 	- Only if the player is tracking trivial quests on the minimap
 - Automatically selects the most valuable quest reward
