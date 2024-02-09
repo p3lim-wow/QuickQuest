@@ -1,6 +1,8 @@
 local addonName, addon = ...
 local L = addon.L
 
+local NEW = [[|TInterface\OptionsFrame\UI-OptionsFrame-NewFeatureIcon:0:0:0:-1|t ]]
+
 local function CreateOptions()
 	CreateOptions = nop -- we only want to load this once
 
@@ -51,7 +53,7 @@ local function CreateOptions()
 			},
 			autoquestgossip = {
 				order = 7,
-				name = L['Automatically select quest gossip options'],
+				name = NEW .. L['Automatically select quest gossip options'],
 				type = 'toggle',
 				width = 'double',
 			},
