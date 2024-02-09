@@ -29,6 +29,10 @@ local darkmoonFaireOptions = {
 	[40007] = true, -- Darkmoon Faire Mystic Mage (Horde)
 	[40457] = true, -- Darkmoon Faire Mystic Mage (Alliance)
 }
+local skipGossip = {
+	[120619] = true, -- Big Dig task
+	[120620] = true, -- Big Dig task
+}
 
 local function isQuestIgnored(questID)
 	if ignoredQuests[questID] then
@@ -70,6 +74,8 @@ function addon:GOSSIP_SHOW()
 		if darkmoonFaireOptions[info.gossipOptionID] and addon.db.profile.general.paydarkmoonfaire then
 			C_GossipInfo.SelectOption(info.gossipOptionID, '', true)
 			return
+		elseif skipGossip[info.gossipOptionID] then
+			C_GossipInfo.SelectOption(info.gossipOptionID)
 		elseif FlagsUtil.IsSet(info.flags, Enum.GossipOptionRecFlags.QuestLabelPrepend) and addon.db.profile.general.autoquestgossip then
 			C_GossipInfo.SelectOption(info.gossipOptionID)
 		end
