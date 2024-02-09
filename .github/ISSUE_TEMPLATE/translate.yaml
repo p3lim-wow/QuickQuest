@@ -64,6 +64,11 @@ body:
       placeholder: Translation here
   - type: input
     attributes:
+      label: '"Automatically select quest gossip options"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
       label: '"When to select gossip while in a raid"'
       description: Used in the settings
       placeholder: Translation here
@@ -143,3 +148,5 @@ body:
       description: Used in the settings
       placeholder: Translation here
 
+
+-- L['Automatically select quest gossip options'] = '' -- MISSING!

@@ -13,6 +13,7 @@ local defaults = {
 			pausekeyreverse = false,
 			selectreward = true,
 			acceptRepeatables = true,
+			autoquestgossip = true,
 		},
 		blocklist = {
 			items = {

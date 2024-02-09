@@ -12,6 +12,7 @@ L['Reverse the behaviour of the modifier key'] = '反轉輔助鍵的行為（勾
 L['Hold this key to to temporarily pause automation'] = '按下此按鍵來暫時跳過自動化'
 L['Automatically select the most valuable reward']  = '自動選擇比較值錢的獎勵'
 L['Automatically deliver repeatable delivery quests'] = '自動提交重複的每日任務'
+-- L['Automatically select quest gossip options'] = '' -- MISSING!
 
 L['Item Blocklist'] = '物品阻擋清單'
 L['NPC Blocklist'] = 'NPC阻擋清單'

@@ -70,6 +70,8 @@ function addon:GOSSIP_SHOW()
 		if darkmoonFaireOptions[info.gossipOptionID] and addon.db.profile.general.paydarkmoonfaire then
 			C_GossipInfo.SelectOption(info.gossipOptionID, '', true)
 			return
+		elseif FlagsUtil.IsSet(info.flags, Enum.GossipOptionRecFlags.QuestLabelPrepend) and addon.db.profile.general.autoquestgossip then
+			C_GossipInfo.SelectOption(info.gossipOptionID)
 		end
 	end
 

@@ -49,8 +49,14 @@ local function CreateOptions()
 				type = 'toggle',
 				width = 'double',
 			},
-			skipgossipwhen = {
+			autoquestgossip = {
 				order = 7,
+				name = L['Automatically select quest gossip options'],
+				type = 'toggle',
+				width = 'double',
+			},
+			skipgossipwhen = {
+				order = 8,
 				name = L['When to select gossip while in a raid'],
 				type = 'select',
 				width = 'double',
@@ -64,13 +70,13 @@ local function CreateOptions()
 				end,
 			},
 			paydarkmoonfaire = {
-				order = 8,
+				order = 9,
 				name = L['Automatically pay Darkmoon Faire teleporting fees'],
 				type = 'toggle',
 				width = 'double',
 			},
 			pausekey = {
-				order = 9,
+				order = 10,
 				name = L['Hold this key to to temporarily pause automation'],
 				type = 'select',
 				width = 'double',
@@ -81,7 +87,7 @@ local function CreateOptions()
 				}
 			},
 			pausekeyreverse = {
-				order = 10,
+				order = 11,
 				name = L['Reverse the behaviour of the modifier key'],
 				type = 'toggle',
 				width = 'double',

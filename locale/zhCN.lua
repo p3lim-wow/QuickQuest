@@ -12,6 +12,7 @@ L['Reverse the behaviour of the modifier key'] = '反转辅助键的行为（勾
 -- L['Hold this key to to temporarily pause automation'] = '' -- MISSING!
 -- L['Automatically select the most valuable reward'] = '' -- MISSING!
 -- L['Automatically deliver repeatable delivery quests'] = '' -- MISSING!
+-- L['Automatically select quest gossip options'] = '' -- MISSING!
 
 -- L['Item Blocklist'] = '' -- MISSING!
 -- L['NPC Blocklist'] = '' -- MISSING!
