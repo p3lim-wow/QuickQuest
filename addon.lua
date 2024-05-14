@@ -30,6 +30,7 @@ local darkmoonFaireOptions = {
 	[40457] = true, -- Darkmoon Faire Mystic Mage (Alliance)
 }
 local skipGossip = {
+	[109275] = true, -- Soridormi - begin time rift
 	[120619] = true, -- Big Dig task
 	[120620] = true, -- Big Dig task
 }
