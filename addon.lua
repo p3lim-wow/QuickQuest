@@ -283,7 +283,7 @@ function addon:QUEST_COMPLETE()
 		local itemLink = GetQuestItemLink('choice', index)
 		if itemLink then
 			-- check the value on the item and compare it to the others
-			local _, _, _, _, _, _, _, _, _, _, itemValue = GetItemInfo(itemLink)
+			local _, _, _, _, _, _, _, _, _, _, itemValue = C_Item.GetItemInfo(itemLink)
 			local itemID = GetItemInfoFromHyperlink(itemLink)
 
 			-- some items are containers that contains currencies of worth

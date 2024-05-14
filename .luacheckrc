@@ -99,8 +99,6 @@ read_globals = {
 	'GetAvailableQuestInfo',
 	'GetBuildInfo',
 	'GetInstanceInfo',
-	'GetItemInfo',
-	'GetItemInfoInstant',
 	'GetLocale',
 	'GetNumActiveQuests',
 	'GetNumAutoQuestPopUps',
