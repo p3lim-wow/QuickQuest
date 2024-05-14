@@ -65,6 +65,11 @@ function addon:GOSSIP_SHOW()
 		return
 	end
 
+	if C_PlayerInteractionManager.IsInteractingWithNpcOfType(Enum.PlayerInteractionType.TaxiNode) then
+		-- don't annoy taxi addons
+		return
+	end
+
 	local npcID = addon:GetNPCID('npc')
 	if addon.db.profile.blocklist.npcs[npcID] then
 		return
