@@ -163,12 +163,15 @@ local function CreateNPCBlocklistOptions()
 	end
 
 	local function OnRemove(self)
+		self.model:ClearModel()
+		self.model:Hide()
 		addon.db.profile.blocklist.npcs[self.npcID] = false
 	end
 
 	local function UpdateModel(button)
 		button.model:ClearModel()
 		button.model:SetCreature(button.npcID)
+		button.model:Show()
 
 		-- wait for cache and retry
 		if not button.model:GetModelFileID() then
