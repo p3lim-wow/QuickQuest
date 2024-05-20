@@ -100,14 +100,11 @@ local function CreateOptions()
 	LibStub('AceConfigDialog-3.0'):AddToBlizOptions(addonName)
 end
 
-addon:HookSettings(function()
+SettingsPanel:HookScript('OnShow', function()
 	CreateOptions() -- LoD
 	addon.CreateBlocklistOptions() -- LoD
 end)
 
 addon:RegisterSlash('/quickquest', '/qq', function()
-	CreateOptions() -- LoD
-	addon.CreateBlocklistOptions() -- LoD
-
-	addon:OpenSettings(addonName)
+	Settings.OpenToCategory(addonName)
 end)
