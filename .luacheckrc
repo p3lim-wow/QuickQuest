@@ -80,8 +80,10 @@ read_globals = {
 
 	-- namespaces
 	'C_GossipInfo',
+	'C_Item',
 	'C_Map',
 	'C_Minimap',
+	'C_PlayerInteractionManager',
 	'C_QuestLog',
 	'C_Timer',
 	'C_TooltipInfo',
