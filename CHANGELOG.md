@@ -1,3 +1,12 @@
+### Changes in 100207.68-Release:
+
+- Added: Skip for Soridormi gossip
+- Changed: No longer accept gossip to teleport out of remix dungeons
+- Changed: Update Interface version
+- Changed: Don't skip gossip with taxi (as this broke other addons)
+- Fixed: Blocklist models duplicating
+- Removed: Deprecated hooks
+
 ### Changes in 100205.67-Release:
 
 - Added: Option to auto-select quest gossip (enabled by default)
