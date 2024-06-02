@@ -34,6 +34,9 @@ local skipGossip = {
 	[120619] = true, -- Big Dig task
 	[120620] = true, -- Big Dig task
 }
+local ignoreGossip = {
+	[122442] = true, -- leave the dungeon in remix
+}
 
 local function isQuestIgnored(questID)
 	if ignoredQuests[questID] then
@@ -93,7 +96,7 @@ function addon:GOSSIP_SHOW()
 	end
 
 	local gossipOptions = C_GossipInfo.GetOptions()
-	if #gossipOptions == 1 and addon.db.profile.general.skipgossip and gossipOptions[1].gossipOptionID then
+	if #gossipOptions == 1 and addon.db.profile.general.skipgossip and gossipOptions[1].gossipOptionID and not ignoreGossip[gossipOptions[1].gossipOptionID] then
 		-- automatically skip single dialogue under certain conditions
 		local _, instanceType = GetInstanceInfo()
 		if instanceType == 'raid' and addon.db.profile.general.skipgossipwhen > 0 then
