@@ -28,7 +28,7 @@ locale\ruRU.lua
 locale\zhCN.lua
 locale\zhTW.lua
 
-addon.lua
 utils.lua
+quests.lua
 gossip.lua
 settings.lua
