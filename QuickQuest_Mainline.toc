@@ -4,8 +4,7 @@
 ## Title: QuickQuest
 ## Notes: Quest automation wizardry
 ## IconTexture: Interface\Icons\spell_nature_timestop
-## OptionalDeps: LibStub, CallbackHandler-1.0, Ace3
-## SavedVariables: QuickQuestDB, QuickQuestBlacklistDB, QuickQuestDB2
+## SavedVariables: QuickQuestDB2, QuickQuestDB3, QuickQuestBlocklistDB
 
 ## X-Curse-Project-ID: 36494
 ## X-WoWI-ID: 20838
@@ -13,11 +12,6 @@
 
 #@non-debug@
 # libs\Dashi\embed.xml
-# libs\LibStub\LibStub.lua
-# libs\CallbackHandler-1.0\CallbackHandler-1.0.xml
-# libs\AceDB-3.0\AceDB-3.0.xml
-# libs\AceGUI-3.0\AceGUI-3.0.xml
-# libs\AceConfig-3.0\AceConfig-3.0.xml
 #@end-non-debug@
 #@debug@
 ..\Dashi\embed.xml
@@ -35,9 +29,4 @@ locale\zhCN.lua
 locale\zhTW.lua
 
 addon.lua
-
-config\ButtonPoolMixin.lua
-config\SavedVariables.lua
-config\Options.lua
-config\OptionsBlocklist.lua
-config\OptionsPopups.lua
+settings.lua
