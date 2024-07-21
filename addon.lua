@@ -15,28 +15,6 @@ local cashRewards = {
 	[138125] = 16, -- Crystal Clear Gemstone, 16 copper
 	[138133] = 27, -- Elixir of Endless Wonder, 27 copper
 }
-local darkmoonFaireOptions = {
-	[40563] = true, -- whack
-	[28701] = true, -- cannon
-	[31202] = true, -- shoot
-	[39245] = true, -- tonk
-	[40224] = true, -- ring toss
-	[43060] = true, -- firebird
-	[52651] = true, -- dance
-	[41759] = true, -- pet battle 1
-	[42668] = true, -- pet battle 2
-	[40872] = true, -- cannon return (Teleportologist Fozlebub)
-	[40007] = true, -- Darkmoon Faire Mystic Mage (Horde)
-	[40457] = true, -- Darkmoon Faire Mystic Mage (Alliance)
-}
-local skipGossip = {
-	[109275] = true, -- Soridormi - begin time rift
-	[120619] = true, -- Big Dig task
-	[120620] = true, -- Big Dig task
-}
-local ignoreGossip = {
-	[122442] = true, -- leave the dungeon in remix
-}
 
 local function isQuestIgnored(questID)
 	if ignoredQuests[questID] then
@@ -58,57 +36,6 @@ local function isTrackingTrivialQuests()
 		local name, _, isActive = C_Minimap.GetTrackingInfo(index)
 		if name == MINIMAP_TRACKING_TRIVIAL_QUESTS then
 			return isActive
-		end
-	end
-end
-
-function addon:GOSSIP_SHOW()
-	-- triggered when the player interacts with an NPC that presents dialogue
-	if paused then
-		return
-	end
-
-	if C_PlayerInteractionManager.IsInteractingWithNpcOfType(Enum.PlayerInteractionType.TaxiNode) then
-		-- don't annoy taxi addons
-		return
-	end
-
-	local npcID = addon:GetNPCID('npc')
-	if addon.db.profile.blocklist.npcs[npcID] then
-		return
-	end
-
-	-- we want to auto-accept the dialogues from Darkmoon Faire NPCs
-	for _, info in next, C_GossipInfo.GetOptions() do
-		if darkmoonFaireOptions[info.gossipOptionID] and addon.db.profile.general.paydarkmoonfaire then
-			C_GossipInfo.SelectOption(info.gossipOptionID, '', true)
-			return
-		elseif skipGossip[info.gossipOptionID] then
-			C_GossipInfo.SelectOption(info.gossipOptionID)
-		elseif FlagsUtil.IsSet(info.flags, Enum.GossipOptionRecFlags.QuestLabelPrepend) and addon.db.profile.general.autoquestgossip then
-			C_GossipInfo.SelectOption(info.gossipOptionID)
-		end
-	end
-
-	if C_GossipInfo.GetNumActiveQuests() > 0 or C_GossipInfo.GetNumAvailableQuests() > 0 then
-		-- bail if there is more than just dialogue
-		return
-	end
-
-	local gossipOptions = C_GossipInfo.GetOptions()
-	if #gossipOptions == 1 and addon.db.profile.general.skipgossip and gossipOptions[1].gossipOptionID and not ignoreGossip[gossipOptions[1].gossipOptionID] then
-		-- automatically skip single dialogue under certain conditions
-		local _, instanceType = GetInstanceInfo()
-		if instanceType == 'raid' and addon.db.profile.general.skipgossipwhen > 0 then
-			if GetNumGroupMembers() <= 1 or addon.db.profile.general.skipgossipwhen == 2 then
-				-- select dialogue if alone or when configured to "Always" while in a raid
-				C_GossipInfo.SelectOption(gossipOptions[1].gossipOptionID)
-				return
-			end
-		elseif instanceType ~= 'raid' then
-			-- always select single dialogue while outside a raid
-			C_GossipInfo.SelectOption(gossipOptions[1].gossipOptionID)
-			return
 		end
 	end
 end

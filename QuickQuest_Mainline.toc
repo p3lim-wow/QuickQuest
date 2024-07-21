@@ -30,4 +30,5 @@ locale\zhTW.lua
 
 addon.lua
 utils.lua
+gossip.lua
 settings.lua
