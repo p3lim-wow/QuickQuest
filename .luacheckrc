@@ -12,58 +12,38 @@ ignore = {
 	'312/event', -- unused value of argument event
 	'312/unit', -- unused value of argument unit
 	'431', -- shadowing an upvalue
+	'542', -- empty if branch
 	'614', -- trailing whitespace in a comment
 	'631', -- line is too long
 }
 
-exclude_files = {}
-
 globals = {
-	-- FrameXML objects we mutate
-	'SlashCmdList', -- FrameXML/ChatFrame.lua
-	'StaticPopupDialogs', -- FrameXML/StaticPopup.lua
+	'QuickQuestDB3',
+	'QuickQuestBlocklistDB',
 
-	-- savedvariables
-	'QuickQuestDB',
-	'QuickQuestBlacklistDB',
+	-- old savedvariables for migration
+	'QuickQuestDB2',
 }
 
 read_globals = {
 	table = {fields = {'wipe'}},
 
 	-- FrameXML objects
-	'GameTooltip', -- ???
-	'Item', -- FrameXML/ObjectAPI/Item.lua
-	'WorldMapFrame', -- FrameXML/WorldMapFrame.xml
-	'QuestInfoRewardsFrame', -- FrameXML/QuestInfo.xml
-	'QuestCache', -- 'FrameXML/ObjectAPI/Quest.lua'
-	'QuestEventListener', -- FrameXML/ObjectAPI/AsyncCallbackSystem.lua
-
-	'InterfaceOptionsFrameAddOns', -- OLD
-	'InterfaceOptionsFramePanelContainer', -- OLD
+	'BackdropTemplateMixin',
+	'FlagsUtil',
+	'GameTooltip',
+	'Item',
+	'Mixin',
+	'QuestCache',
+	'QuestEventListener',
+	'QuestFrame',
+	'QuestInfoRewardsFrame',
+	'WorldMapFrame',
 
 	-- FrameXML functions
-	'nop', -- FrameXML/UIParent.lua
-	'GameTooltip_Hide', -- FrameXML/GameTooltip.lua
-	'StaticPopup_Show', -- FrameXML/StaticPopup.lua
-	'StaticPopup_Hide', -- FrameXML/StaticPopup.lua
-	'QuestInfoItem_OnClick', -- FrameXML/QuestInfo.lua
-
-	'InterfaceOptions_AddCategory', -- OLD
-	'InterfaceAddOnsList_Update', -- OLD
-	'InterfaceOptionsFrame_OpenToCategory', -- OLD
-
-	-- SharedXML objects
-	'FlagsUtil', -- SharedXML/Flags.lua
-	'Settings', -- SharedXML/Settings/Blizzard_Settings.lua
-	'SettingsPanel', -- SharedXML/Settings/Blizzard_SettingsPanel.xml
-	'TooltipUtil', -- SharedXML/Tooltip/TooltipUtil.lua
-
-	-- SharedXML functions
-	'Mixin', -- SharedXML/Mixin.lua
-	'CreateFramePool', -- SharedXML/Pools.lua
-	'FramePool_HideAndClearAnchors', -- SharedXML/Pools.lua
-	'GetItemInfoFromHyperlink', -- SharedXML/LinkUtil.lua
+	'CopyTable',
+	'GameTooltip_Hide',
+	'QuestInfoItem_OnClick',
 
 	-- GlobalStrings
 	'ACCEPT',
@@ -72,16 +52,17 @@ read_globals = {
 	'CANCEL',
 	'CTRL_KEY',
 	'ERR_SOULBIND_INVALID_CONDUIT_ITEM',
-	'MINIMAP_TRACKING_TRIVIAL_QUESTS',
+	'INT_SPELL_POINTS_SPREAD_TEMPLATE',
 	'NEVER',
+	'REMOVE',
 	'SHIFT_KEY',
 	'TARGET',
 	'UNKNOWN',
 
 	-- namespaces
+
 	'C_GossipInfo',
 	'C_Item',
-	'C_Map',
 	'C_Minimap',
 	'C_PlayerInteractionManager',
 	'C_QuestLog',
@@ -92,28 +73,26 @@ read_globals = {
 	-- API
 	'AcceptQuest',
 	'AcknowledgeAutoAcceptQuest',
-	'CloseQuest',
+	-- 'CloseQuest',
 	'CompleteQuest',
+	'ConfirmAcceptQuest',
 	'CreateFrame',
 	'GetActiveQuestID',
 	'GetActiveTitle',
 	'GetAutoQuestPopUp',
+	'GetAvailableLevel',
 	'GetAvailableQuestInfo',
-	'GetBuildInfo',
+	'GetAvailableTitle',
 	'GetInstanceInfo',
-	'GetLocale',
 	'GetNumActiveQuests',
 	'GetNumAutoQuestPopUps',
 	'GetNumAvailableQuests',
 	'GetNumGroupMembers',
 	'GetNumQuestChoices',
 	'GetNumQuestItems',
-	'GetNumTrackingTypes',
 	'GetQuestID',
 	'GetQuestItemInfo',
-	'GetQuestItemLink',
 	'GetQuestReward',
-	'GetTrackingInfo',
 	'IsQuestCompletable',
 	'QuestGetAutoAccept',
 	'QuestIsFromAreaTrigger',
@@ -121,11 +100,8 @@ read_globals = {
 	'RemoveAutoQuestPopUp',
 	'SelectActiveQuest',
 	'SelectAvailableQuest',
+	'SetPortraitTextureFromCreatureDisplayID',
 	'ShowQuestComplete',
 	'ShowQuestOffer',
-	'UnitGUID',
 	'UnitIsDeadOrGhost',
-
-	-- exposed from other addons
-	'LibStub',
 }
