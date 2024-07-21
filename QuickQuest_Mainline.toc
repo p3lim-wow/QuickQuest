@@ -29,4 +29,5 @@ locale\zhCN.lua
 locale\zhTW.lua
 
 addon.lua
+utils.lua
 settings.lua
