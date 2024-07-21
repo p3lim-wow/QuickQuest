@@ -127,15 +127,14 @@ local function handleQuestDetail()
 		return
 	end
 
-	if QuestIsFromAreaTrigger() then
-	end
-
 	if QuestGetAutoAccept() then
 		-- these kinds of quests are already accepted, the popup only exists to notify the user
 		AcknowledgeAutoAcceptQuest()
 		RemoveAutoQuestPopUp(questID)
 	elseif QuestIsFromAreaTrigger() then
-		-- TODO: I cannot for the life of me find one quest that uses this system
+		-- when not triggered in combination with QuestGetAutoAccept-style quests this is just
+		-- a normal quest popup, as if it was shared by an unknown player, so we'll just accept it
+		AcceptQuest()
 	elseif not isQuestIgnored(questID) then
 		AcceptQuest()
 	end
