@@ -452,6 +452,139 @@ addon:RegisterSubCanvas(L['Quest Blocklist'], function(canvas)
 	end)
 end)
 
+local oldBlocklistDefaults = { -- TODO: remove this in 12.x
+	items = {
+		[79343] = true,
+		[79340] = true,
+		[79341] = true,
+		[71635] = true,
+		[71636] = true,
+		[71637] = true,
+		[71638] = true,
+		[71715] = true,
+		[71951] = true,
+		[71952] = true,
+		[71953] = true,
+		[71716] = true,
+		[79264] = true,
+		[79265] = true,
+		[79266] = true,
+		[79267] = true,
+		[79268] = true,
+		[122424] = true,
+		[122423] = true,
+		[122418] = true,
+		[122417] = true,
+		[122400] = true,
+		[122404] = true,
+		[122420] = true,
+		[122419] = true,
+		[122402] = true,
+		[122406] = true,
+		[122413] = true,
+		[122414] = true,
+		[122403] = true,
+		[122399] = true,
+		[122421] = true,
+		[122422] = true,
+		[122411] = true,
+		[122409] = true,
+		[122412] = true,
+		[122410] = true,
+		[122408] = true,
+		[122407] = true,
+		[122416] = true,
+		[122415] = true,
+		[122405] = true,
+		[122401] = true,
+		[88604] = true,
+	},
+	npcs = {
+		[103792] = true,
+		[143925] = true,
+		[86945] = true,
+		[86933] = true,
+		[86927] = true,
+		[86934] = true,
+		[86682] = true,
+		[86964] = true,
+		[86946] = true,
+		[95139] = true,
+		[95141] = true,
+		[95142] = true,
+		[95143] = true,
+		[95144] = true,
+		[95145] = true,
+		[95146] = true,
+		[95200] = true,
+		[95201] = true,
+		[121602] = true,
+		[147666] = true,
+		[147642] = true,
+	},
+	quests = {
+		[36054] = true,
+		[37454] = true,
+		[37455] = true,
+		[36055] = true,
+		[37452] = true,
+		[37453] = true,
+		[36056] = true,
+		[37456] = true,
+		[37457] = true,
+		[36057] = true,
+		[43892] = true,
+		[43893] = true,
+		[43894] = true,
+		[43895] = true,
+		[43896] = true,
+		[43897] = true,
+		[47851] = true,
+		[47864] = true,
+		[47865] = true,
+		[52834] = true,
+		[52838] = true,
+		[52835] = true,
+		[52839] = true,
+		[52837] = true,
+		[52840] = true,
+		[48910] = true,
+		[48634] = true,
+		[48911] = true,
+		[48635] = true,
+		[48799] = true,
+		[54451] = true,
+		[53982] = true,
+		[54453] = true,
+		[54454] = true,
+		[54455] = true,
+		[54456] = true,
+		[54457] = true,
+		[54458] = true,
+		[54460] = true,
+		[54461] = true,
+		[54462] = true,
+		[55348] = true,
+		[55976] = true,
+		[64541] = true,
+		[70183] = true,
+		[70184] = true,
+		[70186] = true,
+		[70187] = true,
+		[70190] = true,
+		[70188] = true,
+		[70189] = true,
+		[70191] = true,
+		[70192] = true,
+		[70193] = true,
+		[70194] = true,
+		[75164] = true,
+		[75165] = true,
+		[75166] = true,
+		[75167] = true,
+	},
+}
+
 function addon:OnLoad()
 	if not QuickQuestBlocklistDB then
 		-- set default
@@ -467,5 +600,42 @@ function addon:OnLoad()
 		end
 	end
 
-	-- TODO: migrate old settings
+	-- migrate old settings
+	-- TODO: remove this in 12.x
+	if QuickQuestDB2 and QuickQuestDB2.profiles and QuickQuestDB2.profiles.Default then
+		-- I never implemented profiles so everything will be in the default profile
+		if QuickQuestDB2.profiles.Default.general then
+			for key, value in next, QuickQuestDB2.profiles.Default.general do
+				if key == 'skipgossipwhen' then
+					value = value + 1
+				end
+				if QuickQuestDB3[key] ~= nil then
+					addon:SetOption(key, value)
+					addon:Printf("migrated setting '%s' from old savedvariables", key)
+				end
+			end
+		end
+		if QuickQuestDB2.profiles.Default.blocklist then
+			for kind, values in next, QuickQuestDB2.profiles.Default.blocklist do
+				for key, value in next, values do
+					if value == false then
+						-- user disabled this previously, check if it exists in the new settings and disable it there too
+						if QuickQuestBlocklistDB[kind][key] ~= nil then
+							QuickQuestBlocklistDB[kind][key] = value
+							addon:Printf("migrated blocklist item '%s.%s' from old savedvariables", kind, key)
+						end
+					else
+						-- if it used to be a default that is no longer there then ignore it
+						if oldBlocklistDefaults[kind][key] and not blocklistDefaults[kind][key] then
+							-- ignore it
+						else
+							QuickQuestBlocklistDB[kind][key] = value
+							addon:Printf("migrated blocklist item '%s.%s' from old savedvariables", kind, key)
+						end
+					end
+				end
+			end
+		end
+	end
+	QuickQuestDB2 = nil
 end
