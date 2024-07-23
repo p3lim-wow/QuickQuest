@@ -452,7 +452,7 @@ addon:RegisterSubCanvas(L['Quest Blocklist'], function(canvas)
 	end)
 end)
 
-function addon:PLAYER_LOGIN()
+function addon:OnLoad()
 	if not QuickQuestBlocklistDB then
 		-- set default
 		QuickQuestBlocklistDB = CopyTable(blocklistDefaults)
