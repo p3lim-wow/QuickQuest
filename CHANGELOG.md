@@ -1,3 +1,11 @@
+### Changes in 110000.69-Release:
+
+- Changed: Update Interface version
+- Changed: Updated settings to fit with the new templates
+- Fixed: Accidentally picking up trivial quests while not tracking them
+- Fixed: API deprecations and changes
+- Removed: A lot of old/broken blocked items/npcs/quests defaults (a blocklist reset is recommended)
+
 ### Changes in 100207.68-Release:
 
 - Added: Skip for Soridormi gossip
