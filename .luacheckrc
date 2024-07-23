@@ -9,6 +9,7 @@ ignore = {
 	'212/event', -- unused argument event
 	'212/unit', -- unused argument unit
 	'212/element', -- unused argument element
+	'211/L', -- unused variable L
 	'312/event', -- unused value of argument event
 	'312/unit', -- unused value of argument unit
 	'431', -- shadowing an upvalue
@@ -23,6 +24,9 @@ globals = {
 
 	-- old savedvariables for migration
 	'QuickQuestDB2',
+
+	-- mutating globals
+	'StaticPopupDialogs',
 }
 
 read_globals = {
@@ -44,9 +48,11 @@ read_globals = {
 	'CopyTable',
 	'GameTooltip_Hide',
 	'QuestInfoItem_OnClick',
+	'StaticPopup_Show',
 
 	-- GlobalStrings
 	'ACCEPT',
+	'ADD',
 	'ALT_KEY',
 	'ALWAYS',
 	'CANCEL',
@@ -60,7 +66,6 @@ read_globals = {
 	'UNKNOWN',
 
 	-- namespaces
-
 	'C_GossipInfo',
 	'C_Item',
 	'C_Minimap',
