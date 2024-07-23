@@ -44,47 +44,77 @@ body:
       placeholder: Translation here
   - type: input
     attributes:
-      label: '"Automatically select the most valuable reward"'
-      description: Used in settings
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Automatically deliver repeatable delivery quests"'
-      description: Used in settings
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Automatically share quests when picked up"'
+      label: '"Automate repeatable quests"'
       description: Used in the settings
       placeholder: Translation here
   - type: input
     attributes:
-      label: '"Automatically select single gossip options"'
+      label: '"Highlight valuable reward"'
       description: Used in the settings
       placeholder: Translation here
   - type: input
     attributes:
-      label: '"Automatically select quest gossip options"'
+      label: '"Automatically share quests"'
       description: Used in the settings
       placeholder: Translation here
   - type: input
     attributes:
-      label: '"When to select gossip while in a raid"'
+      label: '"Skip quest gossip options"'
       description: Used in the settings
       placeholder: Translation here
   - type: input
     attributes:
-      label: '"Automatically pay Darkmoon Faire teleporting fees"'
+      label: '"Automate gossip options"'
       description: Used in the settings
       placeholder: Translation here
   - type: input
     attributes:
-      label: '"Reverse the behaviour of the modifier key"'
+      label: '"When to automate gossip"'
       description: Used in the settings
       placeholder: Translation here
   - type: input
     attributes:
-      label: '"Hold this key to to temporarily pause automation"'
+      label: '"Soloing"'
+      description: Used in the settings, context is "when to automate while in a raid"
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Pay Darkmoon Faire teleport"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Pause mode modifier"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Hold this key to temporarily pause all automation"'
+      description: Used in the settings, a description to the above string
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Reverse pause mode"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: ""While the pause key is NOT held don't automate anything""
+      description: Used in the settings, a description to the above string
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Block a new item by ID"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Block a new NPC by ID or target"'
+      description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"Block a quest by title or ID"'
       description: Used in the settings
       placeholder: Translation here
   - type: input
@@ -99,54 +129,6 @@ body:
       placeholder: Translation here
   - type: input
     attributes:
-      label: '"Title Blocklist"'
+      label: '"Quest Blocklist"'
       description: Used in the settings
       placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Block Item"'
-      description: Used in the settings
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Block NPC"'
-      description: Used in the settings
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Block Title"'
-      description: Used in the settings
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Quests containing items in this list will not be automated."'
-      description: Used in the settings
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Quests and dialogue from NPCs in this list will not be automated."'
-      description: Used in the settings
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Block a new item by ID"'
-      description: Used in the settings
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Block a new NPC by ID"'
-      description: Used in the settings
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Quests (by partial title or ID) in this list will not be automated."'
-      description: Used in the settings
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Soloing"'
-      description: Used in the settings
-      placeholder: Translation here
-
-
--- L['Automatically select quest gossip options'] = '' -- MISSING!
