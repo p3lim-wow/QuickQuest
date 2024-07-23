@@ -33,6 +33,13 @@ addon:RegisterSettings('QuickQuestDB3', {
 		default = false,
 	},
 	{
+		key = 'autoquestgossip',
+		type = 'toggle',
+		title = L['Skip quest gossip options'],
+		default = true,
+		new = true,
+	},
+	{
 		key = 'skipgossip',
 		type = 'toggle',
 		title = L['Automate gossip options'],
@@ -48,13 +55,6 @@ addon:RegisterSettings('QuickQuestDB3', {
 			L['Soloing'],
 			L['Always'],
 		},
-	},
-	{
-		key = 'autoquestgossip',
-		type = 'toggle',
-		title = L['Skip quest gossip options'],
-		default = true,
-		new = true,
 	},
 	{
 		key = 'paydarkmoonfaire',
