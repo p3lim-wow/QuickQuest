@@ -1,3 +1,7 @@
+### Changes in 110000.70-Release:
+
+- Fixed: Settings not respecting being turned off
+
 ### Changes in 110000.69-Release:
 
 - Changed: Update Interface version
