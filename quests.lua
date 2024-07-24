@@ -172,7 +172,7 @@ end
 local function handleQuestComplete()
 	local numChoices = GetNumQuestChoices()
 	if numChoices <= 1 then
-		if not addon:IsPaused() and not addon:IsNPCIgnored() and addon:GetOption('complete') then
+		if not addon:IsPaused() and addon:GetOption('complete') and not addon:IsNPCIgnored() and not isQuestIgnored(GetQuestID()) then
 			GetQuestReward(1)
 		end
 	elseif addon:GetOption('selectreward') then
