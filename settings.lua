@@ -51,9 +51,9 @@ addon:RegisterSettings('QuickQuestDB3', {
 		title = L['When to automate gossip'],
 		default = 2,
 		options = {
-			L['Never'],
+			NEVER,
 			L['Soloing'],
-			L['Always'],
+			ALWAYS,
 		},
 	},
 	{
@@ -69,9 +69,9 @@ addon:RegisterSettings('QuickQuestDB3', {
 		tooltip = L['Hold this key to temporarily disable all automation'],
 		default = 'SHIFT',
 		options = {
-			ALT = L['ALT key'],
-			CTRL = L['CTRL key'],
-			SHIFT = L['SHIFT key'],
+			ALT = ALT_KEY,
+			CTRL = CTRL_KEY,
+			SHIFT = SHIFT_KEY,
 		},
 	},
 	{
