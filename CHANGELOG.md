@@ -1,3 +1,10 @@
+### Changes in 110000.71-Release:
+
+- Changed: Automatically skip dialogue options when available
+- Fixed: Some strings not being translated correctly
+- Fixed: Quests not being ignored correctly at the completion stage
+- Fixed: Settings not working on beta
+
 ### Changes in 110000.70-Release:
 
 - Fixed: Settings not respecting being turned off
