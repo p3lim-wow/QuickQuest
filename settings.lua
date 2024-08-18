@@ -275,8 +275,8 @@ addon:RegisterSubCanvas(L['Item Blocklist'], function(canvas)
 		end
 	end)
 	grid:SetElementOnScript('OnClick', function(element)
-		grid:RemoveData(element.data)
 		QuickQuestBlocklistDB.items[element.data] = false
+		grid:RemoveData(element.data)
 	end)
 	grid:SetElementOnScript('OnEnter', function(element)
 		GameTooltip:SetOwner(element, 'ANCHOR_TOPLEFT') -- TODO
@@ -364,8 +364,8 @@ addon:RegisterSubCanvas(L['NPC Blocklist'], function(canvas)
 		end
 	end)
 	grid:SetElementOnScript('OnClick', function(element)
-		grid:RemoveData(element.data)
 		QuickQuestBlocklistDB.npcs[element.data] = false
+		grid:RemoveData(element.data)
 	end)
 	grid:SetElementOnScript('OnEnter', function(element)
 		GameTooltip:SetOwner(element, 'ANCHOR_TOPLEFT') -- TODO
@@ -430,8 +430,8 @@ addon:RegisterSubCanvas(L['Quest Blocklist'], function(canvas)
 		end
 	end)
 	list:SetElementOnScript('OnClick', function(element)
-		list:RemoveData(element.data)
 		QuickQuestBlocklistDB.quests[element.data] = false
+		list:RemoveData(element.data)
 	end)
 	list:SetElementOnScript('OnEnter', function(element)
 		GameTooltip:SetOwner(element, 'ANCHOR_TOPLEFT') -- TODO
