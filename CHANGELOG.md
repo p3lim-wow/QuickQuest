@@ -1,3 +1,7 @@
+### Changes in 110000.72-Release:
+
+- Fixed: Settings colliding or not loading/saving properly
+
 ### Changes in 110000.71-Release:
 
 - Changed: Automatically skip dialogue options when available
