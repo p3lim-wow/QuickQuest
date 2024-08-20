@@ -447,6 +447,8 @@ addon:RegisterSubCanvas(L['Quest Blocklist'], function(canvas)
 	end)
 
 	createAddButton(canvas, L['Block a quest by title or ID'], function(data)
+		data = tonumber(data) or data
+
 		QuickQuestBlocklistDB.quests[data] = true
 		list:AddData(data)
 	end)
