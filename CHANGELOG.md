@@ -1,3 +1,9 @@
+### Changes in 110000.73-Release:
+
+- Added: Auto-start Theater Troupe gossip
+- Added: Auto-continue Awakening the Machine gossip
+- Fixed: Error when choosing quest rewards
+
 ### Changes in 110000.72-Release:
 
 - Fixed: Settings colliding or not loading/saving properly
