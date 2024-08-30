@@ -10,6 +10,8 @@ local QUEST_GOSSIP = {
 	[109275] = true, -- Soridormi - begin time rift
 	[120619] = true, -- Big Dig task
 	[120620] = true, -- Big Dig task
+	[120555] = true, -- Awakening The Machine
+	[120733] = true, -- Theater Troupe
 
 	-- Darkmoon Faire
 	[40563] = true, -- whack
