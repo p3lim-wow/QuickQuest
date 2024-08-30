@@ -193,6 +193,10 @@ local function handleQuestComplete()
 		end
 
 		if highestValueIndex then
+			if not (QuestInfoRewardsFrame and QuestInfoRewardsFrame.RewardButtons and QuestInfoRewardsFrame.RewardButtons[highestValueIndex]) then
+				return
+			end
+
 			-- "intrusive" action
 			QuestInfoItem_OnClick(QuestInfoRewardsFrame.RewardButtons[highestValueIndex])
 		end
