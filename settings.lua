@@ -241,6 +241,7 @@ do
 	end
 end
 
+local CURSOR_HELP_TEXT = string.format('|A:NPE_RightClick:18:18|a %s', REMOVE)
 addon:RegisterSubCanvas(L['Item Blocklist'], function(canvas)
 	local grid = addon:CreateScrollGrid(canvas)
 	grid:SetInsets(10, 10, 10, 20)
@@ -281,7 +282,7 @@ addon:RegisterSubCanvas(L['Item Blocklist'], function(canvas)
 	grid:SetElementOnScript('OnEnter', function(element)
 		GameTooltip:SetOwner(element, 'ANCHOR_TOPLEFT') -- TODO
 		GameTooltip:SetItemByID(element.data)
-		GameTooltip:AddLine(INT_SPELL_POINTS_SPREAD_TEMPLATE:format('|A:NPE_RightClick:18:18|a', REMOVE), 1, 0, 0)
+		GameTooltip:AddLine(CURSOR_HELP_TEXT, 1, 0, 0)
 		GameTooltip:Show()
 	end)
 	grid:AddDataByKeys(QuickQuestBlocklistDB.items)
@@ -371,7 +372,7 @@ addon:RegisterSubCanvas(L['NPC Blocklist'], function(canvas)
 		GameTooltip:SetOwner(element, 'ANCHOR_TOPLEFT') -- TODO
 		GameTooltip:AddLine(creatureNames[element.data] or UNKNOWN, 1, 1, 1)
 		GameTooltip:AddLine(element.data)
-		GameTooltip:AddLine(INT_SPELL_POINTS_SPREAD_TEMPLATE:format('|A:NPE_RightClick:18:18|a', REMOVE), 1, 0, 0)
+		GameTooltip:AddLine(CURSOR_HELP_TEXT, 1, 0, 0)
 		GameTooltip:Show()
 	end)
 	grid:AddDataByKeys(QuickQuestBlocklistDB.npcs)
@@ -435,7 +436,7 @@ addon:RegisterSubCanvas(L['Quest Blocklist'], function(canvas)
 	end)
 	list:SetElementOnScript('OnEnter', function(element)
 		GameTooltip:SetOwner(element, 'ANCHOR_TOPLEFT') -- TODO
-		GameTooltip:AddLine(INT_SPELL_POINTS_SPREAD_TEMPLATE:format('|A:NPE_RightClick:18:18|a', REMOVE), 1, 0, 0)
+		GameTooltip:AddLine(CURSOR_HELP_TEXT, 1, 0, 0)
 		GameTooltip:Show()
 	end)
 	list:AddDataByKeys(QuickQuestBlocklistDB.quests)
