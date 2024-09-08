@@ -61,10 +61,10 @@ function addon:GOSSIP_SHOW()
 		end
 	end
 
-	if #gossipSkips > 0 and addon:GetOption('autoquestgossip') then
+	if #gossipSkips == 1 and addon:GetOption('autoquestgossip') then
 		C_GossipInfo.SelectOption(gossipSkips[1])
 		return
-	elseif #gossipQuests > 0 and addon:GetOption('autoquestgossip') then
+	elseif #gossipQuests == 1 and addon:GetOption('autoquestgossip') then
 		C_GossipInfo.SelectOption(gossipQuests[1])
 		return
 	end
