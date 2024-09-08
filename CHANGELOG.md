@@ -1,3 +1,10 @@
+### Changes in 110000.74-Release:
+
+- Added: zhCN translations (thanks @EK)
+- Added: zhTW translations (thanks @EK)
+- Changed: Don't skip quest gossip when there are multiple options
+- Changed: Simplify some help strings
+
 ### Changes in 110000.73-Release:
 
 - Added: Auto-start Theater Troupe gossip
