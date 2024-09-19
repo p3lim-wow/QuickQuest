@@ -15,7 +15,7 @@ local ITEM_CASH_REWARDS = {
 }
 
 local ignoredQuests = {}
-local function isQuestIgnored(questID, title)
+local function isQuestIgnored(questID, title, override)
 	local ignore
 	if ignoredQuests[questID] then
 		return true
@@ -26,6 +26,10 @@ local function isQuestIgnored(questID, title)
 	elseif C_QuestLog.IsWorldQuest(questID) then
 		-- these are usually always material delivery quests, don't want to waste that
 		ignore = true
+	elseif override then
+		-- this is so we can override popup quests that are not being tracked, as they can
+		-- get quite annoying
+		ignore = false
 	elseif C_QuestLog.IsQuestTrivial(questID) and not C_Minimap.IsTrackingHiddenQuests() then
 		ignore = true
 	end
@@ -107,6 +111,7 @@ local function handleQuestList()
 	end
 end
 
+local popups = {}
 local function handleQuestDetail()
 	if addon:IsPaused() or addon:IsNPCIgnored() then
 		return
@@ -135,8 +140,13 @@ local function handleQuestDetail()
 		-- when not triggered in combination with QuestGetAutoAccept-style quests this is just
 		-- a normal quest popup, as if it was shared by an unknown player, so we'll just accept it
 		AcceptQuest()
-	elseif not isQuestIgnored(questID) then
+	elseif not isQuestIgnored(questID, nil, popups[questID]) then
 		AcceptQuest()
+	end
+
+	if popups[questID] then
+		-- just remove the already accepted/completed quest from the tracker
+		RemoveAutoQuestPopUp(questID)
 	end
 end
 
@@ -234,6 +244,8 @@ local function handleQuestPopup()
 
 	for index = 1, numPopups do
 		local questID, questType = GetAutoQuestPopUp(index)
+		popups[questID] = true
+
 		if questType == 'OFFER' and addon:GetOption('accept') then
 			ShowQuestOffer(questID)
 		elseif questType == 'COMPLETE' and addon:GetOption('complete') then
