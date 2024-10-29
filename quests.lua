@@ -32,6 +32,8 @@ local function isQuestIgnored(questID, title, override)
 		ignore = false
 	elseif C_QuestLog.IsQuestTrivial(questID) and not C_Minimap.IsTrackingHiddenQuests() then
 		ignore = true
+	elseif C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID) and not C_Minimap.IsTrackingAccountCompletedQuests() then
+		ignore = true
 	end
 
 	if ignore then
