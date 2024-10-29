@@ -311,6 +311,7 @@ addon:RegisterSubCanvas(L['NPC Blocklist'], function(canvas)
 			local model = CreateFrame('PlayerModel')
 			model:SetCreature(npcID)
 			local creatureID = model:GetDisplayInfo()
+			model:ClearModel()
 			if creatureID and creatureID ~= 0 then
 				rawset(self, npcID, creatureID)
 				return creatureID
