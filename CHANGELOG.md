@@ -1,3 +1,9 @@
+### Changes in 110000.75-Release:
+
+- Changed: Ignore account-completed quests unless they're being tracked (minimap/map)
+- Changed: Update Interface version
+- Fixed: Popup quests becoming stuck sometimes
+
 ### Changes in 110000.74-Release:
 
 - Added: zhCN translations (thanks @EK)
