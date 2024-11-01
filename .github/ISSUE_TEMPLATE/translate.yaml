@@ -34,18 +34,18 @@ body:
 # the rest is a list of strings to translate
   - type: input
     attributes:
-      label: '"Automatically accept quests"'
-      description: Used in the settings
-      placeholder: Translation here
-  - type: input
-    attributes:
-      label: '"Automatically complete quests"'
+      label: '"Automate quests"'
       description: Used in the settings
       placeholder: Translation here
   - type: input
     attributes:
       label: '"Automate repeatable quests"'
       description: Used in the settings
+      placeholder: Translation here
+  - type: input
+    attributes:
+      label: '"When "%s" is selected %s will only be automated while tracking them"'
+      description: Used in settings, %s is "Warband" and "warband completed quests"
       placeholder: Translation here
   - type: input
     attributes:

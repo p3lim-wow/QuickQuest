@@ -14,9 +14,7 @@ QuickQuest will automate quest-related tasks such as accepting and delivering qu
 
 List of features:
 
-- Automatically pick up any quest
-- Automatically deliver any quest
-- Automatically accept pop-up quests
+- Automatically pick up and deliver quests
 - Automatically talk to NPCs with only one option
 - Automatically talk to NPCs with a quest option
 - Automatically pick up trivial (low level) quests

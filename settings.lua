@@ -4,21 +4,27 @@ local L = addon.L
 addon:RegisterSettings('QuickQuestDB3', {
 	{
 		key = 'accept',
-		type = 'toggle',
-		title = L['Automatically accept quests'],
-		default = true,
-	},
-	{
-		key = 'complete',
-		type = 'toggle',
-		title = L['Automatically complete quests'],
-		default = true,
+		type = 'menu',
+		title = L['Automate quests'],
+		tooltip = L['When "%s" is selected %s will only be automated while tracking them']:format(ACCOUNT_QUEST_LABEL, MINIMAP_TRACKING_ACCOUNT_COMPLETED_QUESTS:lower()),
+		default = 3,
+		options = {
+			NEVER,
+			ACCOUNT_QUEST_LABEL,
+			ALWAYS,
+		},
 	},
 	{
 		key = 'acceptRepeatables',
-		type = 'toggle',
+		type = 'menu',
 		title = L['Automate repeatable quests'],
-		default = true,
+		tooltip = L['When "%s" is selected %s will only be automated while tracking them']:format(ACCOUNT_QUEST_LABEL, MINIMAP_TRACKING_ACCOUNT_COMPLETED_QUESTS:lower()),
+		default = 3,
+		options = {
+			NEVER,
+			ACCOUNT_QUEST_LABEL,
+			ALWAYS,
+		},
 	},
 	{
 		key = 'selectreward',
@@ -642,4 +648,11 @@ function addon:OnLoad()
 		end
 	end
 	QuickQuestDB2 = nil
+
+	if QuickQuestDB3 and QuickQuestDB3.accept ~= nil and type(QuickQuestDB3.accept) == 'boolean' then
+		QuickQuestDB3.accept = QuickQuestDB3.accept and 3 or 1
+	end
+	if QuickQuestDB3 and QuickQuestDB3.acceptRepeatables ~= nil and type(QuickQuestDB3.acceptRepeatables) == 'boolean' then
+		QuickQuestDB3.acceptRepeatables = QuickQuestDB3.acceptRepeatables and 3 or 1
+	end
 end

@@ -14,6 +14,30 @@ local ITEM_CASH_REWARDS = {
 	[138133] = 27, -- Elixir of Endless Wonder, 27 copper
 }
 
+local function shouldAutomate(questID)
+	if C_QuestLog.IsQuestRepeatableType(questID) then
+		if addon:GetOption('acceptRepeatables') == 3 then
+			return true
+		elseif addon:GetOption('acceptRepeatables') == 2 then
+			if not C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID) then
+				return true
+			else
+				return C_Minimap.IsTrackingAccountCompletedQuests()
+			end
+		end
+	else
+		if addon:GetOption('accept') == 3 then
+			return true
+		elseif addon:GetOption('accept') == 2 then
+			if not C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID) then
+				return true
+			else
+				return C_Minimap.IsTrackingAccountCompletedQuests()
+			end
+		end
+	end
+end
+
 local ignoredQuests = {}
 local function isQuestIgnored(questID, title, override)
 	local ignore
@@ -32,8 +56,6 @@ local function isQuestIgnored(questID, title, override)
 		ignore = false
 	elseif C_QuestLog.IsQuestTrivial(questID) and not C_Minimap.IsTrackingHiddenQuests() then
 		ignore = true
-	elseif C_QuestLog.IsQuestFlaggedCompletedOnAccount(questID) and not C_Minimap.IsTrackingAccountCompletedQuests() then
-		ignore = true
 	end
 
 	if ignore then
@@ -43,37 +65,38 @@ local function isQuestIgnored(questID, title, override)
 	end
 end
 
-function addon:MINIMAP_UPDATE_TRACKING()
-	-- the user _might_ have toggled the ignore tracking, wipe the session-ignored quests
+local function wipeIgnore()
 	table.wipe(ignoredQuests)
 end
+
+addon:RegisterEvent('MINIMAP_UPDATE_TRACKING', wipeIgnore)
+addon:RegisterOptionCallback('accept', wipeIgnore)
+addon:RegisterOptionCallback('acceptRepeatables', wipeIgnore)
 
 local function handleGossipQuests()
 	if addon:IsPaused() or addon:IsNPCIgnored() then
 		return
 	end
 
-	if addon:GetOption('complete') then
+	if addon:GetOption('accept') > 1 then
 		for _, questInfo in next, C_GossipInfo.GetActiveQuests() do
 			if not questInfo.questLevel or questInfo.questLevel == 0 then
 				-- not cached yet
 				addon:WaitForQuestData(questInfo.questID, handleGossipQuests)
 			elseif isQuestIgnored(questInfo.questID, questInfo.title) then
 				-- ignore
-			elseif questInfo.isComplete then
+			elseif questInfo.isComplete and shouldAutomate(questInfo.questID) then
 				C_GossipInfo.SelectActiveQuest(questInfo.questID)
 			end
 		end
-	end
 
-	if addon:GetOption('accept') then
 		for _, questInfo in next, C_GossipInfo.GetAvailableQuests() do
 			if not questInfo.questLevel or questInfo.questLevel == 0 then
 				-- not cached yet
 				addon:WaitForQuestData(questInfo.questID, handleGossipQuests)
-			elseif questInfo.isRepeatable and not addon:GetOption('acceptRepeatables') then
+			elseif isQuestIgnored(questInfo.questID, questInfo.title) then
 				-- ignore
-			elseif not isQuestIgnored(questInfo.questID, questInfo.title) then
+			elseif shouldAutomate(questInfo.questID) then
 				C_GossipInfo.SelectAvailableQuest(questInfo.questID)
 			end
 		end
@@ -85,28 +108,28 @@ local function handleQuestList()
 		return
 	end
 
-	if addon:GetOption('complete') then
+	if addon:GetOption('accept') > 1 then
 		for index = 1, GetNumActiveQuests() do
 			local questID = GetActiveQuestID(index)
 			local title, isComplete = GetActiveTitle(index)
-			if isComplete and not isQuestIgnored(questID, title) then
+			if not isComplete then
+				-- ignore
+			elseif isQuestIgnored(questID, title) then
+				-- ignore
+			elseif shouldAutomate(questID) then
 				SelectActiveQuest(index)
 			end
 		end
-	end
 
-	if addon:GetOption('accept') then
 		for index = 1, GetNumAvailableQuests() do
-			local _, _, isRepeatable, _, questID = GetAvailableQuestInfo(index)
+			local _, _, _, _, questID = GetAvailableQuestInfo(index)
 			local questLevel = GetAvailableLevel(index)
 			if not questLevel or questLevel == 0 then
 				-- not cached yet, invalid isTrivial flag
 				addon:WaitForQuestData(questID, handleQuestList)
 			elseif isQuestIgnored(questID, GetAvailableTitle(index)) then
 				-- ignore
-			elseif isRepeatable and not addon:GetOption('acceptRepeatables') then
-				-- ignore
-			else
+			elseif shouldAutomate(questID) then
 				SelectAvailableQuest(index)
 			end
 		end
@@ -124,7 +147,7 @@ local function handleQuestDetail()
 		return
 	end
 
-	if not addon:GetOption('accept') then
+	if addon:GetOption('accept') == 1 then
 		return
 	end
 
@@ -142,7 +165,9 @@ local function handleQuestDetail()
 		-- when not triggered in combination with QuestGetAutoAccept-style quests this is just
 		-- a normal quest popup, as if it was shared by an unknown player, so we'll just accept it
 		AcceptQuest()
-	elseif not isQuestIgnored(questID, nil, popups[questID]) then
+	elseif isQuestIgnored(questID, nil, popups[questID]) then
+		return
+	elseif shouldAutomate(questID) then
 		AcceptQuest()
 	end
 
@@ -157,12 +182,14 @@ local function handleQuestProgress()
 		return
 	end
 
-	if not IsQuestCompletable() or not addon:GetOption('complete') then
+	if not IsQuestCompletable() or addon:GetOption('accept') == 1 then
 		return
 	end
 
 	local questID = GetQuestID()
 	if ignoredQuests[questID] then
+		return
+	elseif not shouldAutomate(questID) then
 		return
 	end
 
@@ -182,18 +209,31 @@ local function handleQuestProgress()
 end
 
 local function handleQuestComplete()
+	if addon:IsPaused() or addon:IsNPCIgnored() then
+		return
+	end
+
+	if GetNumQuestChoices() > 1 then
+		return
+	end
+
+	local questID = GetQuestID()
+	if isQuestIgnored(questID) or not shouldAutomate(questID) then
+		return
+	end
+
+	GetQuestReward(1)
+end
+
+local function handleQuestReward()
 	local numChoices = GetNumQuestChoices()
-	if numChoices <= 1 then
-		if not addon:IsPaused() and addon:GetOption('complete') and not addon:IsNPCIgnored() and not isQuestIgnored(GetQuestID()) then
-			GetQuestReward(1)
-		end
-	elseif addon:GetOption('selectreward') then
+	if addon:GetOption('selectreward') and numChoices > 1 then
 		local highestValue, highestValueIndex = 0
 		for index = 1, numChoices do
 			local _, _, _, _, _, itemID = GetQuestItemInfo('choice', index)
 			local isCached, _, _, _, _, _, _, _, _, _, itemValue = C_Item.GetItemInfo(itemID)
 			if not isCached then
-				addon:WaitForItemData(itemID, handleQuestComplete)
+				addon:WaitForItemData(itemID, handleQuestReward)
 			else
 				itemValue = ITEM_CASH_REWARDS[itemID] or itemValue
 
@@ -248,9 +288,9 @@ local function handleQuestPopup()
 		local questID, questType = GetAutoQuestPopUp(index)
 		popups[questID] = true
 
-		if questType == 'OFFER' and addon:GetOption('accept') then
+		if questType == 'OFFER' and shouldAutomate(questID) then
 			ShowQuestOffer(questID)
-		elseif questType == 'COMPLETE' and addon:GetOption('complete') then
+		elseif questType == 'COMPLETE' and shouldAutomate(questID) then
 			ShowQuestComplete(questID)
 		end
 	end
@@ -261,6 +301,7 @@ addon:RegisterEvent('QUEST_GREETING', handleQuestList) -- quest list without gos
 addon:RegisterEvent('QUEST_DETAIL', handleQuestDetail) -- quest details before accepting
 addon:RegisterEvent('QUEST_PROGRESS', handleQuestProgress) -- quest details when delivering
 addon:RegisterEvent('QUEST_COMPLETE', handleQuestComplete) -- quest details when completing
+addon:RegisterEvent('QUEST_COMPLETE', handleQuestReward) -- quest details when completing
 addon:RegisterEvent('QUEST_LOG_UPDATE', handleQuestPopup) -- popups
 
 function addon:QUEST_ACCEPTED(questID)
@@ -274,11 +315,12 @@ function addon:QUEST_ACCEPTED(questID)
 end
 
 function addon:QUEST_ACCEPT_CONFIRM(_, questTitle)
-	-- triggered when a quest is shared but requires confirmation (like escorts)
-	-- XXX: no way to get questID from this?
-	if not addon:IsPaused() and addon:GetOption('accept') then
+	-- triggered when a quest is shared but requires confirmation (like escorts),
+	-- always accept these regardless of tracking/settings for warband
+	if not addon:IsPaused() and addon:GetOption('accept') > 1 then
 		if not addon:IsQuestIgnored(questTitle) then
 			ConfirmAcceptQuest()
 		end
 	end
+	-- XXX: the questID is not available at this time, needs more testing
 end

@@ -1,8 +1,8 @@
 local L = select(2, ...).L('koKR')
 
--- L['Automatically accept quests'] = '' -- MISSING!
--- L['Automatically complete quests'] = '' -- MISSING!
+-- L['Automate quests'] = '' -- MISSING!
 -- L['Automate repeatable quests'] = '' -- MISSING!
+-- L['When "%s" is selected %s will only be automated while tracking them'] = '' -- MISSING!
 -- L['Highlight valuable reward'] = '' -- MISSING!
 -- L['Automatically share quests'] = '' -- MISSING!
 -- L['Skip quest gossip options'] = '' -- MISSING!
