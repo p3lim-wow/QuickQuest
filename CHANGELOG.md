@@ -1,3 +1,8 @@
+### Changes in 110000.76-Release:
+
+- Added: Skips for the pre-slash gossip for TWW weekly
+- Changed: Quest automation option is now multiple-choice because people don't read changelogs
+
 ### Changes in 110000.75-Release:
 
 - Changed: Ignore account-completed quests unless they're being tracked (minimap/map)
