@@ -43,7 +43,6 @@ addon:RegisterSettings('QuickQuestDB3', {
 		type = 'toggle',
 		title = L['Skip quest gossip options'],
 		default = true,
-		new = true,
 	},
 	{
 		key = 'skipgossip',
