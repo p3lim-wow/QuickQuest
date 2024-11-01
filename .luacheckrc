@@ -64,6 +64,8 @@ read_globals = {
 	'SHIFT_KEY',
 	'TARGET',
 	'UNKNOWN',
+	'ACCOUNT_QUEST_LABEL',
+	'MINIMAP_TRACKING_ACCOUNT_COMPLETED_QUESTS',
 
 	-- namespaces
 	'C_GossipInfo',
