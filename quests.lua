@@ -91,7 +91,13 @@ local function handleGossipQuests()
 		end
 
 		for _, questInfo in next, C_GossipInfo.GetAvailableQuests() do
-			if not questInfo.questLevel or questInfo.questLevel == 0 then
+			if questInfo.questID == 82449 then
+				-- "The Call of the Worldsoul"
+				-- this quest is buggy, it's repeatable (weekly) but the APIs don't report that,
+				-- and all this quest does is open an option of other quests, so we should
+				-- automatically accept it
+				C_GossipInfo.SelectAvailableQuest(questInfo.questID)
+			elseif not questInfo.questLevel or questInfo.questLevel == 0 then
 				-- not cached yet
 				addon:WaitForQuestData(questInfo.questID, handleGossipQuests)
 			elseif isQuestIgnored(questInfo.questID, questInfo.title) then
