@@ -9,9 +9,9 @@ addon:RegisterSettings('QuickQuestDB3', {
 		tooltip = L['When "%s" is selected %s will only be automated while tracking them']:format(ACCOUNT_QUEST_LABEL, MINIMAP_TRACKING_ACCOUNT_COMPLETED_QUESTS:lower()),
 		default = 3,
 		options = {
-			NEVER,
-			ACCOUNT_QUEST_LABEL,
-			ALWAYS,
+			{value=1, label=NEVER},
+			{value=2, label=ACCOUNT_QUEST_LABEL},
+			{value=3, label=ALWAYS},
 		},
 	},
 	{
@@ -21,9 +21,9 @@ addon:RegisterSettings('QuickQuestDB3', {
 		tooltip = L['When "%s" is selected %s will only be automated while tracking them']:format(ACCOUNT_QUEST_LABEL, MINIMAP_TRACKING_ACCOUNT_COMPLETED_QUESTS:lower()),
 		default = 3,
 		options = {
-			NEVER,
-			ACCOUNT_QUEST_LABEL,
-			ALWAYS,
+			{value=1, label=NEVER},
+			{value=2, label=ACCOUNT_QUEST_LABEL},
+			{value=3, label=ALWAYS},
 		},
 	},
 	{
@@ -56,9 +56,9 @@ addon:RegisterSettings('QuickQuestDB3', {
 		title = L['When to automate gossip'],
 		default = 2,
 		options = {
-			NEVER,
-			L['Soloing'],
-			ALWAYS,
+			{value=1, label=NEVER},
+			{value=2, label=L['Soloing']},
+			{value=3, label=ALWAYS},
 		},
 	},
 	{
@@ -74,9 +74,9 @@ addon:RegisterSettings('QuickQuestDB3', {
 		tooltip = L['Hold this key to temporarily disable all automation'],
 		default = 'SHIFT',
 		options = {
-			ALT = ALT_KEY,
-			CTRL = CTRL_KEY,
-			SHIFT = SHIFT_KEY,
+			{value='ALT', label=ALT_KEY},
+			{value='CTRL', label=CTRL_KEY},
+			{value='SHIFT', label=SHIFT_KEY},
 		},
 	},
 	{
@@ -223,7 +223,7 @@ do
 		self.editBox:SetFocus()
 	end
 	StaticPopupDialogs[addonName .. 'BlocklistTargetPopup'].OnAlt = function(self)
-		local id = addon:GetNPCID('target')
+		local id = addon:GetUnitID('target')
 		if id then
 			self.data.callback(id)
 		end
@@ -247,7 +247,7 @@ do
 end
 
 local CURSOR_HELP_TEXT = string.format('|A:NPE_RightClick:18:18|a %s', REMOVE)
-addon:RegisterSubCanvas(L['Item Blocklist'], function(canvas)
+addon:RegisterSubSettingsCanvas(L['Item Blocklist'], function(canvas)
 	local grid = addon:CreateScrollGrid(canvas)
 	grid:SetInsets(10, 10, 10, 20)
 	grid:SetElementType('Button')
@@ -310,7 +310,7 @@ local BACKDROP = {
 	insets = {left = 4, right = 4, top = 4, bottom = 4}
 }
 
-addon:RegisterSubCanvas(L['NPC Blocklist'], function(canvas)
+addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
 	local creatureIDs = setmetatable({}, {
 		__index = function(self, npcID)
 			local model = CreateFrame('PlayerModel')
@@ -395,7 +395,7 @@ addon:RegisterSubCanvas(L['NPC Blocklist'], function(canvas)
 	end, 'Target')
 end)
 
-addon:RegisterSubCanvas(L['Quest Blocklist'], function(canvas)
+addon:RegisterSubSettingsCanvas(L['Quest Blocklist'], function(canvas)
 	local list = addon:CreateScrollList(canvas)
 	list:SetInsets(nil, nil, 10, 20)
 	list:SetElementType('Button')

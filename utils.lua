@@ -42,7 +42,7 @@ end
 
 -- blocklists
 function addon:IsNPCIgnored()
-	local npcID = addon:GetNPCID('npc')
+	local npcID = addon:GetUnitID('npc')
 	if npcID then
 		return QuickQuestBlocklistDB.npcs[npcID]
 	end
