@@ -1,3 +1,8 @@
+### Changes in 110000.77-Release:
+
+- Changed: Update Interface version
+- Fixed: "New" settings being stuck as new
+
 ### Changes in 110000.76-Release:
 
 - Added: Skips for the pre-splash gossip for TWW weekly
