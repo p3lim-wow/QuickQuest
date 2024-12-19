@@ -1,8 +1,6 @@
-local L = select(2, ...).L('zhTW')
+local L = select(2, ...).L('zhTW') -- luacheck: ignore
 
--- L['Automate quests'] = '' -- MISSING!
 L['Automate repeatable quests'] = '自動交接重覆任務'
--- L['When "%s" is selected %s will only be automated while tracking them'] = '' -- MISSING!
 L['Highlight valuable reward'] = '高亮較值錢的獎勵'
 L['Automatically share quests'] = '自動分享任務'
 L['Skip quest gossip options'] = '跳過任務對話選項'
