@@ -29,6 +29,8 @@ local QUEST_GOSSIP = {
 local IGNORE_GOSSIP = {
 	-- when we don't want to automate gossip because it's counter-intuitive
 	[122442] = true, -- leave the dungeon in remix
+	[125350] = true, -- avoid accidental teleports
+	[125351] = true, -- avoid accidental teleports
 }
 
 function addon:GOSSIP_SHOW()
