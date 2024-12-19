@@ -134,7 +134,7 @@ body:
       required: true
   - type: input
     attributes:
-      label: '"When "%s" is selected %s will only be automated while tracking them"'
+      label: '"When \"%s\" is selected %s will only be automated while tracking them"'
       placeholder: Translation here
     validations:
       required: true
@@ -146,7 +146,7 @@ body:
       required: true
   - type: input
     attributes:
-      label: '"While the pause key is NOT held don't automate anything"'
+      label: '"While the pause key is NOT held don\'t automate anything"'
       placeholder: Translation here
     validations:
       required: true
