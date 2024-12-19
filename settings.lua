@@ -324,17 +324,6 @@ addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
 		end
 	})
 
-	local creatureNames = setmetatable({}, {
-		__index = function(self, npcID)
-			local data = C_TooltipInfo.GetHyperlink('unit:Creature-0-0-0-0-' .. npcID .. '-0')
-			local name = data and data.lines and data.lines[1] and data.lines[1].leftText
-			if name then
-				rawset(self, npcID, name)
-				return name
-			end
-		end
-	})
-
 	local grid = addon:CreateScrollGrid(canvas)
 	grid:SetInsets(10, 10, 10, 20)
 	grid:SetElementType('Button')
@@ -376,7 +365,7 @@ addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
 	end)
 	grid:SetElementOnScript('OnEnter', function(element)
 		GameTooltip:SetOwner(element, 'ANCHOR_TOPLEFT') -- TODO
-		GameTooltip:AddLine(creatureNames[element.data] or UNKNOWN, 1, 1, 1)
+		GameTooltip:AddLine(addon:GetNPCName(element.data) or UNKNOWN, 1, 1, 1)
 		GameTooltip:AddLine(element.data)
 		GameTooltip:AddLine(CURSOR_HELP_TEXT, 1, 0, 0)
 		GameTooltip:Show()
