@@ -32,121 +32,121 @@ body:
         ---
   - type: input
     attributes:
-      label: '"Automate gossip options"'
+      label: Automate gossip options
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Automate quests"'
+      label: Automate quests
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Automate repeatable quests"'
+      label: Automate repeatable quests
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Automatically share quests"'
+      label: Automatically share quests
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Block a new NPC by ID or target"'
+      label: Block a new NPC by ID or target
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Block a new item by ID"'
+      label: Block a new item by ID
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Block a quest by title or ID"'
+      label: Block a quest by title or ID
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Highlight valuable reward"'
+      label: Highlight valuable reward
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Hold this key to temporarily disable all automation"'
+      label: Hold this key to temporarily disable all automation
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Item Blocklist"'
+      label: Item Blocklist
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"NPC Blocklist"'
+      label: NPC Blocklist
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Pause mode modifier"'
+      label: Pause mode modifier
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Pay Darkmoon Faire teleport"'
+      label: Pay Darkmoon Faire teleport
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Quest Blocklist"'
+      label: Quest Blocklist
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Reverse pause mode"'
+      label: Reverse pause mode
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Skip quest gossip options"'
+      label: Skip quest gossip options
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"Soloing"'
+      label: Soloing
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"When "%s" is selected %s will only be automated while tracking them"'
+      label: When "%s" is selected %s will only be automated while tracking them
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"When to automate gossip"'
+      label: When to automate gossip
       placeholder: Translation here
     validations:
       required: true
   - type: input
     attributes:
-      label: '"While the pause key is NOT held don\'t automate anything"'
+      label: While the pause key is NOT held don't automate anything
       placeholder: Translation here
     validations:
       required: true
