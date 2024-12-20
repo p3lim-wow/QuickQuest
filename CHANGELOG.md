@@ -1,3 +1,10 @@
+### Changes in 110000.78-Release:
+
+- Changed: Update Interface version
+- Fixed: Prevent accidental teleportation to/from Siren Isle
+- Fixed: Prevent accidental teleportation to Hillsbrad Foothills
+- Removed: Untranslated strings
+
 ### Changes in 110000.77-Release:
 
 - Changed: Update Interface version
