@@ -292,12 +292,16 @@ local function handleQuestPopup()
 
 	for index = 1, numPopups do
 		local questID, questType = GetAutoQuestPopUp(index)
-		popups[questID] = true
+		if questID then
+			popups[questID] = true
 
-		if questType == 'OFFER' and shouldAutomate(questID) then
-			ShowQuestOffer(questID)
-		elseif questType == 'COMPLETE' and shouldAutomate(questID) then
-			ShowQuestComplete(questID)
+			if questType == 'OFFER' and shouldAutomate(questID) then
+				ShowQuestOffer(questID)
+			elseif questType == 'COMPLETE' and shouldAutomate(questID) then
+				ShowQuestComplete(questID)
+			end
+		else
+			addon:WaitForQuestData(questID, handleQuestPopup)
 		end
 	end
 end
