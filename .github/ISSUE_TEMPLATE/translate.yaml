@@ -140,6 +140,12 @@ body:
       required: true
   - type: input
     attributes:
+      label: When \"%s\" is selected %s will only be automated while tracking them
+      placeholder: Translation here
+    validations:
+      required: true
+  - type: input
+    attributes:
       label: When to automate gossip
       placeholder: Translation here
     validations:
