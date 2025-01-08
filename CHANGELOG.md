@@ -1,3 +1,10 @@
+### Changes in 110000.79-Release:
+
+- Changed: Update Interface version
+- Changed: Update zhTW translations (thanks @yizhiyang2011)
+- Changed: Update zhCN translations (thanks @yizhiyang2011)
+- Fixed: Quest popups errors when quest is not cached
+
 ### Changes in 110000.78-Release:
 
 - Changed: Update Interface version
