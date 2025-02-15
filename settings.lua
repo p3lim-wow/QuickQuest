@@ -60,6 +60,7 @@ addon:RegisterSettings('QuickQuestDB3', {
 			{value=2, label=L['Soloing']},
 			{value=3, label=ALWAYS},
 		},
+		requires = 'skipgossip',
 	},
 	{
 		key = 'paydarkmoonfaire',
@@ -85,6 +86,7 @@ addon:RegisterSettings('QuickQuestDB3', {
 		title = L['Reverse pause mode'],
 		tooltip = L["While the pause key is NOT held don't automate anything"],
 		default = false,
+		parent = 'pausekey'
 	},
 })
 
