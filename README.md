@@ -29,8 +29,8 @@ Access the options with `/quickquest` or `/qq`.
 
 ## Translations
 
-If you want to help translate QuickQuest, please use this form on GitHub:  
-[https://github.com/p3lim-wow/QuickQuest/issues/new?template=translate.yaml](https://github.com/p3lim-wow/QuickQuest/issues/new?assignees=p3lim&labels=enhancement%2Ctranslation&template=translate.yaml&title=Translation%3A+)
+If you want to help translate QuickQuest, please go here:  
+<https://legacy.curseforge.com/wow/addons/quickquest/localization>
 
 ## Feedback & issues
 
