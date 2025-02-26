@@ -48,6 +48,11 @@ function addon:GOSSIP_SHOW()
 		return
 	end
 
+	if InteractiveWormholes and InteractiveWormholes:IsActive() then
+		-- respect other addons
+		return
+	end
+
 	-- need to iterate all the options first before we can select them
 	local gossipQuests = {}
 	local gossipSkips = {}
