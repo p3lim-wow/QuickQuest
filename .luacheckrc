@@ -19,6 +19,7 @@ ignore = {
 }
 
 globals = {
+	-- savedvariables
 	'QuickQuestDB3',
 	'QuickQuestBlocklistDB',
 
@@ -111,4 +112,7 @@ read_globals = {
 	'ShowQuestComplete',
 	'ShowQuestOffer',
 	'UnitIsDeadOrGhost',
+
+	-- addons
+	'InteractiveWormholes',
 }
