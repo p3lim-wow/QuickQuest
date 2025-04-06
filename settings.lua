@@ -313,19 +313,6 @@ local BACKDROP = {
 }
 
 addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
-	local creatureIDs = setmetatable({}, {
-		__index = function(self, npcID)
-			local model = CreateFrame('PlayerModel')
-			model:SetCreature(npcID)
-			local creatureID = model:GetDisplayInfo()
-			model:ClearModel()
-			if creatureID and creatureID ~= 0 then
-				rawset(self, npcID, creatureID)
-				return creatureID
-			end
-		end
-	})
-
 	local grid = addon:CreateScrollGrid(canvas)
 	grid:SetInsets(10, 10, 10, 20)
 	grid:SetElementType('Button')
@@ -334,7 +321,7 @@ addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
 	grid:SetElementOnLoad(function(element)
 		element:RegisterForClicks('RightButtonUp')
 
-		element.model = element:CreateTexture(nil, 'ARTWORK')
+		element.model = CreateFrame('PlayerModel', nil, element)
 		element.model:SetPoint('TOPLEFT', 4, -4)
 		element.model:SetPoint('BOTTOMRIGHT', -4, 4)
 
@@ -344,22 +331,10 @@ addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
 		element:SetBackdropBorderColor(0.5, 0.5, 0.5)
 	end)
 	grid:SetElementOnUpdate(function(element, data)
-		local model = creatureIDs[data]
-		if model then
-			SetPortraitTextureFromCreatureDisplayID(element.model, model)
-		else
-			local timer
-			timer = C_Timer.NewTicker(1, function()
-				local model = creatureIDs[data]
-				if model then
-					SetPortraitTextureFromCreatureDisplayID(element.model, model)
-					if timer then
-						timer:Cancel()
-						timer = nil
-					end
-				end
-			end)
-		end
+		element.model:SetCreature(data)
+	end)
+	grid:SetElementOnReset(function(element)
+		element.model:ClearModel()
 	end)
 	grid:SetElementOnScript('OnClick', function(element)
 		QuickQuestBlocklistDB.npcs[element.data] = false
@@ -368,7 +343,7 @@ addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
 	grid:SetElementOnScript('OnEnter', function(element)
 		GameTooltip:SetOwner(element, 'ANCHOR_TOPLEFT') -- TODO
 		GameTooltip:AddLine(addon:GetNPCName(element.data) or UNKNOWN, 1, 1, 1)
-		GameTooltip:AddLine(element.data)
+		GameTooltip:AddLine(ID .. ': ' .. element.data)
 		GameTooltip:AddLine(CURSOR_HELP_TEXT, 1, 0, 0)
 		GameTooltip:Show()
 	end)
