@@ -1,14 +1,14 @@
 ## Interface: 110105
-## Author: p3lim
-## Version: @project-version@
-## Title: QuickQuest
-## Notes: Quest automation wizardry
-## IconTexture: Interface\Icons\spell_nature_timestop
-## SavedVariables: QuickQuestDB2, QuickQuestDB3, QuickQuestBlocklistDB
+## Author: 110105
+## Version: 110105
+## Title: 110105
+## Notes: 110105
+## IconTexture: 110105
+## SavedVariables: 110105
 
-## X-Curse-Project-ID: 36494
-## X-WoWI-ID: 20838
-## X-Wago-ID: Qb6meD6P
+## X-Curse-Project-ID: 110105
+## X-WoWI-ID: 110105
+## X-Wago-ID: 110105
 
 #@non-debug@
 # libs\Dashi\embed.xml
