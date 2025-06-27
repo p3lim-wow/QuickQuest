@@ -1,3 +1,7 @@
+### Changes in 110100.83-Release:
+
+- Fixed: Auto sharing quests not working
+
 ### Changes in 110100.82-Release:
 
 - Changed: Update Interface version
