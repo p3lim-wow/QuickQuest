@@ -314,13 +314,21 @@ addon:RegisterEvent('QUEST_COMPLETE', handleQuestComplete) -- quest details when
 addon:RegisterEvent('QUEST_COMPLETE', handleQuestReward) -- quest details when completing
 addon:RegisterEvent('QUEST_LOG_UPDATE', handleQuestPopup) -- popups
 
-function addon:QUEST_ACCEPTED(questID)
-	if addon:GetOption('share') then
-		local questLogIndex = C_QuestLog.GetLogIndexForQuestID(questID)
+local shareQueue = addon.T{}
+function addon:QUEST_LOG_UPDATE()
+	for index = #shareQueue, 1, -1 do
+		local questLogIndex = C_QuestLog.GetLogIndexForQuestID(shareQueue[index])
 		if questLogIndex then
 			-- no way to check if the user _can_ share it, we'll just try to share it
 			QuestLogPushQuest(questLogIndex)
+			shareQueue:remove(index)
 		end
+	end
+end
+
+function addon:QUEST_ACCEPTED(questID)
+	if addon:GetOption('share') then
+		shareQueue:insert(questID)
 	end
 end
 
