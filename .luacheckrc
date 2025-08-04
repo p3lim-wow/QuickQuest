@@ -25,9 +25,6 @@ globals = {
 
 	-- old savedvariables for migration
 	'QuickQuestDB2',
-
-	-- mutating globals
-	'StaticPopupDialogs',
 }
 
 read_globals = {
@@ -38,18 +35,22 @@ read_globals = {
 	'FlagsUtil',
 	'GameTooltip',
 	'Item',
+	'ItemEventListener',
 	'Mixin',
+	'NineSliceUtil',
 	'QuestCache',
 	'QuestEventListener',
 	'QuestFrame',
 	'QuestInfoRewardsFrame',
+	'UIParent',
+	'UISpecialFrames',
 	'WorldMapFrame',
 
 	-- FrameXML functions
 	'CopyTable',
+	'CreateAtlasMarkupWithAtlasSize',
 	'GameTooltip_Hide',
 	'QuestInfoItem_OnClick',
-	'StaticPopup_Show',
 
 	-- GlobalStrings
 	'ACCEPT',
@@ -65,6 +66,7 @@ read_globals = {
 	'MINIMAP_TRACKING_ACCOUNT_COMPLETED_QUESTS',
 	'NEVER',
 	'REMOVE',
+	'RETRIEVING_ITEM_INFO',
 	'SHIFT_KEY',
 	'TARGET',
 	'UNKNOWN',
@@ -74,6 +76,7 @@ read_globals = {
 	'C_Item',
 	'C_Minimap',
 	'C_PlayerInteractionManager',
+	'C_QuestInfoSystem',
 	'C_QuestLog',
 	'C_Timer',
 	'C_TooltipInfo',

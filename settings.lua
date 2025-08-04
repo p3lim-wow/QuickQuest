@@ -170,65 +170,245 @@ local blocklistDefaults = {
 
 local createAddButton
 do
-	StaticPopupDialogs[addonName .. 'BlocklistPopup'] = {
-		button1 = ADD,
-		button2 = CANCEL,
-		hasEditBox = true,
-		EditBoxOnEnterPressed = function(editBox, data)
-			data.callback(editBox:GetText():trim())
-			editBox:GetParent():Hide()
-		end,
-		EditBoxOnEscapePressed = function(editBox)
-			editBox:GetParent():Hide()
-		end,
-		OnAccept = function(self)
-			self.data.callback(self.editBox:GetText():trim())
-		end,
-		OnShow = function(self)
-			self.editBox:SetFocus()
-		end,
-		OnHide = function(self)
-			self.editBox:SetText('')
-		end,
-		hideOnEscape = true,
-		timeout = 0,
+	local questClassAtlas = {
+		[Enum.QuestClassification.Important] = 'UI-QuestPoiImportant-QuestBang',
+		[Enum.QuestClassification.Legendary] = 'UI-QuestPoiLegendary-QuestBang',
+		[Enum.QuestClassification.Campaign] = 'Quest-Campaign-Available',
+		-- [Enum.QuestClassification.Calling] = '',
+		[Enum.QuestClassification.Meta] = 'UI-QuestPoiWrapper-QuestBang',
+		[Enum.QuestClassification.Recurring] = 'UI-QuestPoiRecurring-QuestBang',
+		-- [Enum.QuestClassification.Questline] = '',
+		[Enum.QuestClassification.Normal] = 'QuestNormal',
+		-- [Enum.QuestClassification.BonusObjective] = '',
+		-- [Enum.QuestClassification.Threat] = '',
+		-- [Enum.QuestClassification.WorldQuest] = '',
 	}
 
-	StaticPopupDialogs[addonName .. 'BlocklistItemPopup'] = CopyTable(StaticPopupDialogs[addonName .. 'BlocklistPopup'])
-	StaticPopupDialogs[addonName .. 'BlocklistItemPopup'].hasItemFrame = true
-	StaticPopupDialogs[addonName .. 'BlocklistItemPopup'].OnShow = function(self)
-		self.editBox:SetNumeric(true)
-		self.editBox:SetFocus()
-		self.editBox:ClearAllPoints()
-		self.editBox:SetPoint('BOTTOM', 0, 100) -- fix pos, it's fucked by default for some reason
-	end
-	StaticPopupDialogs[addonName .. 'BlocklistItemPopup'].EditBoxOnTextChanged = function(editBox)
-		local self = editBox:GetParent()
-		local text = editBox:GetText():trim():match('[0-9]+')
-		editBox:SetText(text or '')
-
-		local itemID = C_Item.GetItemInfoInstant(tonumber(text) or '')
-		if itemID then
-			self.data = self.data or {}
-			self.data.link = '|Hitem:' .. itemID .. '|h'
-			self.ItemFrame:RetrieveInfo(self.data)
-			self.ItemFrame:DisplayInfo(self.data.link, self.data.name, self.data.color, self.data.texture)
-		else
-			self.ItemFrame:DisplayInfo(nil, ERR_SOULBIND_INVALID_CONDUIT_ITEM, nil, [[Interface\Icons\INV_Misc_QuestionMark]])
-		end
+	local dialog
+	local dialogMixin = {}
+	function dialogMixin:AskItem(title, callback)
+		self.title:SetText(title)
+		self.editbox:Show()
+		self.editbox:SetText('')
+		self.editbox:SetNumeric(true)
+		self.editbox:SetFocus()
+		self.itemLink = nil
+		self.acceptButton:SetScript('OnClick', function()
+			callback(self.editbox:GetText():trim())
+			self:Hide()
+		end)
+		self.targetButton:Hide()
+		self.itemPreview:Show()
+		self.questPreview:Hide()
+		self:Show()
 	end
 
-	StaticPopupDialogs[addonName .. 'BlocklistTargetPopup'] = CopyTable(StaticPopupDialogs[addonName .. 'BlocklistPopup'])
-	StaticPopupDialogs[addonName .. 'BlocklistTargetPopup'].button3 = TARGET
-	StaticPopupDialogs[addonName .. 'BlocklistTargetPopup'].OnShow = function(self)
-		self.editBox:SetNumeric(true)
-		self.editBox:SetFocus()
+	function dialogMixin:AskNPC(title, callback)
+		self.title:SetText(title)
+		self.editbox:Show()
+		self.editbox:SetText('')
+		self.editbox:SetNumeric(true)
+		self.editbox:SetFocus()
+		self.acceptButton:SetScript('OnClick', function()
+			callback(self.editbox:GetText():trim())
+			self:Hide()
+		end)
+		self.targetButton:Show()
+		self.itemPreview:Hide()
+		self.questPreview:Hide()
+		self:Show()
 	end
-	StaticPopupDialogs[addonName .. 'BlocklistTargetPopup'].OnAlt = function(self)
-		local id = addon:GetUnitID('target')
-		if id then
-			self.data.callback(id)
+
+	function dialogMixin:AskQuest(title, callback)
+		self.title:SetText(title)
+		self.editbox:Show()
+		self.editbox:SetText('')
+		self.editbox:SetNumeric(false)
+		self.editbox:SetFocus()
+		self.acceptButton:SetScript('OnClick', function()
+			callback(self.editbox:GetText():trim())
+			self:Hide()
+		end)
+		self.targetButton:Hide()
+		self.itemPreview:Hide()
+		self.questPreview:Show()
+		self:Show()
+	end
+
+	local function getDialog()
+		if dialog then
+			return dialog
 		end
+
+		-- can't trust blizzard's implementation because of taint issues
+
+		dialog = Mixin(CreateFrame('Frame', addonName .. 'Dialog', UIParent), dialogMixin)
+		dialog:SetPoint('TOP', 0, -135)
+		dialog:SetSize(400, 200)
+		dialog:SetToplevel(true)
+		dialog:SetFrameStrata('DIALOG')
+		dialog:Hide()
+		dialog:EnableMouse(true) -- avoid click-throughs
+		table.insert(UISpecialFrames, dialog:GetName())
+
+		dialog.NineSlice = CreateFrame('Frame', nil, dialog, 'NineSlicePanelTemplate')
+		NineSliceUtil.ApplyLayoutByName(dialog.NineSlice, 'Dialog', dialog.NineSlice:GetFrameLayoutTextureKit())
+
+		local bg = dialog:CreateTexture(nil, 'BACKGROUND', nil, -1)
+		bg:SetPoint('TOPLEFT', 11, -11)
+		bg:SetPoint('BOTTOMRIGHT', -11, 11)
+		bg:SetColorTexture(0, 0, 0, 4/5)
+
+		dialog.title = dialog:CreateFontString(nil, nil, 'GameFontHighlight')
+		dialog.title:SetPoint('TOP', 0, -28)
+		dialog.title:SetPoint('LEFT', 20, 0)
+		dialog.title:SetPoint('RIGHT', -20, 0)
+		dialog.title:SetJustifyH('CENTER')
+
+		dialog.editbox = CreateFrame('EditBox', nil, dialog, 'InputBoxTemplate')
+		dialog.editbox:SetPoint('TOP', dialog.title, 'BOTTOM', 0, -14)
+		dialog.editbox:SetSize(200, 30)
+		dialog.editbox:SetAutoFocus(false)
+		dialog.editbox:SetScript('OnEnterPressed', function()
+			dialog.acceptButton:GetScript('OnClick')(dialog.acceptButton)
+		end)
+		dialog.editbox:SetScript('OnEscapePressed', function()
+			dialog:Hide()
+		end)
+
+		dialog.itemPreview = addon:CreateFrame('ItemButton', nil, dialog)
+		dialog.itemPreview:SetPoint('TOPLEFT', dialog.editbox, 'BOTTOMLEFT', 0, -5)
+		dialog.itemPreview:SetSize(37, 37)
+		dialog.itemPreview:EnableMouse(false)
+		dialog.itemPreview:EnableMouseMotion(true)
+
+		dialog.itemPreview:SetScript('OnLeave', GameTooltip_Hide)
+		dialog.itemPreview:SetScript('OnEnter', function(self)
+			if dialog.itemLink then
+				GameTooltip:SetOwner(self, 'ANCHOR_RIGHT')
+				GameTooltip:SetHyperlink(dialog.itemLink)
+				GameTooltip:Show()
+			end
+		end)
+
+		local itemBox = dialog.itemPreview:CreateTexture(nil, 'ARTWORK')
+		itemBox:SetPoint('LEFT', 30, 1)
+		itemBox:SetPoint('TOPRIGHT', dialog.editbox, 'BOTTOMRIGHT', 10, 6)
+		itemBox:SetHeight(60)
+		itemBox:SetTexture([[Interface\QuestFrame\UI-QuestItemNameFrame]])
+
+		local itemName = dialog.itemPreview:CreateFontString(nil, nil, 'GameFontNormal')
+		itemName:SetPoint('LEFT', dialog.itemPreview, 'RIGHT', 8, 0)
+		itemName:SetSize(103, 38)
+
+		local lastItemID
+		local function updateItemPreview()
+			local name, link, quality, _, _, _, _, _, _, texture = C_Item.GetItemInfo(lastItemID)
+			if name then
+				dialog.itemLink = link
+				dialog.itemPreview:SetItemButtonTexture(texture)
+				dialog.itemPreview:SetItemButtonQuality(quality, lastItemID)
+
+				local r, g, b = C_Item.GetItemQualityColor(quality)
+				itemName:SetText(name)
+				itemName:SetTextColor(r, g, b)
+			else
+				dialog.itemLink = link
+				dialog.itemPreview.icon:SetTexture([[Interface\Icons\INV_Misc_QuestionMark]])
+				dialog.itemPreview:SetItemButtonQuality()
+
+				itemName:SetText(RETRIEVING_ITEM_INFO)
+				itemName:SetTextColor(1, 0.125, 0.125)
+			end
+		end
+
+		dialog.editbox:SetScript('OnTextChanged', function(self)
+			if not dialog.itemPreview:IsShown() then
+				return
+			end
+
+			local text = self:GetText():trim():match('[0-9]+')
+			self:SetText(text or '')
+
+			local itemID = C_Item.GetItemInfoInstant(tonumber(text) or '')
+			if itemID then
+				lastItemID = itemID
+				ItemEventListener:AddCallback(itemID, updateItemPreview)
+			else
+				dialog.itemLink = nil
+				dialog.itemPreview.icon:SetTexture([[Interface\Icons\INV_Misc_QuestionMark]])
+				dialog.itemPreview:SetItemButtonQuality()
+
+				itemName:SetText('')
+				itemName:SetTextColor(1, 1, 1)
+			end
+		end)
+
+		dialog.questPreview = CreateFrame('Frame', nil, dialog, 'InputBoxVisualTemplate') -- hack the template
+		dialog.questPreview.Left:SetVertexColor(1/2, 1/2, 1/2)
+		dialog.questPreview.Right:SetVertexColor(1/2, 1/2, 1/2)
+		dialog.questPreview.Middle:SetVertexColor(1/2, 1/2, 1/2)
+		dialog.questPreview:SetPoint('TOPLEFT', dialog.editbox, 'BOTTOMLEFT', -45, -5)
+		dialog.questPreview:SetPoint('TOPRIGHT', dialog.editbox, 'BOTTOMRIGHT', 45, -5)
+		dialog.questPreview:SetHeight(37)
+
+		local questName = dialog.questPreview:CreateFontString(nil, nil, 'GameFontNormal')
+		questName:SetAllPoints()
+		questName:SetJustifyH('LEFT')
+		questName:SetWordWrap(false)
+		questName:SetMaxLines(1)
+
+		local lastQuestID
+		local function updateQuestPreview()
+			if lastQuestID then
+				local class = C_QuestInfoSystem.GetQuestClassification(lastQuestID)
+				local atlas = questClassAtlas[class or Enum.QuestClassification.Normal]
+				local icon = CreateAtlasMarkupWithAtlasSize(atlas)
+				local name = C_QuestLog.GetTitleForQuestID(lastQuestID)
+				questName:SetFormattedText('%s%s', icon or '', name or '')
+			end
+		end
+
+		dialog.editbox:HookScript('OnTextChanged', function(self)
+			if not dialog.questPreview:IsShown() then
+				return
+			end
+
+			local questID = tonumber(self:GetText():trim())
+			if questID then
+				lastQuestID = questID
+				QuestEventListener:AddCallback(questID, updateQuestPreview)
+			else
+				lastQuestID = nil
+				questName:SetText('')
+			end
+		end)
+
+		dialog.targetButton = CreateFrame('Button', nil, dialog, 'UIPanelButtonTemplate')
+		dialog.targetButton:SetPoint('TOP', dialog.editbox, 'BOTTOM', -2, 0) -- some weird x-axis offset here to match editbox
+		dialog.targetButton:SetText(TARGET)
+		dialog.targetButton:SetWidth(208) -- match editbox
+		dialog.targetButton:SetScript('OnClick', function()
+			local id = addon:GetUnitID('target')
+			if id then
+				dialog.editbox:SetText(id)
+			end
+		end)
+
+		dialog.acceptButton = CreateFrame('Button', nil, dialog, 'UIPanelButtonTemplate')
+		dialog.acceptButton:SetPoint('BOTTOMRIGHT', dialog, 'BOTTOM', -5, 18)
+		dialog.acceptButton:SetText(ADD)
+		dialog.acceptButton:SetWidth(120)
+
+		local cancelButton = CreateFrame('Button', nil, dialog, 'UIPanelButtonTemplate')
+		cancelButton:SetPoint('BOTTOMLEFT', dialog, 'BOTTOM', 5, 18)
+		cancelButton:SetText(CANCEL)
+		cancelButton:SetWidth(120)
+		cancelButton:SetScript('OnClick', function()
+			dialog:Hide()
+		end)
+
+		return dialog
 	end
 
 	function createAddButton(parent, title, callback, variant)
@@ -237,13 +417,14 @@ do
 		add:SetSize(96, 22)
 		add:SetText(ADD)
 		add:SetScript('OnClick', function()
-			local popupName = addonName .. 'Blocklist' .. (variant or '') .. 'Popup'
-			local popup = StaticPopupDialogs[popupName]
-			popup.text = title
-
-			StaticPopup_Show(popupName, nil, nil, {
-				callback = callback,
-			})
+			local dialog = getDialog()
+			if variant == 'item' then
+				dialog:AskItem(title, callback)
+			elseif variant == 'npc' then
+				dialog:AskNPC(title, callback)
+			elseif variant == 'quest' then
+				dialog:AskQuest(title, callback)
+			end
 		end)
 	end
 end
@@ -303,7 +484,7 @@ addon:RegisterSubSettingsCanvas(L['Item Blocklist'], function(canvas)
 	createAddButton(canvas, L['Block a new item by ID'], function(data)
 		QuickQuestBlocklistDB.items[tonumber(data)] = true
 		grid:AddData(tonumber(data))
-	end, 'Item')
+	end, 'item')
 end)
 
 local BACKDROP = {
@@ -358,7 +539,7 @@ addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
 	createAddButton(canvas, L['Block a new NPC by ID or target'], function(data)
 		QuickQuestBlocklistDB.npcs[tonumber(data)] = true
 		grid:AddData(tonumber(data))
-	end, 'Target')
+	end, 'npc')
 end)
 
 addon:RegisterSubSettingsCanvas(L['Quest Blocklist'], function(canvas)
@@ -424,7 +605,7 @@ addon:RegisterSubSettingsCanvas(L['Quest Blocklist'], function(canvas)
 
 		QuickQuestBlocklistDB.quests[data] = true
 		list:AddData(data)
-	end)
+	end, 'quest')
 end)
 
 function addon:OnLoad()
