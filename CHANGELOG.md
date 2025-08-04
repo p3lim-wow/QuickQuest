@@ -1,3 +1,7 @@
+### Changes in 110200.84-Release:
+
+- Added: Custom dialog popups to avoid taint issues
+
 ### Changes in 110100.83-Release:
 
 - Fixed: Auto sharing quests not working
