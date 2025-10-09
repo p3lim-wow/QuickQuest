@@ -504,7 +504,6 @@ addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
 		ticker = C_Timer.NewTimer(0.25, function()
 			if element:GetModelFileID() or not element:IsVisible() or attempts > 10 then
 				ticker:Cancel()
-				print(attempts, data)
 			else
 				element:SetCreature(npcID)
 				attempts = attempts + 1
