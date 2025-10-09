@@ -512,7 +512,12 @@ addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
 		element:SetBackdropBorderColor(0.5, 0.5, 0.5)
 	end)
 	grid:SetElementOnUpdate(function(element, data)
+		element.model:ClearModel() -- so we don't display invalid info
 		element.model:SetCreature(data)
+
+		-- give cache some time
+		-- TODO: improve this somehow
+		C_Timer.After(1, GenerateClosure(element.model.SetCreature, element.model, data))
 	end)
 	grid:SetElementOnReset(function(element)
 		element.model:ClearModel()
