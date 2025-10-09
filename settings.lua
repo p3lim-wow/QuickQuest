@@ -494,6 +494,24 @@ local BACKDROP = {
 }
 
 addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
+	local function setModel(element, npcID)
+		element:ClearModel() -- remove any existing models
+		element:SetCreature(npcID)
+
+		-- make sure we have the model cached
+		local ticker
+		local attempts = 0
+		ticker = C_Timer.NewTimer(0.25, function()
+			if element:GetModelFileID() or not element:IsVisible() or attempts > 10 then
+				ticker:Cancel()
+				print(attempts, data)
+			else
+				element:SetCreature(npcID)
+				attempts = attempts + 1
+			end
+		end)
+	end
+
 	local grid = addon:CreateScrollGrid(canvas)
 	grid:SetInsets(10, 10, 10, 20)
 	grid:SetElementType('Button')
@@ -512,12 +530,7 @@ addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
 		element:SetBackdropBorderColor(0.5, 0.5, 0.5)
 	end)
 	grid:SetElementOnUpdate(function(element, data)
-		element.model:ClearModel() -- so we don't display invalid info
-		element.model:SetCreature(data)
-
-		-- give cache some time
-		-- TODO: improve this somehow
-		C_Timer.After(1, GenerateClosure(element.model.SetCreature, element.model, data))
+		setModel(element.model, data)
 	end)
 	grid:SetElementOnReset(function(element)
 		element.model:ClearModel()
