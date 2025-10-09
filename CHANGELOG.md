@@ -1,3 +1,9 @@
+### Changes in 110205.84-Release:
+
+- Changed: Update Interface version
+- Fixed: Errors when opening settings
+- Fixed: Models not loading correctly
+
 ### Changes in 110200.84-Release:
 
 - Added: Custom dialog popups to avoid taint issues
