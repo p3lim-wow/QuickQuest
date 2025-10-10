@@ -1,3 +1,7 @@
+### Changes in 110205.86-Release:
+
+- Fixed: Accidental pollution of the global table library
+
 ### Changes in 110205.85-Release:
 
 - Changed: Update Interface version
