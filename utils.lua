@@ -37,7 +37,7 @@ addon:RegisterOptionCallback('pausekeyreverse', function(value)
 end)
 
 function addon:IsPaused()
-	return paused
+	return paused or (InteractiveWormholes and InteractiveWormholes:IsActive())
 end
 
 -- blocklists
