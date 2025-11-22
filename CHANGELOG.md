@@ -1,3 +1,9 @@
+### Changes in 110205.87-Release:
+
+- Changed: Update Interface version (retail)
+- Changed: Don't block other addons
+- Removed: Deprecated API calls
+
 ### Changes in 110205.86-Release:
 
 - Fixed: Accidental pollution of the global table library
