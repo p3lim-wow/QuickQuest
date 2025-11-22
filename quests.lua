@@ -14,8 +14,18 @@ local ITEM_CASH_REWARDS = {
 	[138133] = 27, -- Elixir of Endless Wonder, 27 copper
 }
 
+local repeatableClassifications = {
+	[Enum.QuestClassification.Recurring] = true,
+	[Enum.QuestClassification.Calling] = true,
+}
+local function isQuestRepeatable(questID)
+	return C_QuestLog.IsWorldQuest(questID) or
+	       C_QuestLog.IsRepeatableQuest(questID) or
+	       repeatableClassifications[C_QuestInfoSystem.GetQuestClassification(questID) or -1]
+end
+
 local function shouldAutomate(questID)
-	if C_QuestLog.IsQuestRepeatableType(questID) then
+	if isQuestRepeatable(questID) then
 		if addon:GetOption('acceptRepeatables') == 3 then
 			return true
 		elseif addon:GetOption('acceptRepeatables') == 2 then
