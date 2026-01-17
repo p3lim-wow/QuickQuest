@@ -1,6 +1,11 @@
+### Changes in 120000.88-Release:
+
+- Changed: Update Interface version
+- Fixed: Creature IDs sometimes being secret in 12.x
+
 ### Changes in 110205.87-Release:
 
-- Changed: Update Interface version (retail)
+- Changed: Update Interface version
 - Changed: Don't block other addons
 - Removed: Deprecated API calls
 
