@@ -389,9 +389,18 @@ do
 		dialog.targetButton:SetText(TARGET)
 		dialog.targetButton:SetWidth(208) -- match editbox
 		dialog.targetButton:SetScript('OnClick', function()
-			local id = addon:GetUnitID('target')
-			if id then
-				dialog.editbox:SetText(id)
+			local npcID
+			if UnitCreatureID then
+				npcID = UnitCreatureID('target')
+				if npcID ~= nil and issecretvalue(npcID) then
+					npcID = nil
+				end
+			else
+				npcID = addon:GetUnitID('target')
+			end
+
+			if npcID then
+				dialog.editbox:SetText(npcID)
 			end
 		end)
 

@@ -116,6 +116,8 @@ read_globals = {
 	'ShowQuestComplete',
 	'ShowQuestOffer',
 	'UnitIsDeadOrGhost',
+	'UnitCreatureID',
+	'issecretvalue',
 
 	-- addons
 	'InteractiveWormholes',
