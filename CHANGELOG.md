@@ -1,3 +1,7 @@
+### Changes in 120000.90-Release:
+
+- Fixed: Taint when trying to share quests in combat
+
 ### Changes in 120000.89-Release:
 
 - Changed: Update Interface version
