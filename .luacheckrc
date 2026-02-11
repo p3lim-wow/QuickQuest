@@ -105,6 +105,7 @@ read_globals = {
 	'GetQuestID',
 	'GetQuestItemInfo',
 	'GetQuestReward',
+	'InCombatLockdown',
 	'IsQuestCompletable',
 	'QuestGetAutoAccept',
 	'QuestIsFromAreaTrigger',
