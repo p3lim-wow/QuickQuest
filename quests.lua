@@ -329,9 +329,8 @@ function addon:QUEST_LOG_UPDATE()
 	if not InCombatLockdown() then
 		for index = #shareQueue, 1, -1 do
 			local questLogIndex = C_QuestLog.GetLogIndexForQuestID(shareQueue[index])
-			if questLogIndex then
-				-- no way to check if the user _can_ share it, we'll just try to share it
-				QuestLogPushQuest(questLogIndex)
+			if questLogIndex and pcall(QuestLogPushQuest, questLogIndex) then
+				-- TODO: investigate further why QuestLogPushQuest errors
 				shareQueue:remove(index)
 			end
 		end
@@ -339,7 +338,7 @@ function addon:QUEST_LOG_UPDATE()
 end
 
 function addon:QUEST_ACCEPTED(questID)
-	if addon:GetOption('share') then
+	if addon:GetOption('share') and C_QuestLog.IsPushableQuest(questID) and IsInGroup() then
 		shareQueue:insert(questID)
 	end
 end
