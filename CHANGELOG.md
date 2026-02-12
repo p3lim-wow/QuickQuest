@@ -1,3 +1,7 @@
+### Changes in 120000.91-Release:
+
+- Fixed: More taint when trying to share quests in combat
+
 ### Changes in 120000.90-Release:
 
 - Fixed: Taint when trying to share quests in combat
