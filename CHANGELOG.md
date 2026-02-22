@@ -1,3 +1,7 @@
+### Changes in 120000.93-Release:
+
+- Added: Option to automatically pick a quest reward
+
 ### Changes in 120000.92-Release:
 
 - Fixed: Even more taint when trying to share quests
