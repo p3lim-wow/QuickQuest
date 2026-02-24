@@ -4,7 +4,7 @@
 ## Title: QuickQuest
 ## Notes: Quest automation wizardry
 ## IconTexture: Interface\Icons\spell_nature_timestop
-## SavedVariables: QuickQuestDB2, QuickQuestDB3, QuickQuestBlocklistDB
+## SavedVariables: QuickQuestDB2, QuickQuestDB3, QuickQuestBlocklistDB, QuickQuestMoviesDB
 
 ## X-Curse-Project-ID: 36494
 ## X-WoWI-ID: 20838
@@ -22,4 +22,5 @@ locale\[TextLocale].lua [AllowLoadTextLocale deDE, esES, esMX, frFR, itIT, koKR,
 utils.lua
 quests.lua
 gossip.lua
+movies.lua
 settings.lua

@@ -77,6 +77,27 @@ addon:RegisterSettings('QuickQuestDB3', {
 		requires = 'skipgossip',
 	},
 	{
+		key = 'skipmovies',
+		type = 'menu',
+		title = L['Skip movies'],
+		default = 1,
+		options = {
+			{value=1, label=NEVER},
+			{value=2, label=L['Already seen']},
+			{value=3, label=ALWAYS},
+		},
+	},
+	{
+		key = 'skipcinematics',
+		type = 'menu',
+		title = L['Skip cinematics'],
+		default = 1,
+		options = {
+			{value=1, label=NEVER},
+			{value=3, label=ALWAYS},
+		},
+	},
+	{
 		key = 'paydarkmoonfaire',
 		type = 'toggle',
 		title = L['Pay Darkmoon Faire teleport'],

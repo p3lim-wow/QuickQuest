@@ -22,6 +22,7 @@ globals = {
 	-- savedvariables
 	'QuickQuestDB3',
 	'QuickQuestBlocklistDB',
+	'QuickQuestMoviesDB',
 
 	-- old savedvariables for migration
 	'QuickQuestDB2',
@@ -37,6 +38,7 @@ read_globals = {
 	'Item',
 	'ItemEventListener',
 	'Mixin',
+	'MovieFrame',
 	'NineSliceUtil',
 	'QuestCache',
 	'QuestEventListener',
@@ -86,6 +88,8 @@ read_globals = {
 	-- API
 	'AcceptQuest',
 	'AcknowledgeAutoAcceptQuest',
+	'CanCancelScene',
+	'CancelScene',
 	-- 'CloseQuest',
 	'CompleteQuest',
 	'ConfirmAcceptQuest',
@@ -118,6 +122,7 @@ read_globals = {
 	'SetPortraitTextureFromCreatureDisplayID',
 	'ShowQuestComplete',
 	'ShowQuestOffer',
+	'StopCinematic',
 	'UnitIsDeadOrGhost',
 	'UnitCreatureID',
 	'issecretvalue',
