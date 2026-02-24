@@ -1,3 +1,7 @@
+### Changes in 120000.95-Release:
+
+- Added: Options to skip movies and cinematics
+
 ### Changes in 120000.94-Release:
 
 - Fixed: Automatically picking a reward not working correctly
