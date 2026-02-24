@@ -260,22 +260,18 @@ local function handleQuestReward()
 			end
 		end
 
-		if highestValueIndex then
-			local shouldAccept = addon:GetOption('acceptreward')
-			if shouldAccept == 3 or (shouldAccept == 2 and C_QuestLog.IsQuestTrivial(GetQuestID())) then
-				if not addon:IsPaused() then
-					GetQuestReward(highestValueIndex)
-				end
-			else
-				if not (QuestInfoRewardsFrame and QuestInfoRewardsFrame.RewardButtons and QuestInfoRewardsFrame.RewardButtons[highestValueIndex]) then
-					return
-				end
-
-				-- "intrusive" action
-				QuestInfoItem_OnClick(QuestInfoRewardsFrame.RewardButtons[highestValueIndex])
+		local shouldComplete = addon:GetOption('completereward')
+		if shouldComplete == 4 or (shouldComplete == 3 and C_QuestLog.IsQuestTrivial(GetQuestID())) or (highestValueIndex and shouldComplete == 2) then
+			if not addon:IsPaused() then
+				GetQuestReward(highestValueIndex or 1)
 			end
-		elseif addon:GetOption('acceptreward') == 4 and not addon:IsPaused() then
-			GetQuestReward(1)
+		elseif highestValueIndex then
+			if not (QuestInfoRewardsFrame and QuestInfoRewardsFrame.RewardButtons and QuestInfoRewardsFrame.RewardButtons[highestValueIndex]) then
+				return
+			end
+
+			-- "intrusive" action
+			QuestInfoItem_OnClick(QuestInfoRewardsFrame.RewardButtons[highestValueIndex])
 		end
 	end
 end

@@ -33,15 +33,15 @@ addon:RegisterSettings('QuickQuestDB3', {
 		default = true,
 	},
 	{
-		key = 'acceptreward',
+		key = 'completereward',
 		type = 'menu',
 		title = L['Automatically choose reward'],
 		tooltip = L['Pick the reward and complete the quest.\n\n|cffff0000Warning:|r "%s" will always pick something, even when there is no clear choice']:format(ALWAYS),
 		default = 1,
 		options = {
 			{value=1, label=NEVER},
-			{value=2, label=MINIMAP_TRACKING_TRIVIAL_QUESTS},
-			{value=3, label=L['Most valuable']},
+			{value=2, label=L['Always most valuable']},
+			{value=3, label=L['Always for trivial quests']},
 			{value=4, label=ALWAYS}
 		},
 		requires = 'selectreward',
