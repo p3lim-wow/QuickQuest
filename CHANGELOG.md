@@ -1,3 +1,7 @@
+### Changes in 120000.94-Release:
+
+- Fixed: Automatically picking a reward not working correctly
+
 ### Changes in 120000.93-Release:
 
 - Added: Option to automatically pick a quest reward
