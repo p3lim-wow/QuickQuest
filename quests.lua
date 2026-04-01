@@ -348,13 +348,12 @@ function addon:QUEST_ACCEPTED(questID)
 	end
 end
 
-function addon:QUEST_ACCEPT_CONFIRM(_, questTitle)
+function addon:QUEST_ACCEPT_CONFIRM(_, questTitle, questID)
 	-- triggered when a quest is shared but requires confirmation (like escorts),
 	-- always accept these regardless of tracking/settings for warband
 	if not addon:IsPaused() and addon:GetOption('accept') > 1 then
-		if not addon:IsQuestIgnored(questTitle) then
+		if not addon:IsQuestIgnored(questID or questTitle) then
 			ConfirmAcceptQuest()
 		end
 	end
-	-- XXX: the questID is not available at this time, needs more testing
 end
