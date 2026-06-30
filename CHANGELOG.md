@@ -1,3 +1,7 @@
+### Changes in 120000.97-Release:
+
+- Changed: Update Interface version
+
 ### Changes in 120000.96-Release:
 
 - Added: Nebulous Voidcores quests to default blocklist
