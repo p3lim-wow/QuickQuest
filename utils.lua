@@ -19,25 +19,28 @@ function addon:WaitForItemData(itemID, callback)
 	Item:CreateFromItemID(itemID):ContinueOnItemLoad(callback)
 end
 
-local paused
-function addon:MODIFIER_STATE_CHANGED(key, isPressed)
-	if key:sub(2) == addon:GetOption('pausekey') then
-		if addon:GetOption('pausekeyreverse') then
-			paused = isPressed ~= 1
-		else
-			paused = isPressed == 1
-		end
+local function isPauseKeyDown()
+	local pauseKey = addon:GetOption('pausekey')
+	if pauseKey == 'ALT' then
+		return IsAltKeyDown()
+	elseif pauseKey == 'CTRL' then
+		return IsControlKeyDown()
+	elseif pauseKey == 'SHIFT' then
+		return IsShiftKeyDown()
 	end
 end
 
--- settings
-addon:RegisterOptionCallback('pausekeyreverse', function(value)
-	-- TODO: consider keys being down while the setting is changed
-	paused = value
-end)
-
 function addon:IsPaused()
-	return paused or (InteractiveWormholes and InteractiveWormholes:IsActive())
+	if InteractiveWormholes and InteractiveWormholes:IsActive() then
+		return true
+	end
+
+	local pauseKeyDown = isPauseKeyDown()
+	if addon:GetOption('pausekeyreverse') then
+		return not pauseKeyDown
+	end
+
+	return pauseKeyDown
 end
 
 -- blocklists
