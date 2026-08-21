@@ -33,6 +33,8 @@ read_globals = {
 
 	-- FrameXML objects
 	'BackdropTemplateMixin',
+	'CreateScrollBoxListGridView',
+	'CreateScrollBoxListLinearView',
 	'FlagsUtil',
 	'GameTooltip',
 	'Item',
@@ -44,6 +46,7 @@ read_globals = {
 	'QuestEventListener',
 	'QuestFrame',
 	'QuestInfoRewardsFrame',
+	'ScrollUtil',
 	'UIParent',
 	'UISpecialFrames',
 	'WorldMapFrame',
@@ -51,8 +54,10 @@ read_globals = {
 	-- FrameXML functions
 	'CopyTable',
 	'CreateAtlasMarkupWithAtlasSize',
+	'CreateDataProvider',
 	'GameTooltip_Hide',
 	'QuestInfoItem_OnClick',
+
 
 	-- GlobalStrings
 	'ACCEPT',
