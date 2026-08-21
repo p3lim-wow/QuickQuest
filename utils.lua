@@ -45,14 +45,9 @@ end
 
 -- blocklists
 function addon:IsNPCIgnored()
-	local npcID
-	if UnitCreatureID then
-		npcID = UnitCreatureID('npc')
-		if npcID ~= nil and issecretvalue(npcID) then
-			npcID = nil
-		end
-	else
-		npcID = addon:GetUnitID('npc')
+	local npcID = UnitCreatureID('npc')
+	if npcID ~= nil and issecretvalue(npcID) then
+		npcID = nil
 	end
 
 	if npcID then

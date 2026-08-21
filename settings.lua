@@ -429,14 +429,9 @@ do
 		dialog.targetButton:SetText(TARGET)
 		dialog.targetButton:SetWidth(208) -- match editbox
 		dialog.targetButton:SetScript('OnClick', function()
-			local npcID
-			if UnitCreatureID then
-				npcID = UnitCreatureID('target')
-				if npcID ~= nil and issecretvalue(npcID) then
-					npcID = nil
-				end
-			else
-				npcID = addon:GetUnitID('target')
+			local npcID = UnitCreatureID('target')
+			if npcID ~= nil and issecretvalue(npcID) then
+				npcID = nil
 			end
 
 			if npcID then
@@ -589,7 +584,7 @@ addon:RegisterSubSettingsCanvas(L['NPC Blocklist'], function(canvas)
 	end)
 	grid:SetElementOnScript('OnEnter', function(element)
 		GameTooltip:SetOwner(element, 'ANCHOR_TOPLEFT') -- TODO
-		GameTooltip:AddLine(addon:GetNPCName(element.data) or UNKNOWN, 1, 1, 1)
+		GameTooltip:AddLine(addon:GetCreatureName(element.data) or UNKNOWN, 1, 1, 1)
 		GameTooltip:AddLine(ID .. ': ' .. element.data)
 		GameTooltip:AddLine(CURSOR_HELP_TEXT, 1, 0, 0)
 		GameTooltip:Show()
