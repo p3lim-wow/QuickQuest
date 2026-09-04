@@ -329,7 +329,7 @@ addon:RegisterEvent('QUEST_COMPLETE', handleQuestComplete) -- quest details when
 addon:RegisterEvent('QUEST_COMPLETE', handleQuestReward) -- quest details when completing
 addon:RegisterEvent('QUEST_LOG_UPDATE', handleQuestPopup) -- popups
 
-local shareQueue = addon.T{}
+local shareQueue = addon:T()
 function addon:QUEST_LOG_UPDATE()
 	if not InCombatLockdown() then
 		for index = #shareQueue, 1, -1 do
