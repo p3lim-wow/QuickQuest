@@ -1,6 +1,7 @@
 ## Interface: 120105, 120107
 ## Author: p3lim
 ## Version: @project-version@
+## AllowLoadGameType: standard, camelot
 ## Title: QuickQuest
 ## Notes: Quest automation wizardry
 ## IconTexture: Interface\Icons\spell_nature_timestop
